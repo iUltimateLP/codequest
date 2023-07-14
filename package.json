@@ -1,0 +1,39 @@
+{
+  "name": "codequest",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@monaco-editor/react": "^4.5.1",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "allotment": "^1.19.0",
+    "bufferutil": "^4.0.7",
+    "canvas": "^2.11.2",
+    "comic-mono": "^0.0.1",
+    "monaco-editor": "^0.40.0",
+    "next": "latest",
+    "react": "latest",
+    "react-blockly": "^7.2.2",
+    "react-dom": "latest",
+    "react-use": "^17.4.0",
+    "utf-8-validate": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}
