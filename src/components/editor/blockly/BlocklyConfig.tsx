@@ -25,6 +25,18 @@ const TEST_TOOLBOX = {
 					kind: "block",
 					type: "logic_compare",
 				},
+				{
+					kind: "block",
+					type: "logic_operation"
+				},
+				{
+					kind: "block",
+					type: "logic_negate"
+				},
+				{
+					kind: "block",
+					type: "logic_boolean"
+				}
 			],
 		},
 		{
@@ -40,6 +52,31 @@ const TEST_TOOLBOX = {
 					kind: "block",
 					type: "math_number",
 				},
+				{
+					kind: "block",
+					type: "math_arithmetic",
+					fields: {
+						OP: "ADD"
+					},
+					inputs: {
+						A: {
+							shadow: {
+								type: "math_number",
+								fields: {
+									NUM: 1
+								}
+							}
+						},
+						B: {
+							shadow: {
+								type: "math_number",
+								fields: {
+									NUM: 1
+								}
+							}
+						}
+					}
+				}
 			],
 		},
 		{
@@ -49,14 +86,25 @@ const TEST_TOOLBOX = {
 			contents: [
 				{
 					kind: "block",
-					type: "new_boundary_function",
-				},
-				{
-					kind: "block",
-					type: "return",
-				},
+					type: "print",
+				}
 			],
 		},
+		{
+			kind: "sep"
+		},
+		{
+			kind: "category",
+			name: "Variables",
+			colour: "#A55B80",
+			custom: "VARIABLE"
+		},
+		{
+			kind: "category",
+			name: "Functions",
+			colour: "#995BA5",
+			custom: "PROCEDURE"
+		}
 	],
 };
 
