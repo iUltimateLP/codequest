@@ -10,6 +10,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { NextAppDirEmotionCacheProvider } from '@/components/theme/EmotionCache';
 import { lightTheme, darkTheme } from './theme';
+import { Box, ScopedCssBaseline } from '@mui/material';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -29,13 +30,13 @@ function ThemeRegistry({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
-			<NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
+			{/*<NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>*/} {/* THIS CAUSES ISSUES WITH HOTSWAPPING LIGHT/DARK THEME! */}
 					<ThemeProvider theme={theme}>
 						{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-						<CssBaseline />
+						<CssBaseline enableColorScheme={true} />
 						{children}
 					</ThemeProvider>
-			</NextAppDirEmotionCacheProvider>
+			{/*</NextAppDirEmotionCacheProvider>*/}
 		</ColorModeContext.Provider>
 	);
 }

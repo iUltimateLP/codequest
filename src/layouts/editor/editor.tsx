@@ -20,6 +20,7 @@ import Toolbar from "@/components/editor/Toolbar";
 import { Service } from "@/core/Service";
 import { ApplicationService } from "@/core/ApplicationService";
 import "@/layouts/editor/allotment.css";
+import { SnackbarProvider } from "notistack";
 
 enum EditorMode {
 	Text,
@@ -107,6 +108,9 @@ export default function EditorLayout() {
 					</Allotment.Pane>
 				</Allotment>
 			</Allotment>
+
+			{/* Global snackbar (notification) provider */}
+			<SnackbarProvider />
 		</Box>
 	);
 }

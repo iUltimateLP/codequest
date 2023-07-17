@@ -23,6 +23,7 @@
     "js-interpreter": "^4.0.0",
     "monaco-editor": "^0.40.0",
     "next": "latest",
+    "notistack": "^3.0.1",
     "react": "latest",
     "react-blockly": "^7.2.2",
     "react-dom": "latest",

@@ -35,7 +35,11 @@ const lightTheme = createTheme({
 			main: "#F2F2F2",
 			contrastText: "rgba(0, 0, 0, 0.87)"
 		},
-		mode: "light"
+		mode: "light",
+		background: {
+			default: "#fff",
+			paper: "#fff"
+		}
 	}
 });
 
@@ -58,7 +62,11 @@ const darkTheme = createTheme({
 			main: "#F2F2F2",
 			contrastText: "rgba(0, 0, 0, 0.87)"
 		},
-		mode: "dark"
+		mode: "dark",
+		background: {
+			default: "#121212",
+			paper: "#121212"
+		}
 	}
 });
 
