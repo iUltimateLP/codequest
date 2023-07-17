@@ -87,6 +87,16 @@ const TEST_TOOLBOX = {
 				{
 					kind: "block",
 					type: "print",
+					inputs: {
+						TEXT: {
+							shadow: {
+								type: "text",
+								fields: {
+									TEXT: "Hello World!"
+								}
+							}
+						}
+					}
 				}
 			],
 		},
@@ -121,10 +131,10 @@ const WORKSPACE_CONFIG : blockly.BlocklyOptions = {
 	theme: "zelos", 
 	renderer: "zelos",
     horizontalLayout: false,
-	zoom: {
+	/*zoom: {
 		wheel: true,
 		pinch: true
-	}
+	}*/
 }
 
 // Blockly dark theme
