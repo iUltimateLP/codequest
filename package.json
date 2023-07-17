@@ -20,6 +20,7 @@
     "bufferutil": "^4.0.7",
     "canvas": "^2.11.2",
     "comic-mono": "^0.0.1",
+    "js-interpreter": "^4.0.0",
     "monaco-editor": "^0.40.0",
     "next": "latest",
     "react": "latest",

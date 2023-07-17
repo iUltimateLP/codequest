@@ -31,7 +31,7 @@ export default function MonacoWrapper(props : MonacoWrapperProps) {
 
     // Called when the Monaco editor is mounted
     function onMount(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {  
-        console.dir(theme);   
+        
     }
 
     // Side-effect that's called when a monaco instance is set up 
