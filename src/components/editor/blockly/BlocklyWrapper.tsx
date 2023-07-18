@@ -7,15 +7,15 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
-import * as ReactBlockly from "react-blockly";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
 import "./blockly.css";
 import { WORKSPACE_CONFIG, TEST_TOOLBOX, BLOCKLY_THEME_DARK } from "./BlocklyConfig";
 import { Service } from "@/core/Service";
 import { VisualProgrammingService } from "@/core/VisualProgrammingService";
-import { Logger } from "@/core/Logging";
 import { Theme, useTheme } from '@mui/material/styles';
+import * as Blockly_Lang_De from "blockly/msg/de";
+import * as Blockly_Lang_En from "blockly/msg/en";
 
 interface BlocklyWrapperProps {
 	sizeX? : number,
@@ -64,6 +64,11 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		
 		workspace?.setTheme(preferedTheme === "light" ? Blockly.Themes.Zelos : darkTheme!);
 	}, [preferedTheme]);
+
+	// Empty hook to set the language
+	useEffect(() => {
+		Blockly.setLocale(Blockly_Lang_En);
+	}, []);
 
 	// Called when the workspace (or it's content changed)
 	function onWorkspaceChange(newWorkspace : Blockly.WorkspaceSvg) {
