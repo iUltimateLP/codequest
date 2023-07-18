@@ -15,6 +15,12 @@ interface CodeBinding {
     // Name of the binding
     name : string;
 
+    // Blockly toolbox category
+    blocklyToolboxCategory: string;
+
+    // Blockly toolbox block definition
+    blocklyToolboxDefinition : Blockly.utils.toolbox.BlockInfo;
+
     // Blockly callback to generate the blockly block presented to the user in the visual programming mode
     blocklyGenerator : (block : Blockly.Block) => void;
 
@@ -22,7 +28,7 @@ interface CodeBinding {
     codeGenerator : (block : Blockly.Block, generator : Blockly.CodeGenerator) => string;
 
     // Native JavaScript function that's executed if this binding is called
-    nativeFn : Function; 
+    nativeFn : Function;
 
     // Whether this function is asynchronous or not
     async? : boolean;

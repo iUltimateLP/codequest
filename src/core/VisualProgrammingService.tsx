@@ -9,6 +9,7 @@ import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import { CodeBinding } from "./CodeEvalService";
+import { CODEQUEST_CATEGORIES } from "@/components/editor/blockly/BlocklyConfig";
 
 // This service handles everything related to the visual programming system
 class VisualProgrammingService extends Service {
@@ -30,7 +31,25 @@ class VisualProgrammingService extends Service {
             return;
         
         this._blocklyWorkspace = workspace;
-        Logger.info("VisualProgrammingService received new Blockly workspace");
+        //Logger.info("VisualProgrammingService received new Blockly workspace");
+
+        // Go through each of our own categories and gather all bindings to register
+        CODEQUEST_CATEGORIES.forEach((category) => {
+            // @ts-ignore This is valid TS but the blockly.d.ts is not updated
+            workspace.registerToolboxCategoryCallback(category, (_) => {
+                // Will contain the blocks that should be added to this category
+                var blockList : Blockly.utils.toolbox.BlockInfo[] = [];
+    
+                // Go through all bindings and push them into the block list
+                this._registeredBindings.forEach((binding, id) => {
+                    if (binding.blocklyToolboxCategory == category) {
+                        blockList.push(binding.blocklyToolboxDefinition);
+                    }
+                });
+    
+                return blockList;
+            });
+        });
     }
 
     // Registers a new binding with Blockly
@@ -50,12 +69,16 @@ class VisualProgrammingService extends Service {
 
         // Register code generator block
         javascriptGenerator.forBlock[id] = binding.codeGenerator;
+
+        // Remember
+        this._registeredBindings.set(id, binding);
     }
 
     // Unregisters a binding from Blockly
     public unregisterBinding(id : string) {
         Blockly.Blocks[id] = null;
         javascriptGenerator.forBlock[id] = null;
+        this._registeredBindings.delete(id);
     }
 
     // Returns the currently active blockly workspace
@@ -68,6 +91,7 @@ class VisualProgrammingService extends Service {
 
     // Reference to the current Blockly workspace
     private _blocklyWorkspace : Blockly.Workspace | undefined;
+    private _registeredBindings : Map<string, CodeBinding> = new Map<string, CodeBinding>();
 }
 
 export { VisualProgrammingService };

@@ -9,7 +9,7 @@ import * as blockly from "blockly";
 import { ITheme } from "blockly/core/theme"
 
 // Toolbox used by Blockly
-const TEST_TOOLBOX = {
+const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 	kind: "categoryToolbox",
 	contents: [
 		{
@@ -43,7 +43,7 @@ const TEST_TOOLBOX = {
 				},
 				{
 					kind: "block",
-					type: "controls_repeat"
+					type: "controls_repeat",
 				}
 			],
 		},
@@ -89,28 +89,9 @@ const TEST_TOOLBOX = {
 		},
 		{
 			kind: "category",
-			name: "Custom",
+			name: "Util",
 			colour: "#5CA699",
-			contents: [
-				{
-					kind: "block",
-					type: "print",
-					inputs: {
-						TEXT: {
-							shadow: {
-								type: "text",
-								fields: {
-									TEXT: "Hello World!"
-								}
-							}
-						}
-					}
-				},
-				{
-					kind: "block",
-					type: "sleep"
-				}
-			],
+			custom: "UTIL"
 		},
 		{
 			kind: "sep"
@@ -129,6 +110,9 @@ const TEST_TOOLBOX = {
 		}
 	],
 };
+
+// Add OUR OWN categories here
+const CODEQUEST_CATEGORIES : string[] = ["UTIL"];
 
 // Blockly workspace configuration
 const WORKSPACE_CONFIG : blockly.BlocklyOptions = {
@@ -164,4 +148,4 @@ const BLOCKLY_THEME_DARK : ITheme = {
 	}
 }
 
-export { WORKSPACE_CONFIG, TEST_TOOLBOX, BLOCKLY_THEME_DARK };
+export { WORKSPACE_CONFIG, TEST_TOOLBOX, BLOCKLY_THEME_DARK, CODEQUEST_CATEGORIES };

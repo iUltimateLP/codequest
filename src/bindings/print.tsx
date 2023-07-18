@@ -17,6 +17,25 @@ const binding : CodeBinding = {
     // Name of the binding
     name: "print",
 
+    // Blockly toolbox category
+    blocklyToolboxCategory: "UTIL",
+    
+    // Blockly toolbox block definition
+    blocklyToolboxDefinition: {
+        kind: "block",
+        type: "print",
+        inputs: {
+            TEXT: {
+                shadow: {
+                    type: "text",
+                    fields: {
+                        TEXT: "Hello World!"
+                    }
+                }
+            }
+        }
+    },
+
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
@@ -43,7 +62,7 @@ const binding : CodeBinding = {
         Logger.info("print(): " + content.toString());
 
         // Show a notification with the content
-        Service.get(UiService).showNotification(content, "default", true);
+        Service.get(UiService).showNotification(content);
     }
 }
 

@@ -14,6 +14,25 @@ const binding : CodeBinding = {
     // Name of the binding
     name: "sleep",
 
+    // Blockly toolbox category
+    blocklyToolboxCategory: "UTIL",
+
+    // Blockly toolbox block definition
+    blocklyToolboxDefinition: {
+        kind: "block",
+        type: "sleep",
+        inputs: {
+            DURATION: {
+                shadow: {
+                    type: "math_number",
+                    fields: {
+                        NUM: "1"
+                    }
+                }
+            }
+        }
+    },
+
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()

@@ -13,6 +13,14 @@ const binding : CodeBinding = {
     // Name of the binding
     name: "print",
 
+    // Blockly toolbox category
+    blocklyToolboxCategory: "",
+
+    // Blockly toolbox block definition
+    blocklyToolboxDefinition: {
+        kind: "block"
+    },
+
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
 
