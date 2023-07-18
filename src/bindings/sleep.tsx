@@ -3,7 +3,8 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
+import { CodeBinding } from "@/bindings/CodeBinding";
+import { CodeEvalService } from "@/core/CodeEvalService";
 import { Service } from "@/core/Service";
 import Blockly from "blockly";
 

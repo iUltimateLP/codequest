@@ -3,7 +3,7 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
+import { CodeBinding } from "@/bindings/CodeBinding";
 import { Logger } from "@/core/Logging";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
@@ -11,7 +11,6 @@ import Blockly from "blockly";
 
 // @ts-ignore Idk why this is not working...
 import { Order } from "blockly/javascript";
-import { enqueueSnackbar } from "notistack";
 
 const binding : CodeBinding = {
     // Name of the binding
@@ -19,7 +18,7 @@ const binding : CodeBinding = {
 
     // Blockly toolbox category
     blocklyToolboxCategory: "UTIL",
-    
+
     // Blockly toolbox block definition
     blocklyToolboxDefinition: {
         kind: "block",

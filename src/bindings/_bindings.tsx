@@ -3,7 +3,7 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding } from "@/core/CodeEvalService";
+import { CodeBinding } from "@/bindings/CodeBinding";
 
 // This file contains all bindings. If you add a new binding to src/bindings, add it here too.
 // Maybe this list will be auto-generated in the future.
