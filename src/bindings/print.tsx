@@ -6,6 +6,7 @@
 import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
 import { Logger } from "@/core/Logging";
 import { Service } from "@/core/Service";
+import { UiService } from "@/core/UiService";
 import Blockly from "blockly";
 
 // @ts-ignore Idk why this is not working...
@@ -41,11 +42,8 @@ const binding : CodeBinding = {
     nativeFn: function(content : any) {
         Logger.info("print(): " + content.toString());
 
-        // TODO: move out of this module
-        enqueueSnackbar(content.toString(), {
-            variant: "info",
-            autoHideDuration: 2000
-        });
+        // Show a notification with the content
+        Service.get(UiService).showNotification(content, "default", true);
     }
 }
 

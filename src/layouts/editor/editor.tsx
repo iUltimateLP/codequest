@@ -110,7 +110,7 @@ export default function EditorLayout() {
 			</Allotment>
 
 			{/* Global snackbar (notification) provider */}
-			<SnackbarProvider />
+			<SnackbarProvider maxSnack={10} autoHideDuration={3000} />
 		</Box>
 	);
 }

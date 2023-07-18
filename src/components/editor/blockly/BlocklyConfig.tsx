@@ -40,6 +40,10 @@ const TEST_TOOLBOX = {
 				{
 					kind: "block",
 					type: "controls_for"
+				},
+				{
+					kind: "block",
+					type: "controls_repeat"
 				}
 			],
 		},
