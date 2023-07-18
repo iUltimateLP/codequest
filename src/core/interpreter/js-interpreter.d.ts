@@ -46,7 +46,7 @@ declare class Interpreter {
     /**
      * Execute the interpreter to program completion.
      */
-    public run(): void;
+    public run(): boolean;
 
     /**
      * Initialize the global scope with buitin properties and functions.
@@ -176,6 +176,13 @@ declare class Interpreter {
      * @return {!Object} New function.
      */
     public createNativeFunction(nativeFunc);
+
+    /**
+     * Create a new native asynchronous function.
+     * @param {!Function} asyncFunc JavaScript function.
+     * @return {!Object} New function.
+     */
+    public createAsyncFunction(asyncFunc);
 
     /**
      * Fetch a property value from a data object.

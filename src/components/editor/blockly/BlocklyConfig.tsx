@@ -36,6 +36,10 @@ const TEST_TOOLBOX = {
 				{
 					kind: "block",
 					type: "logic_boolean"
+				},
+				{
+					kind: "block",
+					type: "controls_for"
 				}
 			],
 		},
@@ -97,6 +101,10 @@ const TEST_TOOLBOX = {
 							}
 						}
 					}
+				},
+				{
+					kind: "block",
+					type: "sleep"
 				}
 			],
 		},

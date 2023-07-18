@@ -12,12 +12,14 @@ namespace Bindings {
 
     // ALL BINDINGS GO HERE
     export const BINDING_REGISTRY : Map<string, CodeBinding> = new Map<string, CodeBinding>([
-        ["print", require("@/bindings/print").default]
+        ["print", require("@/bindings/print").default],
+        ["sleep", require("@/bindings/sleep").default]
     ]);
 
     // A list of default bindings that should always enabled
     export const DEFAULT_BINDINGS : string[] = [
-        "print"
+        "print",
+        "sleep"
     ];
 
     // A list of "binding sets" (= keyed list of bindings)
