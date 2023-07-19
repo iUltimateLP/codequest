@@ -49,7 +49,7 @@ class PuzzleService extends Service {
 				resolve(puzzle);
 			})
 			.catch(err => {
-				Logger.error(`Error loading puzzle: ${err}`);
+				Logger.error(`Error loading puzzle "${name}": ${err}`);
 				reject(err);
 			});
 		});
@@ -89,8 +89,15 @@ class PuzzleService extends Service {
 	// Loads a puzzle with the given name and returns a promise that can be awaited
 	private loadPuzzleData(name : string) : Promise<Puzzle> {
 		return new Promise<Puzzle>((resolve, reject) => {
+			// Do not do on server-side
+			if (!global.window) {
+				reject("Not loading puzzle data on server!");
+				return;
+			}
+
 			// Fetch the puzzle's JSON file
-			fetch(`/puzzles/${name}.json`)
+			const puzzleUrl = `/puzzles/${name}.json`;
+			fetch(puzzleUrl)
 			.then((response) => response.json())
 			.then((json) => { 
 				var puzzle = json as Puzzle;
@@ -105,7 +112,7 @@ class PuzzleService extends Service {
 				resolve(puzzle);
 			})
 			.catch((err) => {
-				Logger.error(`Error fetching puzzle: ${err}`);
+				Logger.error(`Error fetching puzzle "${name}": ${err}`);
 				reject(err);
 			})
 		});

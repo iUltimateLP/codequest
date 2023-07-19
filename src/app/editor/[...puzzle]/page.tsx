@@ -27,7 +27,11 @@ export default function PuzzleEditorPage({params} : PuzzleEditorRoute) {
     // Tell the PuzzleService which puzzle was opened based on the URL
     // This will automatically update all parts of the app using "usePuzzle" to access the current puzzle
     const puzzleURL = `${params.puzzle[0]}/${params.puzzle[1]}`;
-    Service.get(PuzzleService).loadPuzzle(puzzleURL);
+    Service.get(PuzzleService).loadPuzzle(puzzleURL)
+    .catch(err => {
+        // Loading puzzle failed, redirect
+        
+    });
 
 	return (
         <EditorLayout />
