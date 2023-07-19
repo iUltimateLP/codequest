@@ -1,0 +1,48 @@
+{
+    "id": "1_intro",
+    "chapter": 1,
+    "meta": 
+    {
+        "name": 
+        {
+            "en": "All beginnings are difficult!",
+            "de": "Aller Anfang ist schwer!"
+        },
+        "tags": ["MOVE"],
+        "shortDescription": 
+        {
+            "en": "Short puzzle desc",
+            "de": "Kurze Puzzlebeschreibung"
+        },
+        "createdBy": "CodeQuest",
+        "version": 1
+    },
+    "bindingSets": ["MOVEMENT"],
+    "objectives": 
+    [
+        {
+			"id": "GET_STARTED",
+            "title":
+            {
+                "en": "Getting started",
+                "de": "Lass' uns loslegen"
+            },
+            "description":
+            {
+                "en": "Some **markdown** _text_",
+                "de": "Irgendein **markdown** _text_"
+            }
+        },
+        {
+            "id": "OBJECTIVE_2",
+            "title": {
+                "de": "Objektiv 2",
+                "en": "Objective 2"
+            },
+            "description": {
+                "de": "Krasse Beschreibung",
+                "en": "Heavy description"
+            }
+        }
+	]
+}

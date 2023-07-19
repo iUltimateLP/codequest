@@ -45,6 +45,8 @@ After executing the above steps, you can access the CodeQuest frontend under [ht
  - [Comic Mono](https://dtinth.github.io/comic-mono-font/)
  - [notistack](https://notistack.com/)
  - [howler](https://howlerjs.com/)
+ - [mui-markdown](https://github.com/HPouyanmehr/mui-markdown)
+ - [sub-events](https://github.com/vitaly-t/sub-events)
 
 ## Special thanks
 I'd like to extend my thanks to my professors _Prof. Dr. Thorsten Teschke_ and _Prof. Dr.-Ing. Lars Prädel_ for their support.

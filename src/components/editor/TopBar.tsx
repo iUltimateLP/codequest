@@ -13,6 +13,8 @@ import { useMonaco } from "@monaco-editor/react";
 import * as monacoEditor from "monaco-editor";
 import { Theme, useTheme } from '@mui/material/styles';
 import { ColorModeContext } from "../theme/ThemeRegistry";
+import { usePuzzle } from "@/core/PuzzleService";
+import { i18n } from "@/core/LocalizationService";
 
 interface TopBarProps {
     onModeChange : Function
@@ -21,6 +23,7 @@ interface TopBarProps {
 // Top bar component, used in the editor
 export default function TopBar(props : TopBarProps) {
     const theme = useTheme();
+    const [puzzle] = usePuzzle();
 
     // Test function to create a monaco code lens
     const monaco = useMonaco();
@@ -75,7 +78,7 @@ export default function TopBar(props : TopBarProps) {
         // @ts-ignore since custom color is used
         <AppBar position="static" color="shaded">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>CodeQuest</Typography>
+                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>CodeQuest ({puzzle ? i18n(puzzle.meta.name) : "N/A"})</Typography>
                 <Checkbox onChange={(e) => {props.onModeChange(e?.target.checked)}}></Checkbox>
                 <Button variant="contained" onClick={test}>abc</Button>
                 <IconButton size="large" color="inherit" aria-label="theme" onClick={switchTheme} >

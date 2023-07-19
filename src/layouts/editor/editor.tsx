@@ -21,6 +21,7 @@ import { Service } from "@/core/Service";
 import { ApplicationService } from "@/core/ApplicationService";
 import "@/layouts/editor/allotment.css";
 import { SnackbarProvider } from "notistack";
+import PuzzleDescription from "@/components/editor/PuzzleDescription";
 
 enum EditorMode {
 	Text,
@@ -101,7 +102,7 @@ export default function EditorLayout() {
 
 							{/* Bottom row */}
 							<Allotment.Pane>
-								<div>Doc</div>
+								<PuzzleDescription />
 							</Allotment.Pane>
 
 						</Allotment>
