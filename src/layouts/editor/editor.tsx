@@ -22,6 +22,7 @@ import { ApplicationService } from "@/core/ApplicationService";
 import "@/layouts/editor/allotment.css";
 import { SnackbarProvider } from "notistack";
 import PuzzleDescription from "@/components/editor/PuzzleDescription";
+import Viewport from "@/components/editor/Viewport";
 
 enum EditorMode {
 	Text,
@@ -92,7 +93,7 @@ export default function EditorLayout() {
 
 							{/* Top row */}
 							<Allotment.Pane>
-								<div>Viewport</div>
+								<Viewport />
 							</Allotment.Pane>
 
 							{/* Toolbar */}

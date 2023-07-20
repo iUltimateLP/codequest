@@ -25,7 +25,7 @@ class UiService extends Service {
     // Plays a sound
     public playSound(soundToPlay : string) {
         var sound = new Howl({
-            src: [`assets/sound/${soundToPlay}.ogg`]
+            src: [`/assets/sound/${soundToPlay}.ogg`]
         });
         sound.play();
     }

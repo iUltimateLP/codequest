@@ -8,6 +8,7 @@ import { Logger } from "./Logging";
 import { Service } from "./Service";
 import { SubEvent } from "sub-events";
 import { LocalizedString } from "./LocalizationService";
+import { ViewportService } from "./ViewportService";
 
 interface PuzzleObjective {
 	id : string;
@@ -26,6 +27,7 @@ interface Puzzle {
 		version : number;
 	};
 	bindingSets: string[];
+	scene: string;
 	objectives: PuzzleObjective[];
 	objectiveMap: Map<string, PuzzleObjective>; // This is not required on the JSON definition but generated
 };
@@ -38,14 +40,27 @@ class PuzzleService extends Service {
 	// Loads a puzzle with the given name and returns a promise that can be awaited
 	public loadPuzzle(name : string) : Promise<Puzzle> {
 		return new Promise<Puzzle>((resolve, reject) => {
+			// Make sure the puzzle isn't loaded already
+			if (this._currentPuzzleName === name) {
+				Logger.warn(`Puzzle "${name}" is already loaded, aborting.`);
+				resolve(this._currentPuzzle!);
+				return;
+			}
+
 			// Load the puzzle data
 			this.loadPuzzleData(name)
 			.then((puzzle : Puzzle) => {
+				this._currentPuzzleName = name;
 				this._currentPuzzle = puzzle;
 				this._currentObjective = puzzle.objectives[0].id;
+
+				// HACK to make sure the Viewport Service exists so it can update
+				Service.get(ViewportService);
+
 				this.PuzzleChangedEvent.emit(this._currentPuzzle);
 				this.PuzzleObjectiveChangedEvent.emit(this.getCurrentObjective()!);
 				Logger.info(`Successfully loaded puzzle "${name}" ("${puzzle.meta.name.en}")`);
+				
 				resolve(puzzle);
 			})
 			.catch(err => {
@@ -118,6 +133,7 @@ class PuzzleService extends Service {
 		});
 	}
 
+	private _currentPuzzleName : string | null = null;
 	private _currentPuzzle : Puzzle | null = null;
 	private _currentObjective : string | null = null;
 }

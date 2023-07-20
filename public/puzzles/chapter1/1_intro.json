@@ -18,6 +18,7 @@
         "version": 1
     },
     "bindingSets": ["MOVEMENT"],
+    "scene": "HELLO_WORLD",
     "objectives": 
     [
         {
