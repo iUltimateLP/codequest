@@ -23,6 +23,7 @@ import "@/layouts/editor/allotment.css";
 import { SnackbarProvider } from "notistack";
 import PuzzleDescription from "@/components/editor/PuzzleDescription";
 import Viewport from "@/components/editor/Viewport";
+import { ViewportService } from "@/core/ViewportService";
 
 enum EditorMode {
 	Text,
@@ -52,6 +53,9 @@ export default function EditorLayout() {
 			setDesiredEditorSize({ sizeX: editorSize });
 		else if (type == 1)
 			setDesiredEditorSize({ sizeY: editorSize });
+
+		// Tell the viewport we updated
+		Service.get(ViewportService).updateBounds();
 	}
 
 	// Called when any of the inner editor's code changed
@@ -89,7 +93,7 @@ export default function EditorLayout() {
 					<Allotment.Pane minSize={250}>
 
 						{/* Right column vertical layout */}
-						<Allotment vertical defaultSizes={[1,0.2,1]}>
+						<Allotment vertical defaultSizes={[1,0.2,1]} onChange={(sizes) => onEditorLayoutChange(2, sizes)}>
 
 							{/* Top row */}
 							<Allotment.Pane>

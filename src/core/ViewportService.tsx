@@ -3,10 +3,13 @@
 	Written by Jonathan Verbeek - 2023
 */
 
+'use client';
+
 import { Logger } from "./Logging";
 import { Puzzle, PuzzleService } from "./PuzzleService";
 import { Service } from "./Service";
 import Phaser from "phaser";
+
 import PHASER_SCENE_REGISTRY from "@/scenes/_scenes";
 
 // Phaser game config
@@ -34,11 +37,24 @@ class ViewportService extends Service {
 
 		// Bind the PuzzleChangedEvent
 		Service.get(PuzzleService).PuzzleChangedEvent.subscribe(this.onPuzzleChanged.bind(this));
-		console.log(Service.get(PuzzleService).getCurrentPuzzle());
 	}
+
+    // Tells Phaser to update world bounds (if e.g. the canvas' size changed)
+    public updateBounds() {
+        //this._currentScene?.scale.updateScale();
+        this._currentScene?.scale.updateBounds();
+        this._currentScene?.scale.getParentBounds();
+        
+        this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
+        this._currentScene?.scene.restart();
+    }
 
 	// Called when a puzzle changes
 	private onPuzzleChanged(puzzle : Puzzle) {
+        // Don't react on server
+        if (typeof window === 'undefined')
+            return;
+
         // Don't act if no puzzle
 		if (!puzzle)
 			return;
@@ -66,6 +82,10 @@ class ViewportService extends Service {
 	}
 
 	private createPhaserGame() {
+        // Don't react on server
+        if (typeof window === 'undefined')
+            return;
+
 		// Creates a new Phaser instance
         this._game = new Phaser.Game({...config, parent: "phaser-div"});
 	}

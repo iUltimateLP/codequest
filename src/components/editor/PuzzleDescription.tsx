@@ -22,12 +22,15 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
 
     return (
         <>
-            {puzzle && <Box sx={{p: 2}}>
+            <Box sx={{p: 2}}>
+                {puzzle && <>
                 <Typography variant="h5">{i18n(objective?.title)}</Typography>
-                <MuiMarkdown>
-                    {i18n(objective?.description).concat("<br/>")}
-                </MuiMarkdown>
-            </Box>}
+                    <MuiMarkdown>
+                        {i18n(objective?.description).concat("<br/>")}
+                    </MuiMarkdown>
+                </>}
+                {!puzzle && <Typography variant="body1">Loading...</Typography>}
+            </Box>
         </>
     );
 }
