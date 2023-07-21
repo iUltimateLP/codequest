@@ -93,7 +93,7 @@ export default function EditorLayout() {
 					<Allotment.Pane minSize={250}>
 
 						{/* Right column vertical layout */}
-						<Allotment vertical defaultSizes={[1,0.2,1]} onChange={(sizes) => onEditorLayoutChange(2, sizes)}>
+						<Allotment vertical defaultSizes={[1,0.2,0.85]} onChange={(sizes) => onEditorLayoutChange(2, sizes)}>
 
 							{/* Top row */}
 							<Allotment.Pane>

@@ -17,7 +17,11 @@ const config : Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     backgroundColor: "#000000",
     scale: {
-        mode: Phaser.Scale.ScaleModes.RESIZE
+        mode: Phaser.Scale.ScaleModes.FIT,
+        resizeInterval: 50,
+        width: 512,
+        height: 512,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     },
     physics: {
         default: "arcade",
@@ -43,10 +47,10 @@ class ViewportService extends Service {
     public updateBounds() {
         //this._currentScene?.scale.updateScale();
         this._currentScene?.scale.updateBounds();
-        this._currentScene?.scale.getParentBounds();
+        //this._currentScene?.scale.getParentBounds();
         
-        this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
-        this._currentScene?.scene.restart();
+        //this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
+        //this._currentScene?.scene.restart();
     }
 
 	// Called when a puzzle changes
