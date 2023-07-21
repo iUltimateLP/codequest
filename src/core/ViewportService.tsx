@@ -9,6 +9,7 @@ import { Logger } from "./Logging";
 import { Puzzle, PuzzleService } from "./PuzzleService";
 import { Service } from "./Service";
 import Phaser from "phaser";
+import { GridEngine } from "grid-engine";
 
 import PHASER_SCENE_REGISTRY from "@/scenes/_scenes";
 
@@ -30,8 +31,19 @@ const config : Phaser.Types.Core.GameConfig = {
         }
     },
     render: {
-        transparent: true
-    }
+        transparent: true,
+        antialias: false
+    },
+    plugins: {
+        scene: [
+            {
+                key: "gridEngine",
+                plugin: GridEngine,
+                mapping: "gridEngine"
+            }
+        ]
+    },
+    
 };
 
 // Service that handles the viewport and it's Phaser subsytem

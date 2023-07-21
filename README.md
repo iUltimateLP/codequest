@@ -47,6 +47,8 @@ After executing the above steps, you can access the CodeQuest frontend under [ht
  - [howler](https://howlerjs.com/)
  - [mui-markdown](https://github.com/HPouyanmehr/mui-markdown)
  - [sub-events](https://github.com/vitaly-t/sub-events)
+ - [phaser3](https://github.com/photonstorm/phaser)
+ - [grid-engine](https://github.com/Annoraaq/grid-engine)
 
 ## Special thanks
 I'd like to extend my thanks to my professors _Prof. Dr. Thorsten Teschke_ and _Prof. Dr.-Ing. Lars Prädel_ for their support.

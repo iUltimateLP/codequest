@@ -20,6 +20,7 @@
     "bufferutil": "^4.0.7",
     "canvas": "^2.11.2",
     "comic-mono": "^0.0.1",
+    "grid-engine": "^2.32.4",
     "howler": "^2.2.3",
     "js-interpreter": "^4.0.0",
     "monaco-editor": "^0.40.0",
