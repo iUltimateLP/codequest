@@ -22,7 +22,7 @@
     "objectives": 
     [
         {
-			"id": "GET_STARTED",
+            "id": "GET_STARTED",
             "title":
             {
                 "en": "Getting started",

@@ -59,9 +59,9 @@ class ViewportService extends Service {
     public updateBounds() {
         //this._currentScene?.scale.updateScale();
         this._currentScene?.scale.updateBounds();
-        //this._currentScene?.scale.getParentBounds();
+        this._currentScene?.scale.getParentBounds();
         
-        //this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
+        this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
         //this._currentScene?.scene.restart();
     }
 
