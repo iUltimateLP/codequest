@@ -65,6 +65,11 @@ class ViewportService extends Service {
         //this._currentScene?.scene.restart();
     }
 
+    // Returns the current scene of type T, if any
+    public getScene<T = Phaser.Scene>() : T | null {
+        return this._currentScene as T;
+    }
+
 	// Called when a puzzle changes
 	private onPuzzleChanged(puzzle : Puzzle) {
         // Don't react on server

@@ -3,8 +3,16 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { Direction, GridEngine, GridEngineConfig } from "grid-engine";
+import { Direction, Finished, GridEngine, GridEngineConfig, Position } from "grid-engine";
 import Phaser from "phaser";
+import { SceneUtils } from "@/scenes/Utils";
+import { Observable } from "react-use/lib/useObservable";
+
+// Scale of the scene
+const SCENE_SCALE : number = 3;
+
+// Size of a tile in the tileset
+const TILE_SIZE : number = 16;
 
 class CityScene extends Phaser.Scene {
     constructor() {
@@ -20,28 +28,29 @@ class CityScene extends Phaser.Scene {
 
     create() {
         // Create the map and tileset
-        const map : Phaser.Tilemaps.Tilemap = this.make.tilemap({key: "tilemap"});
-        const tileset : Phaser.Tilemaps.Tileset = map.addTilesetImage("tileset_city", "tileset")!;
+        this.map = this.make.tilemap({key: "tilemap"});
+        this.tileset = this.map.addTilesetImage("tileset_city", "tileset")!;
         
         // Instantiate each layer
-        map.layers.forEach(tiledLayer => {
-            const layer : Phaser.Tilemaps.TilemapLayer | null = map.createLayer(tiledLayer.name, tileset, 0, 0);
+        for (var layerIdx = 0; layerIdx < this.map.layers.length; layerIdx++) {
+            var tiledLayer : Phaser.Tilemaps.LayerData = this.map.layers[layerIdx];
+            const layer : Phaser.Tilemaps.TilemapLayer | null = this.map.createLayer(tiledLayer.name, this.tileset, 0, 0);
             
             if (layer) {
-                layer.scale = 3;
+                layer.scale = SCENE_SCALE;
             }
-        });
+        };
 
         // Create the player
-        const testSprite = this.add.sprite(0, 0, "logo");
-        testSprite.setDisplaySize(16*3, 16*3);
-        testSprite.setSize(16*3, 16*3);
+        this.player = this.add.sprite(0, 0, "logo");
+        this.player.setDisplaySize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
+        this.player.setSize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
 
         // Set up camera to follow player
-        this.cameras.main.startFollow(testSprite, true);
+        this.cameras.main.startFollow(this.player, true);
         this.cameras.main.setFollowOffset(
-            -testSprite.width,
-            -testSprite.height,
+            -this.player.width,
+            -this.player.height,
           );
 
         // Set up the grid engine configiguration
@@ -49,7 +58,7 @@ class CityScene extends Phaser.Scene {
             characters: [
                 {
                     id: "player",
-                    sprite: testSprite,
+                    sprite: this.player,
                     startPosition: { x: 30, y: 30},
                     collides: {
                         collidesWithTiles: true
@@ -61,34 +70,37 @@ class CityScene extends Phaser.Scene {
 
         // Create grid engine
         this.gridEngine.create(
-            map,
+            this.map,
             gridEngineConfig,
         );
     }
 
     update(time: number, delta: number): void {
-        const cursors = this.input.keyboard!.createCursorKeys();
-        if (cursors.left.isDown && cursors.up.isDown) {
-            this.gridEngine.move("player", Direction.UP_LEFT);
-        } else if (cursors.left.isDown && cursors.down.isDown) {
-            this.gridEngine.move("player", Direction.DOWN_LEFT);
-        } else if (cursors.right.isDown && cursors.up.isDown) {
-            this.gridEngine.move("player", Direction.UP_RIGHT);
-        } else if (cursors.right.isDown && cursors.down.isDown) {
-            this.gridEngine.move("player", Direction.DOWN_RIGHT);
-        } else if (cursors.left.isDown) {
-            this.gridEngine.move("player", Direction.LEFT);
-        } else if (cursors.right.isDown) {
-            this.gridEngine.move("player", Direction.RIGHT);
-        } else if (cursors.up.isDown) {
-            this.gridEngine.move("player", Direction.UP);
-        } else if (cursors.down.isDown) {
-            this.gridEngine.move("player", Direction.DOWN);
-        }
+        //SceneUtils.initArrowKeyControls(this);
+    }
+
+    // Moves the player in the given direction
+    public movePlayer(direction : Direction) : Promise<Finished> {
+        return new Promise((resolve, reject) => {
+            const currentPos : Position = this.gridEngine.getPosition("player");
+            var targetPos : Position = {
+                x: currentPos.x + 1,
+                y: currentPos.y + 0
+            };
+            this.gridEngine.moveTo("player", targetPos, {}).subscribe((payload : Finished) => {
+                if (payload.result === "SUCCESS")
+                    resolve(payload);
+                else
+                    reject(payload);
+            });
+        });
     }
 
     // @ts-ignore
     gridEngine: GridEngine;
+    player: Phaser.GameObjects.Sprite | null = null;
+    map: Phaser.Tilemaps.Tilemap | null = null;
+    tileset: Phaser.Tilemaps.Tileset | null = null;
 }
 
 export default CityScene;
