@@ -7,6 +7,8 @@ import { Direction, Finished, GridEngine, GridEngineConfig, Position } from "gri
 import Phaser from "phaser";
 import { SceneUtils } from "@/scenes/Utils";
 import { Observable } from "react-use/lib/useObservable";
+import { Service } from "@/core/Service";
+import { UiService } from "@/core/UiService";
 
 // Scale of the scene
 const SCENE_SCALE : number = 3;
@@ -80,18 +82,26 @@ class CityScene extends Phaser.Scene {
     }
 
     // Moves the player in the given direction
-    public movePlayer(direction : Direction) : Promise<Finished> {
+    public movePlayer() : Promise<Finished> {
         return new Promise((resolve, reject) => {
+            // Calculate position
             const currentPos : Position = this.gridEngine.getPosition("player");
             var targetPos : Position = {
                 x: currentPos.x + 1,
                 y: currentPos.y + 0
             };
+
+            // Start move to command
             this.gridEngine.moveTo("player", targetPos, {}).subscribe((payload : Finished) => {
-                if (payload.result === "SUCCESS")
+                if (payload.result === "SUCCESS") {
+                    // Resolve the promise and play a walk sound
+                    Service.get(UiService).playSound("walk", 0.25);
                     resolve(payload);
-                else
+                } else {
+                    // Reject the payload and play a camera shake
                     reject(payload);
+                    this.cameras.main.shake(300, 0.05);
+                }
             });
         });
     }

@@ -5,6 +5,7 @@
 
 import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
 import { Service } from "@/core/Service";
+import { UiService } from "@/core/UiService";
 import { ViewportService } from "@/core/ViewportService";
 import CityScene from "@/scenes/CityScene";
 import Blockly from "blockly";
@@ -51,12 +52,17 @@ const binding : CodeBinding = {
             return;
 
         // Move
-        scene.movePlayer(Direction.RIGHT).then(() => {
+        scene.movePlayer()
+        .then(() => {
             // Set a small timeout before the next walk step
             setTimeout(() => {
                 Service.get(CodeEvalService).resumeAsyncExecution(() => callback());
             }, 500);
-        });
+        })
+        .catch(() => {
+            Service.get(UiService).showNotification("Can't move!", { variant: "error", playSound: true, sound: "error" });
+            Service.get(CodeEvalService).stopExecution();
+        })
     },
     
     async: true

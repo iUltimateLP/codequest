@@ -7,10 +7,12 @@ import { Button } from "@mui/material";
 import { Service } from "./Service";
 import { Howl } from "howler";
 import { enqueueSnackbar } from "notistack";
+import { Logger } from "./Logging";
 
 interface NotificationOptions {
     variant? : "default" | "error" | "success" | "info" | "warning";
     playSound? : boolean;
+    sound? : string;
     buttons?: NotificationButtonOptions[];
 }
 
@@ -23,9 +25,10 @@ interface NotificationButtonOptions {
 // This service handles UI actions (such as playing sounds or displaying dialogs)
 class UiService extends Service {
     // Plays a sound
-    public playSound(soundToPlay : string) {
+    public playSound(soundToPlay : string, volume : number = 1.0) {
         var sound = new Howl({
-            src: [`/assets/sound/${soundToPlay}.ogg`]
+            src: [`/assets/sound/${soundToPlay}.ogg`],
+            volume: volume
         });
         sound.play();
     }
@@ -47,8 +50,10 @@ class UiService extends Service {
 
         // Play sound if wanted
         if (options.playSound == undefined || options.playSound === true) {
-            this.playSound("notification");
+            this.playSound(options.sound ? options.sound : "notification");
         }
+        
+        Logger.info(`Notification: "${text}"`);
     }
 }
 

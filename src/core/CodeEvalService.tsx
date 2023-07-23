@@ -39,9 +39,7 @@ class CodeEvalService extends Service {
             this._interpreterPaused = true;
         } else {
             // Not paused anymore, code execution is over now
-            this._interpreterPaused = false;
-            var timeElapsed = (Date.now() - this._timeStarted);
-            Logger.info(`Interpreter ran user code in ${(timeElapsed / 1000).toFixed(3)} seconds. Result: ${this._interpreter.value}`);
+            this.stopAndCleanup();
         }
     }
 
@@ -53,6 +51,25 @@ class CodeEvalService extends Service {
         //Logger.info("Resuming paused interpreter");
         callback();
         this.run();
+    }
+
+    // Stops the current execution
+    public stopExecution() {
+        if (!this._interpreterPaused)
+            return;
+
+        this.stopAndCleanup();
+    }
+
+    // Performs cleanup after a interpreter is supposed to be stopped
+    private stopAndCleanup() {
+        if (!this._interpreter)
+            return;
+
+        this._interpreterPaused = false;
+        var timeElapsed = (Date.now() - this._timeStarted);
+        Logger.info(`Interpreter ran user code in ${(timeElapsed / 1000).toFixed(3)} seconds. Result: ${this._interpreter.value}`);
+        this._interpreter = undefined;
     }
 
     // This function is called when initializing the interpreter to inject functionality
