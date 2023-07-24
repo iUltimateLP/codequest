@@ -118,6 +118,11 @@ class CodeEvalService extends Service {
                 interpreter.setProperty(globalObject, id, interpreter.createNativeFunction(binding.nativeFn));
             }
         });
+
+        // Register highlightBlock(), which is a reserved function to highlight a blockly block
+        interpreter.setProperty(globalObject, "highlightBlock", interpreter.createNativeFunction((id : any) => {
+            Service.get(VisualProgrammingService).highlightBlock(id);
+        }));
     }
 
     // Registers default bindings

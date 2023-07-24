@@ -3,13 +3,15 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { LogCategory, Logger } from "./Logging";
+import { Logger } from "./Logging";
 import { Service } from "./Service";
-import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import { CodeBinding } from "./CodeEvalService";
 import { CODEQUEST_CATEGORIES } from "@/components/editor/blockly/BlocklyConfig";
+
+// Whether to highlight the currently executed block
+const HIGHLIGHT_CURRENT_BLOCK : boolean = false;
 
 // This service handles everything related to the visual programming system
 class VisualProgrammingService extends Service {
@@ -21,6 +23,18 @@ class VisualProgrammingService extends Service {
 
     // Compile the blockly workspace into code
     public compileBlocklyWorkspace() : string {
+        // Set up loop trap
+        // @ts-ignore
+        window.LoopTrap = 1000;
+        javascriptGenerator.INFINITE_LOOP_TRAP = `if(--window.LoopTrap == 0) throw "Infinite loop.";\n`;
+
+        // If wanted, add support for highlighting blocks
+        if (HIGHLIGHT_CURRENT_BLOCK) {
+            javascriptGenerator.STATEMENT_PREFIX = "highlightBlock(%1); ";
+            javascriptGenerator.addReservedWords("highlightBlock");
+        }
+
+        // Compiles the Blockly workspace through the JavaScript generator module (from Blockly)
         var code : string = javascriptGenerator.workspaceToCode(this.getBlocklyWorkspace());
         return code;
     }
@@ -79,6 +93,12 @@ class VisualProgrammingService extends Service {
         Blockly.Blocks[id] = null;
         javascriptGenerator.forBlock[id] = null;
         this._registeredBindings.delete(id);
+    }
+
+    // Highlights a specific Blockly block
+    public highlightBlock(id : any) {
+        // Tell Blockly
+        (this.getBlocklyWorkspace() as Blockly.WorkspaceSvg)?.highlightBlock(id);
     }
 
     // Returns the currently active blockly workspace
