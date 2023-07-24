@@ -9,6 +9,7 @@ import { Service } from "./Service";
 import { SubEvent } from "sub-events";
 import { LocalizedString } from "./LocalizationService";
 import { ViewportService } from "./ViewportService";
+import { CodeEvalService } from "./CodeEvalService";
 
 interface PuzzleObjective {
 	id : string;
@@ -57,6 +58,11 @@ class PuzzleService extends Service {
 
 				// HACK to make sure the Viewport Service exists so it can update
 				Service.get(ViewportService);
+
+				// Register bindings of this puzzle
+				puzzle.bindingSets.forEach(bindingSet => {
+					Service.get(CodeEvalService).registerBindingSet(bindingSet);
+				});
 
 				this.PuzzleChangedEvent.emit(this._currentPuzzle);
 				this.PuzzleObjectiveChangedEvent.emit(this.getCurrentObjective()!);

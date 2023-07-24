@@ -63,6 +63,7 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		}
 		
 		workspace?.setTheme(preferedTheme === "light" ? Blockly.Themes.Zelos : darkTheme!);
+		changeGridColorHACK();
 	}, [preferedTheme]);
 
 	// Empty hook to set the language
@@ -90,6 +91,17 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 			props.onCodeChanged(workspace as Blockly.Workspace, xml);
 	}
 
+	// This is a hack to change the grid color as Blockly does not support that
+	function changeGridColorHACK() {
+		// Find the line elements belonging to a #blocklyGridPatternXXX element
+		var foundElements = document.querySelectorAll(`[id^="blocklyGridPattern"]>line`);
+
+		// Set the stroke of the SVG line elements
+		foundElements.forEach((element) => {
+			element.setAttribute("stroke", preferedTheme === "light" ? "#eee" : "#222");
+		});
+	}
+
 	return (
 		// @ts-ignore
 		<BlocklyWorkspace 
@@ -100,7 +112,7 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 			workspaceConfiguration={{
 				...WORKSPACE_CONFIG, 
 				theme: theme.palette.mode == "dark" ? "dark" : WORKSPACE_CONFIG.theme,
-				grid: {...WORKSPACE_CONFIG.grid, colour: preferedTheme == "dark" ? "#555" : WORKSPACE_CONFIG.grid!.colour} // TODO: crosses don't react on theme change
+				grid: {...WORKSPACE_CONFIG.grid/*, colour: preferedTheme == "dark" ? "#555" : WORKSPACE_CONFIG.grid!.colour*/} // TODO: crosses don't react on theme change
 			}}
 			onWorkspaceChange={onWorkspaceChange}
 		>

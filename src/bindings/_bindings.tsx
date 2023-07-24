@@ -20,14 +20,12 @@ namespace Bindings {
     // A list of default bindings that should always enabled
     export const DEFAULT_BINDINGS : string[] = [
         "print",
-        "sleep",
-        "walk"
+        "sleep"
     ];
 
     // A list of "binding sets" (= keyed list of bindings)
     export const BINDING_SETS : Map<string, string[]> = new Map<string, string[]>([
-        ["testSet", [ "print" ]],
-        ["movement", [ "walk" ]]
+        ["MOVEMENT", [ "walk" ]]
     ]);
 
 };
