@@ -14,7 +14,8 @@ namespace Bindings {
     export const BINDING_REGISTRY : Map<string, CodeBinding> = new Map<string, CodeBinding>([
         ["print", require("@/bindings/print").default],
         ["sleep", require("@/bindings/sleep").default],
-        ["walk", require("@/bindings/walk").default]
+        ["walk", require("@/bindings/walk").default],
+        ["turn", require("@/bindings/turn").default]
     ]);
 
     // A list of default bindings that should always enabled
@@ -25,7 +26,7 @@ namespace Bindings {
 
     // A list of "binding sets" (= keyed list of bindings)
     export const BINDING_SETS : Map<string, string[]> = new Map<string, string[]>([
-        ["MOVEMENT", [ "walk" ]]
+        ["MOVEMENT", [ "walk", "turn" ]]
     ]);
 
 };

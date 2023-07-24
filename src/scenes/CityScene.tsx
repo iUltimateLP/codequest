@@ -5,10 +5,10 @@
 
 import { Direction, Finished, GridEngine, GridEngineConfig, Position } from "grid-engine";
 import Phaser from "phaser";
-import { SceneUtils } from "@/scenes/Utils";
-import { Observable } from "react-use/lib/useObservable";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
+import { DirectionVector, SceneUtils } from "./Utils";
+import { MathUtils } from "@/core/Math";
 
 // Scale of the scene
 const SCENE_SCALE : number = 3;
@@ -23,7 +23,7 @@ class CityScene extends Phaser.Scene {
 
     preload() {
         this.load.setBaseURL("http://localhost:3000/assets/");
-        this.load.image("logo", "/branding/logo_big.png");
+        this.load.image("player", "/game/player_placeholder.png");
         this.load.image("tileset", "scenes/tileset_city.png");
         this.load.tilemapTiledJSON("tilemap", "scenes/scene_city.json");
     }
@@ -58,9 +58,10 @@ class CityScene extends Phaser.Scene {
         this.outlineGrid.setDepth(100);
 
         // Create the player
-        this.player = this.add.sprite(0, 0, "logo");
+        this.player = this.add.sprite(0, 0, "player");
         this.player.setDisplaySize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
-        this.player.setSize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
+        //this.player.setSize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
+        this.targetPlayerRotation = SceneUtils.dir2deg(Direction.RIGHT);
 
         // Set up camera to follow player
         this.cameras.main.startFollow(this.player, true);
@@ -75,13 +76,13 @@ class CityScene extends Phaser.Scene {
                 {
                     id: "player",
                     sprite: this.player,
-                    startPosition: { x: 30, y: 30},
-                    collides: {
-                        collidesWithTiles: true
-                    }
+                    startPosition: { x: 30, y: 30 },
+                    facingDirection: Direction.RIGHT,
+                    offsetX: TILE_SIZE * SCENE_SCALE * 0.5,
+                    offsetY: TILE_SIZE * SCENE_SCALE * 0.5
                 }
             ],
-            numberOfDirections: 8
+            numberOfDirections: 4
         }
 
         // Create grid engine
@@ -93,16 +94,19 @@ class CityScene extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         //SceneUtils.initArrowKeyControls(this);
+        this.player?.setOrigin(0.5);
+        this.player?.setAngle(MathUtils.interpToDeg(this.player.angle, this.targetPlayerRotation, delta, 0.01));
     }
 
-    // Moves the player in the given direction
+    // Moves the player forward
     public movePlayer() : Promise<Finished> {
         return new Promise((resolve, reject) => {
             // Calculate position
             const currentPos : Position = this.gridEngine.getPosition("player");
+            const playerDirection : DirectionVector = SceneUtils.dir2vec(this.currentPlayerDirection);
             var targetPos : Position = {
-                x: currentPos.x + 1,
-                y: currentPos.y + 0
+                x: currentPos.x + playerDirection.x,
+                y: currentPos.y + playerDirection.y
             };
 
             // Start move to command
@@ -120,12 +124,30 @@ class CityScene extends Phaser.Scene {
         });
     }
 
+    // Turns the player
+    public turnPlayer() {
+        // Figure out which direction is the new direction
+        const directionsCW = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT];
+        const currentDirectionIdx = directionsCW.indexOf(this.currentPlayerDirection);
+        const nextDirectionIdx = (currentDirectionIdx + 1) % directionsCW.length;
+        const nextDirection = directionsCW[nextDirectionIdx];
+
+        // Set the new direction and the player's rotation accordingly
+        this.currentPlayerDirection = nextDirection;
+        this.targetPlayerRotation = SceneUtils.dir2deg(nextDirection);
+
+        Service.get(UiService).playSound("turn", 0.25);
+    }
+
     // @ts-ignore
-    gridEngine: GridEngine;
-    player: Phaser.GameObjects.Sprite | null = null;
-    map: Phaser.Tilemaps.Tilemap | null = null;
-    tileset: Phaser.Tilemaps.Tileset | null = null;
-    outlineGrid: Phaser.GameObjects.Grid | null = null;
+    gridEngine : GridEngine;
+    player : Phaser.GameObjects.Sprite | null = null;
+    map : Phaser.Tilemaps.Tilemap | null = null;
+    tileset : Phaser.Tilemaps.Tileset | null = null;
+    outlineGrid : Phaser.GameObjects.Grid | null = null;
+    
+    currentPlayerDirection : Direction = Direction.RIGHT;
+    targetPlayerRotation : number = 0;
 }
 
 export default CityScene;
