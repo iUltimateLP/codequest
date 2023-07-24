@@ -3,7 +3,11 @@
 	Written by Jonathan Verbeek - 2023
 */
 
+import { useState, useEffect } from "react";
+import { PuzzleService } from "./PuzzleService";
 import { Service } from "./Service";
+import { SubEvent } from "sub-events";
+import { Logger } from "./Logging";
 
 interface ILocale {
     [key: string]: any;
@@ -36,6 +40,8 @@ const i18n = (str? : LocalizedString | string) : string => {
 
 // This service handles localization and i18n throughout the app
 class LocalizationService extends Service {
+    public LocaleChangedEvent : SubEvent<string> = new SubEvent();
+
     constructor() {
         super();
 
@@ -45,6 +51,22 @@ class LocalizationService extends Service {
     // Returns the currently active locale
     public getLocale() : string {
         return this._currentLocaleID;
+    }
+
+    // Sets the current locale (triggers the useLocale() hook so components can update)
+    public setLocale(newLocale : string) {
+        // Make sure that locale exists
+        if (!Object.keys(LOCALES).includes(newLocale)) {
+            Logger.error(`Locale "${newLocale}" does not exist!`);
+            return;
+        }
+
+        // Change
+        this._currentLocaleID = newLocale;
+        this._currentLocale = LOCALES[this._currentLocaleID];
+
+        // Fire event
+        this.LocaleChangedEvent.emit(this._currentLocaleID);
     }
 
     // Localizes a given LocalizedString
@@ -77,5 +99,27 @@ class LocalizationService extends Service {
     private _currentLocale : ILocale | null = null;
 }
 
+// React hook that tracks the current locale
+const useLocale = () => {
+	// Create state
+	const [locale, setLocale] = useState<string>();
+
+	// Side-effect that's executed once
+	useEffect(() => {
+		// Subscribe to the events on the puzzle service to update this hook's state
+		const localizationService = Service.get(LocalizationService);
+		const sub = localizationService.LocaleChangedEvent.subscribe((newLocale) => {
+			setLocale(newLocale);
+		});
+
+		// Unsubscribe from the events when this effect is disposed
+		return () => {
+			sub.cancel();
+		};
+	}, []);
+
+	return [locale];
+}
+
 export type { LocalizedString, ILocale };
-export { i18n, LocalizationService };
+export { i18n, LocalizationService, useLocale };
