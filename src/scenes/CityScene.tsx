@@ -64,11 +64,8 @@ class CityScene extends Phaser.Scene {
         this.targetPlayerRotation = SceneUtils.dir2deg(Direction.RIGHT);
 
         // Set up camera to follow player
-        this.cameras.main.startFollow(this.player, true);
-        this.cameras.main.setFollowOffset(
-            -this.player.width,
-            -this.player.height,
-          );
+        this.cameras.main.startFollow(this.player, true, 0.35, 0.35);
+        this.cameras.main.setBounds(0.5 * TILE_SIZE, 0.5 * TILE_SIZE, (this.map.width - 0.5) * TILE_SIZE * SCENE_SCALE, (this.map.height - 0.5) * TILE_SIZE * SCENE_SCALE);
 
         // Set up the grid engine configiguration
         const gridEngineConfig : GridEngineConfig = {
@@ -118,7 +115,7 @@ class CityScene extends Phaser.Scene {
                 } else {
                     // Reject the payload and play a camera shake
                     reject(payload);
-                    this.cameras.main.shake(300, 0.05);
+                    this.cameras.main.shake(300, 0.03);
                 }
             });
         });
