@@ -19,6 +19,7 @@ interface PuzzleObjective {
 interface Puzzle {
 	id: string;
 	chapter: number;
+	number: number;
 	meta: {
 		name : LocalizedString;
 		tags : string[];

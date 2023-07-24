@@ -78,7 +78,8 @@ export default function TopBar(props : TopBarProps) {
         // @ts-ignore since custom color is used
         <AppBar position="static" color="shaded">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>CodeQuest ({puzzle ? i18n(puzzle.meta.name) : "N/A"})</Typography>
+                <Typography variant="h6" component="div" sx={{ fontWeight: "bold", paddingRight: 2 }}>{puzzle ? puzzle.chapter + "-" + puzzle.number : ""}</Typography>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{puzzle ? i18n(puzzle.meta.name) : ""}</Typography>
                 <Checkbox onChange={(e) => {props.onModeChange(e?.target.checked)}}></Checkbox>
                 <Button variant="contained" onClick={test}>abc</Button>
                 <IconButton size="large" color="inherit" aria-label="theme" onClick={switchTheme} >
