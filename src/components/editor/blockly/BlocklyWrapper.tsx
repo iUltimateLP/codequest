@@ -16,6 +16,7 @@ import { VisualProgrammingService } from "@/core/VisualProgrammingService";
 import { Theme, useTheme } from '@mui/material/styles';
 import * as Blockly_Lang_De from "blockly/msg/de";
 import * as Blockly_Lang_En from "blockly/msg/en";
+import { useLocale } from "@/core/LocalizationService";
 
 interface BlocklyWrapperProps {
 	sizeX? : number,
@@ -28,6 +29,7 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 	// XML is saved in a state
 	const [xml, setXml] = useState<string>();
 	const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg>();
+	const [locale] = useLocale();
 
     // Get the app's theme so we can style Blockly accordingly
     const theme : Theme = useTheme();
@@ -68,8 +70,8 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 
 	// Empty hook to set the language
 	useEffect(() => {
-		Blockly.setLocale(Blockly_Lang_En);
-	}, []);
+		Blockly.setLocale(locale == "de" ? Blockly_Lang_De : Blockly_Lang_En);
+	}, [locale]);
 
 	// Called when the workspace (or it's content changed)
 	function onWorkspaceChange(newWorkspace : Blockly.WorkspaceSvg) {

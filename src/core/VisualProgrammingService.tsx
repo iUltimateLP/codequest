@@ -26,7 +26,7 @@ class VisualProgrammingService extends Service {
         // Set up loop trap
         // @ts-ignore
         window.LoopTrap = 1000;
-        javascriptGenerator.INFINITE_LOOP_TRAP = `if(--window.LoopTrap == 0) throw "Infinite loop.";\n`;
+        javascriptGenerator.INFINITE_LOOP_TRAP = `/*CQ-HIDE-START*/if(--window.LoopTrap == 0) throw "Infinite loop.";/*CQ-HIDE-END*/\n`;
 
         // If wanted, add support for highlighting blocks
         if (HIGHLIGHT_CURRENT_BLOCK) {

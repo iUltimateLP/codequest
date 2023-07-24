@@ -7,7 +7,6 @@ import { Logger } from "./Logging";
 import { Service } from "./Service";
 import Interpreter from "js-interpreter";
 import { VisualProgrammingService } from "./VisualProgrammingService";
-import Blockly from "blockly";
 import { Bindings } from "@/bindings/_bindings";
 import { CodeBinding } from "@/bindings/CodeBinding";
 import { SubEvent } from "sub-events";

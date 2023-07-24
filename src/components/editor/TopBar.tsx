@@ -6,15 +6,16 @@
 "use client";
 
 import * as React from "react";
-import { useState, useMemo, useContext } from "react"; 
+import { useContext } from "react"; 
 import { AppBar, Toolbar, Typography, IconButton, Checkbox, Button } from "@mui/material";
-import { Menu as MenuIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon } from "@mui/icons-material";
+import { Menu as MenuIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon, Translate as TranslateIcon } from "@mui/icons-material";
 import { useMonaco } from "@monaco-editor/react";
 import * as monacoEditor from "monaco-editor";
-import { Theme, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { ColorModeContext } from "../theme/ThemeRegistry";
 import { usePuzzle } from "@/core/PuzzleService";
-import { i18n } from "@/core/LocalizationService";
+import { LocalizationService, i18n, useLocale } from "@/core/LocalizationService";
+import { Service } from "@/core/Service";
 
 interface TopBarProps {
     onModeChange : Function
@@ -24,6 +25,10 @@ interface TopBarProps {
 export default function TopBar(props : TopBarProps) {
     const theme = useTheme();
     const [puzzle] = usePuzzle();
+    
+    // Just to trigger a rerender when locale changes
+    const [locale] = useLocale();
+    React.useEffect(() => {}, [locale]);
 
     // Test function to create a monaco code lens
     const monaco = useMonaco();
@@ -74,6 +79,10 @@ export default function TopBar(props : TopBarProps) {
         colorMode.toggleColorMode();
     }
 
+    function test2() {
+        Service.get(LocalizationService).setLocale(Service.get(LocalizationService).getLocale() == "de" ? "en" : "de");
+    }
+
     return (
         // @ts-ignore since custom color is used
         <AppBar position="static" color="shaded">
@@ -82,6 +91,7 @@ export default function TopBar(props : TopBarProps) {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{puzzle ? i18n(puzzle.meta.name) : ""}</Typography>
                 <Checkbox onChange={(e) => {props.onModeChange(e?.target.checked)}}></Checkbox>
                 <Button variant="contained" onClick={test}>abc</Button>
+                <IconButton size="large" color="inherit" onClick={test2}><TranslateIcon /></IconButton>
                 <IconButton size="large" color="inherit" aria-label="theme" onClick={switchTheme} >
                     {theme.palette.mode == "dark" && <LightModeIcon />}
                     {theme.palette.mode == "light" && <DarkModeIcon />}

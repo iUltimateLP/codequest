@@ -67,6 +67,8 @@ class LocalizationService extends Service {
 
         // Fire event
         this.LocaleChangedEvent.emit(this._currentLocaleID);
+
+        Logger.info(`Locale changed to ${this._currentLocaleID}`);
     }
 
     // Localizes a given LocalizedString

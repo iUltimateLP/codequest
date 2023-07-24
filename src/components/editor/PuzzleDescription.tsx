@@ -10,7 +10,7 @@ import MuiMarkdown from "mui-markdown";
 import { Box, Button, Typography } from "@mui/material";
 import { Service } from "@/core/Service";
 import { PuzzleService, useObjective, usePuzzle } from "@/core/PuzzleService";
-import { i18n } from "@/core/LocalizationService";
+import { i18n, useLocale } from "@/core/LocalizationService";
 
 interface PuzzleDescriptionProps {
 
@@ -19,6 +19,10 @@ interface PuzzleDescriptionProps {
 export default function PuzzleDescription(props : PuzzleDescriptionProps) {
     const [puzzle] = usePuzzle();
     const [objective] = useObjective();
+    
+    // Just to trigger a rerender when locale changes
+    const [locale] = useLocale();
+    React.useEffect(() => {}, [locale]);
 
     return (
         <>
