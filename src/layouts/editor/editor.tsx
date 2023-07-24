@@ -24,6 +24,8 @@ import { SnackbarProvider } from "notistack";
 import PuzzleDescription from "@/components/editor/PuzzleDescription";
 import Viewport from "@/components/editor/Viewport";
 import { ViewportService } from "@/core/ViewportService";
+import { usePuzzle } from "@/core/PuzzleService";
+import LoadingScreen from "@/components/editor/LoadingScreen";
 
 enum EditorMode {
 	Text,
@@ -39,6 +41,7 @@ export default function EditorLayout() {
 	const [editorMode, setEditorMode] = useState(EditorMode.Visual);
 	const [desiredEditorSize, setDesiredEditorSize] = useState<InnerEditorProps>({sizeX: 0, sizeY: 0});
 	const [code, setCode] = useState("");
+	const [puzzle] = usePuzzle();
 
 	function changeMode(mode : EditorMode) {
 		setEditorMode(mode);
@@ -66,6 +69,9 @@ export default function EditorLayout() {
 
 	return (
 		<Box sx={{height: "100vh", p: 0}}>
+			{/* Loading */}
+			{!puzzle && <LoadingScreen />}
+
 			{/* Main layout to hold top bar and other elements vertically */}
 			<Allotment vertical>
 
