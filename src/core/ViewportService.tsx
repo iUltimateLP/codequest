@@ -16,7 +16,7 @@ import PHASER_SCENE_REGISTRY from "@/scenes/_scenes";
 // Phaser game config
 const config : Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    backgroundColor: "#000000",
+    backgroundColor: 0,
     scale: {
         mode: Phaser.Scale.ScaleModes.FIT,
         resizeInterval: 50,
@@ -31,7 +31,7 @@ const config : Phaser.Types.Core.GameConfig = {
         }
     },
     render: {
-        transparent: true,
+        //transparent: true,
         antialias: false
     },
     plugins: {

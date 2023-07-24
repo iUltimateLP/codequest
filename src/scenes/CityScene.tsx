@@ -43,6 +43,20 @@ class CityScene extends Phaser.Scene {
             }
         };
 
+        // Create the outline grid that's used to visualize the grid the map follows
+        this.outlineGrid = this.add.grid(
+            this.map.width * 0.5 * TILE_SIZE * SCENE_SCALE,
+            this.map.height * 0.5 * TILE_SIZE * SCENE_SCALE,
+            this.map.width * TILE_SIZE * SCENE_SCALE, 
+            this.map.height * TILE_SIZE * SCENE_SCALE, 
+            TILE_SIZE * SCENE_SCALE, 
+            TILE_SIZE * SCENE_SCALE, 
+            0xff0000, 
+            0, 
+            0xffffff, 
+            0.125);
+        this.outlineGrid.setDepth(100);
+
         // Create the player
         this.player = this.add.sprite(0, 0, "logo");
         this.player.setDisplaySize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
@@ -111,6 +125,7 @@ class CityScene extends Phaser.Scene {
     player: Phaser.GameObjects.Sprite | null = null;
     map: Phaser.Tilemaps.Tilemap | null = null;
     tileset: Phaser.Tilemaps.Tileset | null = null;
+    outlineGrid: Phaser.GameObjects.Grid | null = null;
 }
 
 export default CityScene;
