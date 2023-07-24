@@ -16,6 +16,9 @@ const SCENE_SCALE : number = 3;
 // Size of a tile in the tileset
 const TILE_SIZE : number = 16;
 
+const DEFAULT_POS : { x: number, y: number } = { x: 30, y: 30 };
+const DEFAULT_DIR : Direction = Direction.RIGHT;
+
 class CityScene extends Phaser.Scene {
     constructor() {
         super("CITY");
@@ -30,13 +33,13 @@ class CityScene extends Phaser.Scene {
 
     create() {
         // Create the map and tileset
-        this.map = this.make.tilemap({key: "tilemap"});
-        this.tileset = this.map.addTilesetImage("tileset_city", "tileset")!;
+        this._map = this.make.tilemap({key: "tilemap"});
+        this._tileset = this._map.addTilesetImage("tileset_city", "tileset")!;
         
         // Instantiate each layer
-        for (var layerIdx = 0; layerIdx < this.map.layers.length; layerIdx++) {
-            var tiledLayer : Phaser.Tilemaps.LayerData = this.map.layers[layerIdx];
-            const layer : Phaser.Tilemaps.TilemapLayer | null = this.map.createLayer(tiledLayer.name, this.tileset, 0, 0);
+        for (var layerIdx = 0; layerIdx < this._map.layers.length; layerIdx++) {
+            var tiledLayer : Phaser.Tilemaps.LayerData = this._map.layers[layerIdx];
+            const layer : Phaser.Tilemaps.TilemapLayer | null = this._map.createLayer(tiledLayer.name, this._tileset, 0, 0);
             
             if (layer) {
                 layer.scale = SCENE_SCALE;
@@ -44,39 +47,40 @@ class CityScene extends Phaser.Scene {
         };
 
         // Create the outline grid that's used to visualize the grid the map follows
-        this.outlineGrid = this.add.grid(
-            this.map.width * 0.5 * TILE_SIZE * SCENE_SCALE,
-            this.map.height * 0.5 * TILE_SIZE * SCENE_SCALE,
-            this.map.width * TILE_SIZE * SCENE_SCALE, 
-            this.map.height * TILE_SIZE * SCENE_SCALE, 
+        this._outlineGrid = this.add.grid(
+            this._map.width * 0.5 * TILE_SIZE * SCENE_SCALE,
+            this._map.height * 0.5 * TILE_SIZE * SCENE_SCALE,
+            this._map.width * TILE_SIZE * SCENE_SCALE, 
+            this._map.height * TILE_SIZE * SCENE_SCALE, 
             TILE_SIZE * SCENE_SCALE, 
             TILE_SIZE * SCENE_SCALE, 
             0xff0000, 
             0, 
             0xffffff, 
             0.125);
-        this.outlineGrid.setDepth(100);
+        this._outlineGrid.setDepth(100);
 
         // Create the player
-        this.player = this.add.sprite(0, 0, "player");
-        this.player.setDisplaySize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
-        //this.player.setSize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
-        this.targetPlayerRotation = SceneUtils.dir2deg(Direction.RIGHT);
+        this._player = this.add.sprite(0, 0, "player");
+        this._player.setDisplaySize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
+        //this._player.setSize(TILE_SIZE * SCENE_SCALE, TILE_SIZE * SCENE_SCALE);
+        this._targetPlayerRotation = SceneUtils.dir2deg(DEFAULT_DIR);
 
         // Set up camera to follow player
-        this.cameras.main.startFollow(this.player, true, 0.35, 0.35);
-        this.cameras.main.setBounds(0.5 * TILE_SIZE, 0.5 * TILE_SIZE, (this.map.width - 0.5) * TILE_SIZE * SCENE_SCALE, (this.map.height - 0.5) * TILE_SIZE * SCENE_SCALE);
+        this.cameras.main.startFollow(this._player, true, 0.35, 0.35);
+        this.cameras.main.setBounds(0.5 * TILE_SIZE, 0.5 * TILE_SIZE, (this._map.width - 0.5) * TILE_SIZE * SCENE_SCALE, (this._map.height - 0.5) * TILE_SIZE * SCENE_SCALE);
 
         // Set up the grid engine configiguration
         const gridEngineConfig : GridEngineConfig = {
             characters: [
                 {
                     id: "player",
-                    sprite: this.player,
-                    startPosition: { x: 30, y: 30 },
-                    facingDirection: Direction.RIGHT,
+                    sprite: this._player,
+                    startPosition: DEFAULT_POS,
+                    facingDirection: DEFAULT_DIR,
                     offsetX: TILE_SIZE * SCENE_SCALE * 0.5,
-                    offsetY: TILE_SIZE * SCENE_SCALE * 0.5
+                    offsetY: TILE_SIZE * SCENE_SCALE * 0.5,
+                    speed: 10
                 }
             ],
             numberOfDirections: 4
@@ -84,26 +88,26 @@ class CityScene extends Phaser.Scene {
 
         // Create grid engine
         this.gridEngine.create(
-            this.map,
+            this._map,
             gridEngineConfig,
         );
     }
 
     update(time: number, delta: number): void {
         //SceneUtils.initArrowKeyControls(this);
-        this.player?.setOrigin(0.5);
-        this.player?.setAngle(MathUtils.interpToDeg(this.player.angle, this.targetPlayerRotation, delta, 0.01));
+        this._player?.setOrigin(0.5);
+        this._player?.setAngle(MathUtils.interpToDeg(this._player.angle, this._targetPlayerRotation, delta, 0.01));
     }
 
-    // Moves the player forward
+    // Moves the _player forward
     public movePlayer() : Promise<Finished> {
         return new Promise((resolve, reject) => {
             // Calculate position
             const currentPos : Position = this.gridEngine.getPosition("player");
-            const playerDirection : DirectionVector = SceneUtils.dir2vec(this.currentPlayerDirection);
+            const _playerDirection : DirectionVector = SceneUtils.dir2vec(this._currentPlayerDirection);
             var targetPos : Position = {
-                x: currentPos.x + playerDirection.x,
-                y: currentPos.y + playerDirection.y
+                x: currentPos.x + _playerDirection.x,
+                y: currentPos.y + _playerDirection.y
             };
 
             // Start move to command
@@ -121,30 +125,51 @@ class CityScene extends Phaser.Scene {
         });
     }
 
-    // Turns the player
+    // Turns the _player
     public turnPlayer() {
         // Figure out which direction is the new direction
         const directionsCW = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT];
-        const currentDirectionIdx = directionsCW.indexOf(this.currentPlayerDirection);
+        const currentDirectionIdx = directionsCW.indexOf(this._currentPlayerDirection);
         const nextDirectionIdx = (currentDirectionIdx + 1) % directionsCW.length;
         const nextDirection = directionsCW[nextDirectionIdx];
 
         // Set the new direction and the player's rotation accordingly
-        this.currentPlayerDirection = nextDirection;
-        this.targetPlayerRotation = SceneUtils.dir2deg(nextDirection);
+        this._currentPlayerDirection = nextDirection;
+        this._targetPlayerRotation = SceneUtils.dir2deg(nextDirection);
 
         Service.get(UiService).playSound("turn", 0.25);
     }
 
+    // Resets the player to the start point
+    public resetPlayer() {
+        // Temporarily boost speed
+        const originalSpeed = this.gridEngine.getSpeed("player");
+        this.gridEngine.setSpeed("player", originalSpeed * 4);
+
+        // Move back to the spawn
+        this.gridEngine.moveTo("player", {x: 30, y: 30}, {
+            ignoreLayers: true
+        })
+        .subscribe(({}) => {
+            // Reset speed
+            this.gridEngine.setSpeed("player", originalSpeed);
+        });
+
+        this._targetPlayerRotation = SceneUtils.dir2deg(DEFAULT_DIR);
+        this._currentPlayerDirection = DEFAULT_DIR;
+
+        Service.get(UiService).playSound("walk_down", 0.25);
+    }
+
     // @ts-ignore
     gridEngine : GridEngine;
-    player : Phaser.GameObjects.Sprite | null = null;
-    map : Phaser.Tilemaps.Tilemap | null = null;
-    tileset : Phaser.Tilemaps.Tileset | null = null;
-    outlineGrid : Phaser.GameObjects.Grid | null = null;
+    _player : Phaser.GameObjects.Sprite | null = null;
+    _map : Phaser.Tilemaps.Tilemap | null = null;
+    _tileset : Phaser.Tilemaps.Tileset | null = null;
+    _outlineGrid : Phaser.GameObjects.Grid | null = null;
     
-    currentPlayerDirection : Direction = Direction.RIGHT;
-    targetPlayerRotation : number = 0;
+    _currentPlayerDirection : Direction = Direction.RIGHT;
+    _targetPlayerRotation : number = 0;
 }
 
 export default CityScene;

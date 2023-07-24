@@ -15,9 +15,7 @@ import * as React from "react";
 
 export default function Toolbar() {
     function run() {
-        var program : string = Service.get(ApplicationService).getProgram();
-        Service.get(CodeEvalService).loadProgram(program);
-        Service.get(CodeEvalService).run();
+        Service.get(ApplicationService).executeProgram();
     }
 
     return (
