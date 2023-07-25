@@ -4,6 +4,7 @@
 */
 
 import Blockly from "blockly";
+import Interpreter from "js-interpreter";
 
 // A "binding" is used to define a method that lives both in Blockly and JS world
 interface CodeBinding {
@@ -24,6 +25,9 @@ interface CodeBinding {
 
     // Native JavaScript function that's executed if this binding is called
     nativeFn : Function;
+
+    // Optional function that's called by CodeEvalService to set up the interpreter with any additional data it could need when executing `nativeFn`
+    prepareInterpreter? : (interpreter : Interpreter, globalObject : Object) => void;
 
     // Whether this function is asynchronous or not
     async? : boolean;

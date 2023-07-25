@@ -30,7 +30,9 @@ const binding : CodeBinding = {
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Turn");
+            .appendField("Turn")
+            .appendField(new Blockly.FieldDropdown([["Left", "LEFT"], ["Right", "RIGHT"]]), "DIRECTION");
+        block.setFieldValue("RIGHT", "DIRECTION");
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);
         block.setNextStatement(true, null);
@@ -41,17 +43,24 @@ const binding : CodeBinding = {
 
     // Blockly code generator callback
     codeGenerator: function(block : Blockly.Block, generator : Blockly.CodeGenerator) : string {
-        return "turn();\n";
+        var direction = block.getFieldValue("DIRECTION");
+        return `turn(${direction});\n`;
+    },
+
+    // Prepare the interpreter
+    prepareInterpreter: function(interpreter : Interpreter, globalObject : Object) {
+        interpreter.setProperty(globalObject, "LEFT", 0);
+        interpreter.setProperty(globalObject, "RIGHT", 1);
     },
 
     // Native JavaScript function to execute
-    nativeFn: function(callback : any) {
+    nativeFn: function(dir : number, callback : any) {
         // Get the city scene
         var scene : CityScene | null = Service.get(ViewportService).getScene<CityScene>();
         if (!scene)
             return;
-
-        scene.turnPlayer();
+        
+        scene.turnPlayer(dir == 1);
 
         // Set a small timeout before the next turn as turns are interpolated and take a bit of time
         setTimeout(() => {

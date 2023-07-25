@@ -125,12 +125,12 @@ class CityScene extends Phaser.Scene {
         });
     }
 
-    // Turns the _player
-    public turnPlayer() {
+    // Turns the player
+    public turnPlayer(clockwise : boolean) {
         // Figure out which direction is the new direction
         const directionsCW = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT];
         const currentDirectionIdx = directionsCW.indexOf(this._currentPlayerDirection);
-        const nextDirectionIdx = (currentDirectionIdx + 1) % directionsCW.length;
+        const nextDirectionIdx = clockwise ? (currentDirectionIdx + 1) % directionsCW.length : (currentDirectionIdx - 1) < 0 ? 3 : currentDirectionIdx - 1;
         const nextDirection = directionsCW[nextDirectionIdx];
 
         // Set the new direction and the player's rotation accordingly

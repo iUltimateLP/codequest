@@ -116,6 +116,10 @@ class CodeEvalService extends Service {
             } else {
                 interpreter.setProperty(globalObject, id, interpreter.createNativeFunction(binding.nativeFn));
             }
+
+            // Call their optional setup func
+            if (binding.prepareInterpreter)
+                binding.prepareInterpreter(interpreter, globalObject);
         });
 
         // Register highlightBlock(), which is a reserved function to highlight a blockly block
@@ -181,7 +185,7 @@ class CodeEvalService extends Service {
 
     public static makeFriendlyCode(code : string) : string {
         // Create a user-friendly version of the code that strips away everything between \*CQ-HIDE-START\* and \*CQ-HIDE-END\*
-		const regex = /\/\*CQ-HIDE-START\*\/(.*)\/\*CQ-HIDE-END\*\/\n?/m;
+		const regex = /\/\*CQ-HIDE-START\*\/(.*)\/\*CQ-HIDE-END\*\/\n?/gm;
 		return code.replace(regex, "");
     }
 
