@@ -15,8 +15,8 @@ import { Service } from "@/core/Service";
 import { VisualProgrammingService } from "@/core/VisualProgrammingService";
 import { Theme, useTheme } from '@mui/material/styles';
 import { LocalizationService, useLocale } from "@/core/LocalizationService";
-import { BLOCKLY_LANG_DE } from "./de";
-import { BLOCKLY_LANG_EN } from "./en";
+import { BLOCKLY_LANG_DE } from "@/i18n/de";
+import { BLOCKLY_LANG_EN } from "@/i18n/en";
 
 interface BlocklyWrapperProps {
 	sizeX? : number,

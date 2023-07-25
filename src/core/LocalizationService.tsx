@@ -10,14 +10,17 @@ import { SubEvent } from "sub-events";
 import { Logger } from "./Logging";
 import { StorageService } from "./StorageService";
 
+import { i18n_de } from "@/i18n/de";
+import { i18n_en } from "@/i18n/en";
+
 interface ILocale {
     [key: string]: any;
 }
 
 const LOCALES : ILocale = {
     // All locales go here
-    en: require("@/i18n/en").default,
-    de: require("@/i18n/de").default
+    en: i18n_en,
+    de: i18n_de
 }
 
 // Represents a localized string (TODO: could be more dynamic instead of hardcoding possible languages here)
