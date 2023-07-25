@@ -26,6 +26,7 @@ import Viewport from "@/components/editor/Viewport";
 import { ViewportService } from "@/core/ViewportService";
 import { usePuzzle } from "@/core/PuzzleService";
 import LoadingScreen from "@/components/editor/LoadingScreen";
+import { CodeEvalService } from "@/core/CodeEvalService";
 
 enum EditorMode {
 	Text,
@@ -63,7 +64,7 @@ export default function EditorLayout() {
 
 	// Called when any of the inner editor's code changed
 	function onCodeChanged(code : string) {
-		setCode(code);
+		setCode(CodeEvalService.makeFriendlyCode(code));
 		Service.get(ApplicationService).setProgram(code);
 	}
 

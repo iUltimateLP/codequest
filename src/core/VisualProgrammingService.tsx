@@ -30,7 +30,7 @@ class VisualProgrammingService extends Service {
 
         // If wanted, add support for highlighting blocks
         if (HIGHLIGHT_CURRENT_BLOCK) {
-            javascriptGenerator.STATEMENT_PREFIX = "highlightBlock(%1); ";
+            javascriptGenerator.STATEMENT_PREFIX = "/*CQ-HIDE-START*/highlightBlock(%1);/*CQ-HIDE-END*/";
             javascriptGenerator.addReservedWords("highlightBlock");
         }
 

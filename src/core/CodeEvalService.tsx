@@ -179,6 +179,12 @@ class CodeEvalService extends Service {
         Logger.info(`Registered binding set "${id}" with ${bindingSet?.length} bindings`);
     }
 
+    public static makeFriendlyCode(code : string) : string {
+        // Create a user-friendly version of the code that strips away everything between \*CQ-HIDE-START\* and \*CQ-HIDE-END\*
+		const regex = /\/\*CQ-HIDE-START\*\/(.*)\/\*CQ-HIDE-END\*\/\n?/m;
+		return code.replace(regex, "");
+    }
+
     private _program : string = "";
     private _interpreter : Interpreter | undefined = undefined;
     private _activeBindings : Map<string, CodeBinding> = new Map<string, CodeBinding>();
