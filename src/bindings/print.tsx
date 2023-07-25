@@ -61,6 +61,7 @@ const binding : CodeBinding = {
     // Blockly code generator callback
     codeGenerator: function(block : Blockly.Block, generator : Blockly.CodeGenerator) : string {
         var value_string = generator.valueToCode(block, 'TEXT', Order.NONE);
+        value_string = value_string.replaceAll("'", "\"");
         var code = `print(${value_string});\n`;
         return code;   
     },

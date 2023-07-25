@@ -6,7 +6,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Allotment, AllotmentHandle } from "allotment";
 import "allotment/dist/style.css";
 import { Box } from "@mui/material";

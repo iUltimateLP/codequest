@@ -18,7 +18,7 @@
         "createdBy": "CodeQuest",
         "version": 1
     },
-    "bindingSets": ["MOVEMENT"],
+    "bindingSets": ["MOVEMENT", "LOOPS"],
     "scene": "CITY",
     "objectives": 
     [

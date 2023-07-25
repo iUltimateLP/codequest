@@ -81,9 +81,14 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		}
 	}, [preferedTheme]);
 
-	// Empty hook to set the language
+	// Locale hook
 	useEffect(() => {
+		// Update Blockly locale TODO: this requires a full reload!
 		Blockly.setLocale(locale == "de" ? Blockly_Lang_De : Blockly_Lang_En);
+
+		// Trigger a recompile of code which contains localized comments
+		if (props.onCodeChanged && xml)
+			props.onCodeChanged(workspace as Blockly.Workspace, xml);
 	}, [locale]);
 
 	// Called when the workspace (or it's content changed)
