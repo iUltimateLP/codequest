@@ -118,7 +118,7 @@ class PuzzleService extends Service {
 			}
 
 			// Fetch the puzzle's JSON file
-			const puzzleUrl = `/puzzles/${name}.json`;
+			const puzzleUrl = `/assets/puzzles/${name}.json`;
 			fetch(puzzleUrl)
 			.then((response) => response.json())
 			.then((json) => { 
