@@ -58,7 +58,7 @@ export default function EditorLayout() {
 			setDesiredEditorSize({ sizeY: editorSize });
 
 		// Tell the viewport we updated
-		Service.get(ViewportService).updateBounds();
+		Service.get(ViewportService).updateGameSize();
 	}
 
 	// Called when any of the inner editor's code changed

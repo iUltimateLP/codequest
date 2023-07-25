@@ -58,7 +58,7 @@ class ViewportService extends Service {
 	}
 
     // Tells Phaser to update world bounds (if e.g. the canvas' size changed)
-    public updateBounds() {
+    public updateGameSize() {
         //this._currentScene?.scale.updateScale();
         this._currentScene?.scale.updateBounds();
         this._currentScene?.scale.getParentBounds();
@@ -122,6 +122,9 @@ class ViewportService extends Service {
         // Load the new scene
         this._currentScene = this._game!.scene.add(this._puzzle.scene, sceneObj, true);
         this._currentSceneID = this._puzzle.scene;
+
+        // Initially update game size
+        this.updateGameSize();
     }
 
 	private createPhaserGame() {

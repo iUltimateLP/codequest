@@ -46,8 +46,11 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		div.style.left = "0px";
 		div.style.top = "0px";
 
-		div.style.width = props.sizeX + "px";
-		div.style.height = props.sizeY + "px";
+		if (props.sizeX)
+			div.style.width = props.sizeX + "px";
+		
+		if (props.sizeY)
+			div.style.height = props.sizeY + "px";
 
 		Blockly.svgResize(workspace!);
 	}, [props.sizeX, props.sizeY]);
