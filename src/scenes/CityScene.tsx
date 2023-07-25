@@ -57,7 +57,7 @@ class CityScene extends Phaser.Scene {
             0xff0000, 
             0, 
             0xffffff, 
-            0.125);
+            0.09);
         this._outlineGrid.setDepth(100);
 
         // Create the player
@@ -91,6 +91,9 @@ class CityScene extends Phaser.Scene {
             this._map,
             gridEngineConfig,
         );
+
+        // Set vignette post process
+        this.cameras.main.postFX.addVignette(0.5, 0.5, 1, 0.4);
     }
 
     update(time: number, delta: number): void {

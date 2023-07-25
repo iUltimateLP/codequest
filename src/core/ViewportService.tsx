@@ -42,7 +42,7 @@ const config : Phaser.Types.Core.GameConfig = {
                 mapping: "gridEngine"
             }
         ]
-    },
+    }
     
 };
 
