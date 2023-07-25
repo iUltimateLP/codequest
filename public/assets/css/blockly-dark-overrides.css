@@ -16,6 +16,14 @@
     font-weight: bold;
 }
 
-.blocklyTreeSeparator {
+.zelos-renderer.dark-theme .blocklyNonEditableText>rect:not(.blocklyDropdownRect), .zelos-renderer.dark-theme .blocklyEditableText>rect:not(.blocklyDropdownRect) {
+    fill: #333;
+}
 
+.zelos-renderer.dark-theme .blocklyNonEditableText>text, .zelos-renderer.dark-theme .blocklyEditableText>text, .zelos-renderer.dark-theme .blocklyNonEditableText>g>text, .zelos-renderer.dark-theme .blocklyEditableText>g>text {
+    fill: #d9d9d9;
+}
+
+.zelos-renderer.dark-theme .blocklyHtmlInput {
+    color: #d9d9d9;
 }
