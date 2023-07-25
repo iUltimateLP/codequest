@@ -16,7 +16,7 @@ import { VisualProgrammingService } from "@/core/VisualProgrammingService";
 import { Theme, useTheme } from '@mui/material/styles';
 import * as Blockly_Lang_De from "blockly/msg/de";
 import * as Blockly_Lang_En from "blockly/msg/en";
-import { useLocale } from "@/core/LocalizationService";
+import { LocalizationService, useLocale } from "@/core/LocalizationService";
 
 interface BlocklyWrapperProps {
 	sizeX? : number,
@@ -83,7 +83,7 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 
 	// Locale hook
 	useEffect(() => {
-		// Update Blockly locale TODO: this requires a full reload!
+		// Update Blockly locale
 		Blockly.setLocale(locale == "de" ? Blockly_Lang_De : Blockly_Lang_En);
 
 		// Trigger a recompile of code which contains localized comments

@@ -8,6 +8,7 @@ import { PuzzleService } from "./PuzzleService";
 import { Service } from "./Service";
 import { SubEvent } from "sub-events";
 import { Logger } from "./Logging";
+import { StorageService } from "./StorageService";
 
 interface ILocale {
     [key: string]: any;
@@ -45,6 +46,13 @@ class LocalizationService extends Service {
     constructor() {
         super();
 
+        // Load from storage, if exists
+        const savedLocale : string | null = Service.get(StorageService).getString("locale");
+        if (savedLocale)
+            this._currentLocaleID = savedLocale;
+        else
+            this.setLocale("de"); // Default language is german
+
         this._currentLocale = LOCALES[this._currentLocaleID];
     }
 
@@ -54,7 +62,7 @@ class LocalizationService extends Service {
     }
 
     // Sets the current locale (triggers the useLocale() hook so components can update)
-    public setLocale(newLocale : string) {
+    public setLocale(newLocale : string, forceRefresh : boolean = false) {
         // Make sure that locale exists
         if (!Object.keys(LOCALES).includes(newLocale)) {
             Logger.error(`Locale "${newLocale}" does not exist!`);
@@ -68,7 +76,15 @@ class LocalizationService extends Service {
         // Fire event
         this.LocaleChangedEvent.emit(this._currentLocaleID);
 
+        // Save
+        Service.get(StorageService).setString("locale", this._currentLocaleID);
+
         Logger.info(`Locale changed to ${this._currentLocaleID}`);
+
+        // If wanted, trigger a full app reload
+        if (forceRefresh) {
+            window.location.reload();
+        }
     }
 
     // Localizes a given LocalizedString
@@ -113,6 +129,9 @@ const useLocale = () => {
 		const sub = localizationService.LocaleChangedEvent.subscribe((newLocale) => {
 			setLocale(newLocale);
 		});
+
+        // Also trigger once
+        setLocale(localizationService.getLocale());
 
 		// Unsubscribe from the events when this effect is disposed
 		return () => {

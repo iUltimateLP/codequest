@@ -9,6 +9,7 @@ import { Logger } from "./Logging";
 import { Service } from "./Service";
 import { ViewportService } from "./ViewportService";
 import CityScene from "@/scenes/CityScene";
+import { LocalizationService } from "./LocalizationService";
 
 // This service acts as a "glue" service to be called by the UI layer
 class ApplicationService extends Service {

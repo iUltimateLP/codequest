@@ -80,7 +80,7 @@ export default function TopBar(props : TopBarProps) {
     }
 
     function test2() {
-        Service.get(LocalizationService).setLocale(Service.get(LocalizationService).getLocale() == "de" ? "en" : "de");
+        Service.get(LocalizationService).setLocale(Service.get(LocalizationService).getLocale() == "de" ? "en" : "de", true);
     }
 
     return (
