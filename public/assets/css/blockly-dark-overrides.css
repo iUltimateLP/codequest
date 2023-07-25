@@ -1,0 +1,21 @@
+/*
+	CodeQuest Frontend
+	Written by Jonathan Verbeek - 2023
+*/
+
+.blocklyTreeRow:hover {
+    background-color: #666 !important;
+}
+
+.blocklyTreeSelected {
+    background-color: #444 !important;
+}
+
+.blocklyTreeSelected .blocklyTreeLabel {
+    color: white !important;
+    font-weight: bold;
+}
+
+.blocklyTreeSeparator {
+
+}

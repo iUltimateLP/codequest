@@ -9,7 +9,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
-import "./blockly.css";
+import "./blockly-baseline.css";
 import { WORKSPACE_CONFIG, TEST_TOOLBOX, BLOCKLY_THEME_DARK } from "./BlocklyConfig";
 import { Service } from "@/core/Service";
 import { VisualProgrammingService } from "@/core/VisualProgrammingService";
@@ -67,8 +67,18 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 			darkTheme = Blockly.Theme.defineTheme("dark", BLOCKLY_THEME_DARK);
 		}
 		
+		// Set Blockly theme
 		workspace?.setTheme(preferedTheme === "light" ? Blockly.Themes.Zelos : darkTheme!);
+		
+		// Hack to change the grid color by querying and changing the SVGs
 		changeGridColorHACK();
+
+		// Inject or remove dark stylesheets
+		if (preferedTheme === "dark") {
+			injectDarkCSS();
+		} else {
+			removeDarkCSS();
+		}
 	}, [preferedTheme]);
 
 	// Empty hook to set the language
@@ -105,6 +115,25 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		foundElements.forEach((element) => {
 			element.setAttribute("stroke", preferedTheme === "light" ? "#eee" : "#222");
 		});
+	}
+
+	// Injects the dark mode stylesheet into the HTML
+	function injectDarkCSS() {
+		if (!document.getElementById(`blockly_dark`)) {
+			var style = document.createElement("link");
+			style.setAttribute("id", `blockly_dark`);
+			style.setAttribute("rel", "stylesheet");
+			style.setAttribute("href", `/assets/css/blockly-dark-overrides.css`);
+			document.head.appendChild(style);
+		}
+	}
+
+	// Removes the dark mode stylesheet
+	function removeDarkCSS() {
+		const foundChild = document.getElementById(`blockly_dark`);
+		if (foundChild) {
+			foundChild.remove();
+		}
 	}
 
 	return (

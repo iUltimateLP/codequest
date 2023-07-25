@@ -140,9 +140,9 @@ const BLOCKLY_THEME_DARK : ITheme = {
 	componentStyles: {
 		workspaceBackgroundColour: "#121212",
 		toolboxBackgroundColour: "#121212",
-		toolboxForegroundColour: "white",
+		toolboxForegroundColour: "#ddd",
 		flyoutBackgroundColour: "#333",
-		flyoutForegroundColour: "white",
+		flyoutForegroundColour: "#aaa",
 		scrollbarColour: "#ccc",
 		scrollbarOpacity: 0.2
 	}

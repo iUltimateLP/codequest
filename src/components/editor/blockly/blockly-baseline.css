@@ -48,6 +48,11 @@
     font-family: "Roboto";
 }
 
+.blocklyTreeSeparator {
+	border: none;
+	border-bottom: 1px solid var(--separator-border);
+}
+
 .blocklyFlyout {
     margin-top: 0px;
     padding-top: 1px;
