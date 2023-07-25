@@ -11,6 +11,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { NextAppDirEmotionCacheProvider } from '@/components/theme/EmotionCache';
 import { lightTheme, darkTheme } from './theme';
 import { Box, ScopedCssBaseline } from '@mui/material';
+import { Service } from '@/core/Service';
+import { StorageService } from '@/core/StorageService';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -19,7 +21,11 @@ function ThemeRegistry({ children }: { children: React.ReactNode }) {
     const colorMode = React.useMemo(
         () => ({
             toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+                setMode((prevMode) => {
+					const newMode = prevMode === "light" ? "dark" : "light";
+					Service.get(StorageService).setString("theme", newMode);
+					return newMode;
+				});
             }
         }), []);
 
@@ -27,6 +33,14 @@ function ThemeRegistry({ children }: { children: React.ReactNode }) {
 		() => {
 			return mode === "light" ? lightTheme : darkTheme;
 		}, [mode]);
+
+	React.useEffect(() => {
+		const savedTheme = Service.get(StorageService).getString("theme");
+		if (savedTheme === "light")
+			setMode("light");
+		else if (savedTheme === "dark")
+			setMode("dark");
+	}, []);
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
