@@ -40,8 +40,8 @@ const binding : CodeBinding = {
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Turn")
-            .appendField(new Blockly.FieldDropdown([["Left", "LEFT"], ["Right", "RIGHT"]]), "DIRECTION");
+            .appendField("%{BKY_CQ_TURN}")
+            .appendField(new Blockly.FieldDropdown([["%{BKY_CQ_TURN_LEFT}", "LEFT"], ["%{BKY_CQ_TURN_RIGHT}", "RIGHT"]]), "DIRECTION");
         block.setFieldValue("RIGHT", "DIRECTION");
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);

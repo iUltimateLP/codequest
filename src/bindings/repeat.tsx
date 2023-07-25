@@ -37,9 +37,9 @@ const binding : CodeBinding = {
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Repeat")
+            .appendField("%{BKY_CQ_REPEAT_A}")
             .appendField(new Blockly.FieldNumber(0, 1), "TIMES")
-            .appendField("times");
+            .appendField("%{BKY_CQ_REPEAT_B}");
         block.appendStatementInput("DO")
             .setCheck(null);
         block.setInputsInline(true);

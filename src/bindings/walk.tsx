@@ -39,7 +39,7 @@ const binding : CodeBinding = {
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Walk");
+            .appendField("%{BKY_CQ_WALK}");
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);
         block.setNextStatement(true, null);

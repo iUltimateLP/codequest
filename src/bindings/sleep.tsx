@@ -47,9 +47,9 @@ const binding : CodeBinding = {
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Wait")
+            .appendField("%{BKY_CQ_SLEEP_A}")
             .appendField(new Blockly.FieldNumber(1, 0.1, Infinity, 0.1), "DURATION")
-            .appendField("seconds");
+            .appendField("%{BKY_CQ_SLEEP_B}");
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);
         block.setNextStatement(true, null);
