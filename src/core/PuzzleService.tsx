@@ -189,5 +189,5 @@ const useObjective = () => {
 	return [objective];
 }
 
-export type { LocalizedString, PuzzleObjective, Puzzle };
+export type { PuzzleObjective, Puzzle };
 export { PuzzleService, usePuzzle, useObjective };

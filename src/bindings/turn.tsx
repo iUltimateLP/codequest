@@ -4,6 +4,7 @@
 */
 
 import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
+import { LocalizedString } from "@/core/LocalizationService";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
 import { ViewportService } from "@/core/ViewportService";
@@ -17,6 +18,15 @@ import { Direction } from "grid-engine";
 const binding : CodeBinding = {
     // Name of the binding
     name: "turn",
+
+    // The comment to place above the generated code of this binding
+    comment: function(block : Blockly.Block) : LocalizedString {
+        var direction = block.getFieldValue("DIRECTION") as string;
+        return {
+            en: `Turns the player ${direction.toLowerCase()}`,
+            de: `Dreht den Spieler nach ${direction == "LEFT" ? "links" : "rechts"}`,
+        };
+    },
 
     // Blockly toolbox category
     blocklyToolboxCategory: "UTIL",

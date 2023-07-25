@@ -4,6 +4,7 @@
 */
 
 import { CodeBinding } from "@/bindings/CodeBinding";
+import { LocalizedString } from "@/core/LocalizationService";
 import { Logger } from "@/core/Logging";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
@@ -15,6 +16,14 @@ import { Order } from "blockly/javascript";
 const binding : CodeBinding = {
     // Name of the binding
     name: "print",
+
+    // Comment
+    comment: function(block : Blockly.Block) : LocalizedString {
+        return {
+            en: "Prints the given text",
+            de: "Gibt den angegebenen Text aus"
+        };
+    },
 
     // Blockly toolbox category
     blocklyToolboxCategory: "UTIL",

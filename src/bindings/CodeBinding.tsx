@@ -3,6 +3,7 @@
 	Written by Jonathan Verbeek - 2023
 */
 
+import { LocalizedString } from "@/core/LocalizationService";
 import Blockly from "blockly";
 import Interpreter from "js-interpreter";
 
@@ -10,6 +11,9 @@ import Interpreter from "js-interpreter";
 interface CodeBinding {
     // Name of the binding
     name : string;
+
+    // The comment to place above the generated code of this binding. Can be a simple string, or a function that takes context into account
+    comment? : LocalizedString | ((block : Blockly.Block) => LocalizedString);
 
     // Blockly toolbox category
     blocklyToolboxCategory: string;

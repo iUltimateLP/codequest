@@ -5,6 +5,7 @@
 
 import { CodeBinding } from "@/bindings/CodeBinding";
 import { CodeEvalService } from "@/core/CodeEvalService";
+import { LocalizedString } from "@/core/LocalizationService";
 import { Service } from "@/core/Service";
 import Blockly from "blockly";
 
@@ -15,6 +16,15 @@ const binding : CodeBinding = {
     // Name of the binding
     name: "sleep",
 
+    // Comment
+    comment: function(block : Blockly.Block) : LocalizedString {
+        var time = block.getFieldValue("DURATION") as number;
+        return {
+            en: `Waits for ${time} seconds, then continues`,
+            de: `Wartet für ${time} Sekunden und fährt mit der Ausführung fort`
+        };
+    },
+
     // Blockly toolbox category
     blocklyToolboxCategory: "UTIL",
 
@@ -22,7 +32,7 @@ const binding : CodeBinding = {
     blocklyToolboxDefinition: {
         kind: "block",
         type: "sleep",
-        inputs: {
+        /*inputs: {
             DURATION: {
                 shadow: {
                     type: "math_number",
@@ -31,17 +41,18 @@ const binding : CodeBinding = {
                     }
                 }
             }
-        }
+        }*/
     },
 
     // Blockly block generator callback
     blocklyGenerator: function(block : Blockly.Block) {
         block.appendDummyInput()
-            .appendField("Sleep");
-        block.appendValueInput("DURATION")
-            .setCheck("Number");
-        block.appendDummyInput()
-            .appendField("seconds")
+            .appendField("Sleep")
+            .appendField(new Blockly.FieldNumber(0, 0.1, Infinity, 0.1), "DURATION")
+        //block.appendValueInput("DURATION")
+        //    .setCheck("Number");
+        //lock.appendDummyInput()
+            .appendField("seconds");
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);
         block.setNextStatement(true, null);
@@ -52,7 +63,8 @@ const binding : CodeBinding = {
 
     // Blockly code generator callback
     codeGenerator: function(block : Blockly.Block, generator : Blockly.CodeGenerator) : string {
-        var value = generator.valueToCode(block, 'DURATION', Order.NONE);
+        //var value = generator.valueToCode(block, 'DURATION', Order.NONE);
+        var value = block.getFieldValue("DURATION");
         return `sleep(${value});\n`;
     },
 

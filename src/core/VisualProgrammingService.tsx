@@ -9,9 +9,13 @@ import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import { CodeBinding } from "./CodeEvalService";
 import { CODEQUEST_CATEGORIES } from "@/components/editor/blockly/BlocklyConfig";
+import { i18n } from "./LocalizationService";
 
 // Whether to highlight the currently executed block
 const HIGHLIGHT_CURRENT_BLOCK : boolean = false;
+
+// Whether to add a spare line between each statement
+const EMPTY_LINE_BETWEEN_STATEMENTS : boolean = true;
 
 // This service handles everything related to the visual programming system
 class VisualProgrammingService extends Service {
@@ -82,7 +86,26 @@ class VisualProgrammingService extends Service {
         }
 
         // Register code generator block
-        javascriptGenerator.forBlock[id] = binding.codeGenerator;
+        javascriptGenerator.forBlock[id] = (block : Blockly.Block, generator : Blockly.CodeGenerator) => {
+            // Call the code generator from the binding
+            var code = binding.codeGenerator(block, generator);
+
+            // If wanted, prepend the comment
+            if (typeof(binding.comment) === "string") {
+                // A simple string can just be appended
+                var formattedComment = binding.comment;
+                code = `// ${formattedComment}\n${code}`;
+            } else if (typeof(binding.comment) === "function") {
+                // It's a function, so translate the LocalizedString and prepend that
+                code = `// ${i18n(binding.comment(block))}\n${code}`;
+            }
+
+            // If wanted, append an empty line afterwards
+            if (EMPTY_LINE_BETWEEN_STATEMENTS)
+                code += '\n';
+
+            return code;
+        };
 
         // Remember
         this._registeredBindings.set(id, binding);

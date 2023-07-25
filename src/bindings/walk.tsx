@@ -4,6 +4,7 @@
 */
 
 import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
+import { LocalizedString } from "@/core/LocalizationService";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
 import { ViewportService } from "@/core/ViewportService";
@@ -17,6 +18,14 @@ import { Direction } from "grid-engine";
 const binding : CodeBinding = {
     // Name of the binding
     name: "walk",
+
+    // Comment
+    comment: function(block : Blockly.Block) : LocalizedString {
+        return {
+            en: "Moves the player a step in the direction it's facing",
+            de: "Bewegt den Spieler einen Schritt in die Richtung, in die er schaut"
+        };
+    },
 
     // Blockly toolbox category
     blocklyToolboxCategory: "UTIL",

@@ -13,6 +13,9 @@ const binding : CodeBinding = {
     // Name of the binding
     name: "print",
 
+    // The comment to place above the generated code of this binding
+    comment: undefined,
+
     // Blockly toolbox category
     blocklyToolboxCategory: "",
 
@@ -34,7 +37,10 @@ const binding : CodeBinding = {
     // Native JavaScript function to execute
     nativeFn: function() {
         
-    }
+    },
+
+    // Whether this function is asynchronous or not
+    async: false
 }
 
 export default binding;
