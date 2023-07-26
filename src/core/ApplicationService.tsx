@@ -8,8 +8,7 @@ import { CodeEvalService, ExecutionFinishedEventArgs } from "./CodeEvalService";
 import { Logger } from "./Logging";
 import { Service } from "./Service";
 import { ViewportService } from "./ViewportService";
-import CityScene from "@/scenes/CityScene";
-import { LocalizationService } from "./LocalizationService";
+import CodeQuestScene from "@/scenes/CodeQuestScene";
 
 // This service acts as a "glue" service to be called by the UI layer
 class ApplicationService extends Service {
@@ -60,7 +59,7 @@ class ApplicationService extends Service {
     // SubEvent called by CodeEvalService when code execution finished
     private onExecutionFinished(args : ExecutionFinishedEventArgs) {
         // Tell the viewport's scene
-        Service.get(ViewportService).getScene<CityScene>()?.resetPlayer();
+        Service.get(ViewportService).getScene<CodeQuestScene>()?.resetPlayer();
     }
 
     private _initialized : boolean = false;

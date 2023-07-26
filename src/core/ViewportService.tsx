@@ -12,6 +12,7 @@ import Phaser from "phaser";
 import { GridEngine } from "grid-engine";
 
 import PHASER_SCENE_REGISTRY from "@/scenes/_scenes";
+import CodeQuestScene from "@/scenes/CodeQuestScene";
 
 // Phaser game config
 const config : Phaser.Types.Core.GameConfig = {
@@ -63,8 +64,12 @@ class ViewportService extends Service {
         this._currentScene?.scale.updateBounds();
         this._currentScene?.scale.getParentBounds();
         
-        this._currentScene?.scale.setGameSize(this._currentScene?.scale.parentSize.width, this._currentScene?.scale.parentSize.height)
+        const sizeX = this._currentScene?.scale.parentSize.width;
+        const sizeY = this._currentScene?.scale.parentSize.height;
+        this._currentScene?.scale.setGameSize(sizeX!, sizeY!);
         //this._currentScene?.scene.restart();
+
+        this.getScene<CodeQuestScene>()?.changeGameSize(sizeX!, sizeY!);
     }
 
     // Returns the current scene of type T, if any

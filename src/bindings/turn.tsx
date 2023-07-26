@@ -8,7 +8,7 @@ import { LocalizedString } from "@/core/LocalizationService";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
 import { ViewportService } from "@/core/ViewportService";
-import CityScene from "@/scenes/CityScene";
+import CodeQuestScene from "@/scenes/CodeQuestScene";
 import Blockly from "blockly";
 
 // @ts-ignore Idk why this is not working...
@@ -66,7 +66,7 @@ const binding : CodeBinding = {
     // Native JavaScript function to execute
     nativeFn: function(dir : number, callback : any) {
         // Get the city scene
-        var scene : CityScene | null = Service.get(ViewportService).getScene<CityScene>();
+        var scene : CodeQuestScene | null = Service.get(ViewportService).getScene<CodeQuestScene>();
         if (!scene)
             return;
         
