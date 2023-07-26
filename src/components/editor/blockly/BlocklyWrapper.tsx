@@ -84,7 +84,6 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 	// Locale hook
 	useEffect(() => {
 		// Update Blockly locale
-		console.dir(BLOCKLY_LANG_DE);
 		Blockly.setLocale(locale == "de" ? BLOCKLY_LANG_DE : BLOCKLY_LANG_EN);
 
 		// Trigger a recompile of code which contains localized comments
