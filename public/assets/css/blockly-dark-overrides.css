@@ -27,3 +27,16 @@
 .zelos-renderer.dark-theme .blocklyHtmlInput {
     color: #d9d9d9;
 }
+
+.blocklyWidgetDiv .blocklyMenu {
+    background-color: #272727;
+    border: none;
+}
+
+.blocklyMenuItem:not(.blocklyMenuItemDisabled) {
+    color: white;
+}
+
+.blocklyMenuItemDisabled {
+    color: #666;
+}

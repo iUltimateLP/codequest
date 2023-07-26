@@ -44,8 +44,8 @@
     font-weight: bold;
 }
 
-.blocklyTreeLabel {
-    font-family: "Roboto";
+.blocklyTreeLabel .zelos-renderer.dark-theme.blocklyWidgetDiv .goog-menuitem, .zelos-renderer.dark-theme.blocklyDropDownDiv .goog-menuitem {
+    font-family: "Inter", "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
 }
 
 .blocklyTreeSeparator {
