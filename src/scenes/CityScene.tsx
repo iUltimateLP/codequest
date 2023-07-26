@@ -26,9 +26,10 @@ class CityScene extends Phaser.Scene {
 
     preload() {
         this.load.setBaseURL("http://localhost:3000/assets/");
-        this.load.image("player", "/game/player_placeholder.png");
+        this.load.image("player", "game/player_placeholder.png");
         this.load.image("tileset", "scenes/tileset_city.png");
         this.load.tilemapTiledJSON("tilemap", "scenes/scene_city.json");
+        this.load.image("vignette", "game/vignette_overlay.png");
     }
 
     create() {
@@ -92,8 +93,12 @@ class CityScene extends Phaser.Scene {
             gridEngineConfig,
         );
 
-        // Set vignette post process
-        this.cameras.main.postFX.addVignette(0.5, 0.5, 1, 0.4);
+        // Add a vignette effect
+        const vignette = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, "vignette");
+        vignette.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+        vignette.setDepth(101);
+        vignette.setScrollFactor(0);
+        vignette.setAlpha(0.5);
     }
 
     update(time: number, delta: number): void {
