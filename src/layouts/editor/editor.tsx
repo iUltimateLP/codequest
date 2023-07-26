@@ -27,6 +27,8 @@ import { ViewportService } from "@/core/ViewportService";
 import { usePuzzle } from "@/core/PuzzleService";
 import LoadingScreen from "@/components/editor/LoadingScreen";
 import { CodeEvalService } from "@/core/CodeEvalService";
+import ReactJoyride from "react-joyride";
+import Tutorial from "@/components/editor/Tutorial";
 
 enum EditorMode {
 	Text,
@@ -70,6 +72,9 @@ export default function EditorLayout() {
 
 	return (
 		<Box sx={{height: "100vh", p: 0}}>
+			{/* Joyride tutorial system */}
+			<Tutorial />
+
 			{/* Loading */}
 			{!puzzle && <LoadingScreen />}
 
@@ -92,7 +97,9 @@ export default function EditorLayout() {
 						</Allotment.Pane>
 
 						{editorMode == EditorMode.Visual && <Allotment.Pane>
-							<ReadOnlyCodeView code={code} />
+							<div id="cq-read-only-code" style={{height: "100%", width: "100%"}}>
+								<ReadOnlyCodeView code={code} />
+							</div>
 						</Allotment.Pane>}
 					</Allotment>
 

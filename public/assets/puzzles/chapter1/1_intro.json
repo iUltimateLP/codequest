@@ -9,7 +9,6 @@
             "en": "All beginnings are difficult!",
             "de": "Aller Anfang ist schwer!"
         },
-        "tags": ["MOVE"],
         "shortDescription": 
         {
             "en": "Short puzzle desc",
@@ -18,32 +17,34 @@
         "createdBy": "CodeQuest",
         "version": 1
     },
-    "bindingSets": ["MOVEMENT", "LOOPS"],
+    "bindingSets": ["MOVEMENT"],
     "scene": "CITY",
+    "triggerTutorial": "TUTORIAL_1",
     "objectives": 
     [
         {
-            "id": "GET_STARTED",
+            "id": "WELCOME",
             "title":
             {
-                "en": "Getting started",
-                "de": "Lass' uns loslegen"
+                "en": "Welcome!",
+                "de": "Willkommen!"
             },
             "description":
             {
-                "en": "Some **markdown** _text_",
-                "de": "Irgendein **markdown** _text_"
-            }
+                "en": "Welcome to **CodeQuest**, a playful learning environment to teach the basics of programming!<br/><br/>Don't be scared, it's just like playin' with Legos!<br/><br/>When you're ready to start, click **Next**.",
+                "de": "Willkommen zu **CodeQuest**, einem spielerischen Lernsystem, dass dir die Grundlagen der Programmierung näher bringen soll.<br/><br/>Keine Angst, es ist wie Lego!<br/><br/>Wenn du bereit bist, klicke **Weiter**."
+            },
+            "nextObjective": "FIRST_STEPS"
         },
         {
-            "id": "OBJECTIVE_2",
+            "id": "FIRST_STEPS",
             "title": {
-                "de": "Objektiv 2",
-                "en": "Objective 2"
+                "en": "Taking first steps",
+                "de": "Erste Schritte"
             },
             "description": {
-                "de": "Krasse Beschreibung",
-                "en": "Heavy description"
+                "en": "Now, let's start your journey, shall we?<br/><br/>",
+                "de": ""
             }
         }
 	]

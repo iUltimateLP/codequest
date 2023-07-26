@@ -10,7 +10,7 @@ import * as React from "react";
 // Provides a viewport div for Phaser to render on
 export default function Viewport() {
     return (
-        <Box sx={{p: 0, height: "100%"}}>
+        <Box sx={{p: 0, height: "100%"}} id="cq-viewport">
             {/* @ts-ignore */}
             <div id="phaser-div"></div>
         </Box>

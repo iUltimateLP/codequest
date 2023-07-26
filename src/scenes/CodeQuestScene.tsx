@@ -210,6 +210,10 @@ abstract class CodeQuestScene extends Phaser.Scene {
         this._marker?.setPosition((pos.x + 0.5) * this.TILE_SIZE * this.SCENE_SCALE, (pos.y + 0.5) * this.TILE_SIZE * this.SCENE_SCALE);
     }
 
+    public getPlayer() : Phaser.GameObjects.Sprite | null {
+        return this._player;
+    }
+
     // Player stuff
     protected _player : Phaser.GameObjects.Sprite | null = null;
     private _currentPlayerDirection : Direction = Direction.RIGHT;

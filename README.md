@@ -49,6 +49,7 @@ After executing the above steps, you can access the CodeQuest frontend under [ht
  - [sub-events](https://github.com/vitaly-t/sub-events)
  - [phaser3](https://github.com/photonstorm/phaser)
  - [grid-engine](https://github.com/Annoraaq/grid-engine)
+ - [react-joyride](https://github.com/gilbarbara/react-joyride)
 
 ## Special thanks
 I'd like to extend my thanks to my professors _Prof. Dr. Thorsten Teschke_ and _Prof. Dr.-Ing. Lars Prädel_ for their support.

@@ -23,7 +23,7 @@ export default function Toolbar() {
     }
 
     return (
-        <Box sx={{height: "100%", display: "flex"}}>
+        <Box sx={{height: "100%", display: "flex"}} id="cq-toolbar" >
             <Tooltip title={i18n("RUN_PROGRAM")} placement="bottom">
                 <Button variant="text" onClick={run}><PlayArrowIcon /></Button>
             </Tooltip>

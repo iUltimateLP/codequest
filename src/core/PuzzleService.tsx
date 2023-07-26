@@ -15,6 +15,7 @@ interface PuzzleObjective {
 	id : string;
 	title : LocalizedString;
 	description : LocalizedString;
+	nextObjective : string;
 }
 
 interface Puzzle {
@@ -28,6 +29,7 @@ interface Puzzle {
 		createdBy : string;
 		version : number;
 	};
+	triggerTutorial?: string;
 	bindingSets: string[];
 	scene: string;
 	objectives: PuzzleObjective[];

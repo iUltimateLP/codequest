@@ -93,7 +93,7 @@ class LocalizationService extends Service {
     // Localizes a given LocalizedString
     public i18n(str? : LocalizedString | string) : string {
         if (!str)
-            return "<unknown>";
+            return isLocalizedString(str) ? "<unknown>" : str as string;
             
         // Is this a LocalizedString?
         if (isLocalizedString(str)) {
@@ -113,7 +113,7 @@ class LocalizationService extends Service {
             }
         }
 
-        return "<unknown>";
+        return isLocalizedString(str) ? "<unknown>" : str as string;
     }
     
     private _currentLocaleID : string = "en";

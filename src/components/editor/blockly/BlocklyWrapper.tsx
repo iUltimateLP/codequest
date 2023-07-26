@@ -145,6 +145,7 @@ export default function BlocklyWrapper(props : BlocklyWrapperProps) {
 		// @ts-ignore
 		<BlocklyWorkspace 
 			className={"cq-blockly-workspace"}
+			id="cq-blockly-workspace"
 			toolboxConfiguration={TEST_TOOLBOX}
 			initialXml={xml}
 			onXmlChange={onXmlChange}

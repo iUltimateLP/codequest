@@ -19,6 +19,7 @@ interface MonacoWrapperProps {
     code?: string,
     readOnly?: boolean,
     onCodeChange?: (code : string) => void,
+    id: string;
 };
 
 // Wrapper that wraps Monaco into a React component and provides low-level functionality
@@ -37,7 +38,6 @@ export default function MonacoWrapper(props : MonacoWrapperProps) {
     // Side-effect that's called when a monaco instance is set up 
     useEffect(() => {
         if (monacoRef) {
-
         }
     }, [monacoRef]);
 
