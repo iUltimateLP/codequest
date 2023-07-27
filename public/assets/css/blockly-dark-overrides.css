@@ -3,6 +3,20 @@
 	Written by Jonathan Verbeek - 2023
 */
 
+::-webkit-scrollbar-track {
+    background: #222222;
+    border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
 .blocklyTreeRow:hover {
     background-color: #666 !important;
 }

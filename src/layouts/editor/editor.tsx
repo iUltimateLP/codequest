@@ -27,8 +27,8 @@ import { ViewportService } from "@/core/ViewportService";
 import { usePuzzle } from "@/core/PuzzleService";
 import LoadingScreen from "@/components/editor/LoadingScreen";
 import { CodeEvalService } from "@/core/CodeEvalService";
-import ReactJoyride from "react-joyride";
 import Tutorial from "@/components/editor/Tutorial";
+import "@/layouts/editor/scrollbars.css";
 
 enum EditorMode {
 	Text,

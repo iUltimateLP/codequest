@@ -93,34 +93,36 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
 
     return (
         <>
-            <Box sx={{p: 2}} id="cq-puzzle-desc">
+            <Box sx={{ p: 2, height: "100%" }} id="cq-puzzle-desc">
                 {puzzle && <>
                     <Slide direction={slideDir} in={slide} timeout={{appear: 10, enter: 250, exit: 250}} easing={{enter: theme.transitions.easing.sharp, exit: theme.transitions.easing.sharp}}>
                         <div style={{height: "100%", width: "100%"}}>
                             <Typography variant="h5" sx={{ paddingBottom: 1, borderBottom: "1px solid var(--separator-border)", marginBottom: 1 }}>{i18n(objective?.title)}</Typography>
-                            <MuiMarkdown options={{
-                                forceBlock: true,
-                                overrides: {
-                                    ...getOverrides(), 
-                                    p: {
-                                        props: {
-                                            style: {
-                                                color: theme.palette.text.disabled
+                            <Box sx={{ overflowY: "auto", height: "calc(100% - 86px - 16px)", marginBottom: "16px", paddingRight: "16px" }}>
+                                <MuiMarkdown options={{
+                                    forceBlock: true,
+                                    overrides: {
+                                        ...getOverrides(), 
+                                        p: {
+                                            props: {
+                                                style: {
+                                                    color: theme.palette.text.disabled
+                                                }
                                             }
                                         }
                                     }
-                                }
-                            }}>
-                                {i18n(objective?.description).concat("<br/>")}
-                            </MuiMarkdown>
+                                }}>
+                                    {i18n(objective?.description).concat("<br/>")}
+                                </MuiMarkdown>
 
-                            {objective?.goals && <><Typography variant="h6">{i18n("OBJECTIVE_TITLE")}</Typography>
-                                <List dense={true}>
-                                    {objective.goals.map((goal, i) => {
-                                        return <PuzzleObjectiveListItem key={i} goal={goal} reached={objectiveReachedStates ? objectiveReachedStates.includes(goal.id) : false} />;
-                                    })} 
-                                </List>
-                            </>}
+                                {objective?.goals && <><Typography variant="h6">{i18n("OBJECTIVE_TITLE")}</Typography>
+                                    <List dense={true}>
+                                        {objective.goals.map((goal, i) => {
+                                            return <PuzzleObjectiveListItem key={i} goal={goal} reached={objectiveReachedStates ? objectiveReachedStates.includes(goal.id) : false} />;
+                                        })} 
+                                    </List>
+                                </>}
+                            </Box>
 
                             <Button 
                                 variant="contained"

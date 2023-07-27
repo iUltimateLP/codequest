@@ -47,8 +47,8 @@
                 "de": "Erste Schritte"
             },
             "description": {
-                "en": "Now, let's start your journey, shall we?<br/><br/>Can you see the green circle? It's right there, **four** steps ahead of your character. In order to reach it, we need to **take three steps forward**.",
-                "de": "Lass uns deine Reise beginnen!<br/><br/>Siehst du den grünen Kreis? Dort, **vier** Schritte vor deiner Spielfigur. Um den Kreis zu erreichen, musst du **drei Schritte vorwärts gehen**."
+                "en": "Now, let's start your journey, shall we?<br/><br/>Can you see the green circle? It's right there, **four** steps ahead of your character. In order to reach it, we need to **four three steps forward**.<br/><br/>Begin by dragging a **Walk** block out of the **Movement** category. Try to click **Play** and observe what happens!",
+                "de": "Lass uns deine Reise beginnen!<br/><br/>Siehst du den grünen Kreis? Dort, **vier** Schritte vor deiner Spielfigur. Um den Kreis zu erreichen, musst du **vier Schritte vorwärts gehen**.<br/><br/>Fange an, indem du einen **Laufe**-Block aus der **Bewegung**-Kategorie in dein Programm ziehst. Klicke anschließend **Play** und beobachte das Geschehen."
             },
             "goals": [
                 {
