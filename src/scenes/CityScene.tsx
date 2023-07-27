@@ -5,12 +5,15 @@
 
 import Phaser from "phaser";
 import CodeQuestScene from "./CodeQuestScene";
+import { Service } from "@/core/Service";
+import { PuzzleObjective, PuzzleService } from "@/core/PuzzleService";
+import { Position } from "grid-engine";
 
 // Scene for chapter1
 class CityScene extends CodeQuestScene {
     constructor() {
         super("CITY");
-        this.DEFAULT_POS = { x: 25, y: 30};
+        this.DEFAULT_POS = Service.get(PuzzleService).getCurrentPuzzle()?.playerStartPos ?? { x: 0, y: 0 };
     }
 
     preload() {
@@ -40,8 +43,6 @@ class CityScene extends CodeQuestScene {
 
         if (!this._map || !this._player)
             return;
-
-        this._marker?.setGridPosition({ x: 32, y: 30 });
     }
 
     update(time: number, delta: number) : void {

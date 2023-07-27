@@ -11,6 +11,7 @@ import { MathUtils } from "@/core/Math";
 import { UiService } from "@/core/UiService";
 import { Service } from "@/core/Service";
 import { GridSprite } from "./GridSprite";
+import { PuzzleObjective, PuzzleService } from "@/core/PuzzleService";
 
 // Parent Phaser scene for every scene that's used within CodeQuest
 abstract class CodeQuestScene extends Phaser.Scene {
@@ -98,37 +99,26 @@ abstract class CodeQuestScene extends Phaser.Scene {
             gridEngineConfig,
         );
 
-        // Create marker
-        this._marker = new GridSprite(this, { x: 0, y: 0 }, "marker");
-        this._marker.setTint(0x64ff04);
-        this.add.existing(this._marker);
-
         // Create flag
         this._startFlag = new GridSprite(this, this.DEFAULT_POS, "flag");
         this._startFlag.setTint(0x888888);
         this.add.existing(this._startFlag);
 
-        this.tweens.add({
-            targets: this._marker,
-            ease: Phaser.Math.Easing.Sine.InOut,
-            duration: 1000,
-            loop: -1,
-            yoyo: true,
-            alpha: {
-                getStart: () => 0.4,
-                getEnd: () => 1
-            }
-        });
+        // Listen to events
+        Service.get(PuzzleService).PuzzleObjectiveChangedEvent.subscribe(this.onPuzzleObjectiveChanged.bind(this));
+    }
 
-        this.tweens.add({
-            targets: this._marker,
-            duration: 10000,
-            loop: -1,
-            angle: {
-                getStart: () => 0,
-                getEnd: () => 360
-            }
-        });
+    private onPuzzleObjectiveChanged(objective : PuzzleObjective) {
+        // Gather markers to draw
+        if (objective) {
+            objective.goals?.forEach((goal) => {
+                if (!goal.data)
+                    return;
+                
+                const markerPos : Position = goal.data["circlePosition"] ?? null;
+                this.addMarker(`${objective.id}_${goal.id}`, 0xff0000, markerPos);
+            });
+        }
     }
 
     update(time: number, delta: number): void {
@@ -191,28 +181,27 @@ abstract class CodeQuestScene extends Phaser.Scene {
     }
 
     // Resets the player to the start point
-    public resetPlayer() {
-        // Temporarily boost speed
-        const originalSpeed = this.gridEngine.getSpeed("player");
-        this.gridEngine.setSpeed("player", originalSpeed * 4);
+    public resetPlayer() : Promise<Finished> {
+        return new Promise<Finished>((resolve, reject) => {
+            // Temporarily boost speed
+            const originalSpeed = this.gridEngine.getSpeed("player");
+            this.gridEngine.setSpeed("player", originalSpeed * 4);
 
-        // Move back to the spawn
-        this.gridEngine.moveTo("player", this.DEFAULT_POS, {
-            ignoreLayers: true
-        })
-        .subscribe(({}) => {
-            // Reset speed
-            this.gridEngine.setSpeed("player", originalSpeed);
+            // Move back to the spawn
+            this.gridEngine.moveTo("player", this.DEFAULT_POS, {
+                ignoreLayers: true
+            })
+            .subscribe((args : Finished) => {
+                // Reset speed
+                this.gridEngine.setSpeed("player", originalSpeed);
+                resolve(args);
+            });
+
+            this._targetPlayerRotation = SceneUtils.dir2deg(this.DEFAULT_DIR);
+            this._currentPlayerDirection = this.DEFAULT_DIR;
+
+            Service.get(UiService).playSound("walk_down", 0.25);
         });
-
-        this._targetPlayerRotation = SceneUtils.dir2deg(this.DEFAULT_DIR);
-        this._currentPlayerDirection = this.DEFAULT_DIR;
-
-        Service.get(UiService).playSound("walk_down", 0.25);
-    }
-
-    public setMarker(pos : Position) {
-        this._marker?.setGridPosition(pos);
     }
 
     public getPlayer() : Phaser.GameObjects.Sprite | null {
@@ -223,11 +212,50 @@ abstract class CodeQuestScene extends Phaser.Scene {
         return this.gridEngine.getPosition("player");
     }
 
-    public getMarkerPosition() : Position {
-        if (!this._marker)
+    public addMarker(key : string, color : number, initialPosition : Position) {
+        // Create the marker
+        const marker = new GridSprite(this, { x: 0, y: 0 }, "marker");
+        marker.setTint(color);
+        this.add.existing(marker);
+
+        this.tweens.add({
+            targets: marker,
+            ease: Phaser.Math.Easing.Sine.InOut,
+            duration: 1000,
+            loop: -1,
+            yoyo: true,
+            alpha: {
+                getStart: () => 0.4,
+                getEnd: () => 1
+            }
+        });
+
+        this.tweens.add({
+            targets: marker,
+            duration: 10000,
+            loop: -1,
+            angle: {
+                getStart: () => 0,
+                getEnd: () => 360
+            }
+        });
+
+        // Add into registry
+        this._markers[key] = marker;
+
+        // Set position
+        this.setMarkerPosition(key, initialPosition);
+    }
+
+    public setMarkerPosition(key : string, pos : Position) {
+        this._markers[key]?.setGridPosition(pos);
+    }
+
+    public getMarkerPosition(key : string) : Position {
+        if (!this._markers[key])
             return { x: 0, y: 0 };
         
-        return this.worldToGrid(this._marker!.x, this._marker!.y);
+        return this.worldToGrid(this._markers[key].x, this._markers[key].y);
     }
 
     public worldToGrid(x : number, y : number) : Position {
@@ -256,7 +284,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
     protected gridEngine : GridEngine;
 
     // Other stuff
-    protected _marker : GridSprite | null = null;
+    protected _markers : {[key: string] : GridSprite} = {};
     protected _startFlag : GridSprite | null = null;
 }
 

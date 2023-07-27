@@ -70,7 +70,7 @@ const binding : CodeBinding = {
         })
         .catch(() => {
             Service.get(UiService).showNotification("Can't move!", { variant: "error", playSound: true, sound: "error" });
-            Service.get(CodeEvalService).stopExecution();
+            Service.get(CodeEvalService).stopExecution(true);
         })
     },
     

@@ -12,6 +12,7 @@ import { ViewportService } from "./ViewportService";
 import { CodeEvalService } from "./CodeEvalService";
 import ArriveAtTargetValidator from "@/puzzle/ArriveAtTargetValidator";
 import { UiService } from "./UiService";
+import { Position } from "grid-engine";
 
 // Whether to print out debug info while validating puzzle objectives
 const DEBUG_VALIDATORS : boolean = false;
@@ -20,6 +21,7 @@ interface PuzzleObjectiveGoal {
 	id : string;
 	text : LocalizedString;
 	validator : string;
+	data? : {[key: string]: any;};
 }
 
 interface PuzzleObjective {
@@ -42,6 +44,7 @@ interface Puzzle {
 		version : number;
 	};
 	triggerTutorial?: string;
+	playerStartPos: Position;
 	bindingSets: string[];
 	scene: string;
 	objectives: PuzzleObjective[];
@@ -172,7 +175,7 @@ class PuzzleService extends Service {
 		}
 		
 		// Evaluate result
-		const result = this._validators[goal.validator]();
+		const result = this._validators[goal.validator](goal, this.getCurrentObjective()!, this._currentPuzzle!);
 
 		if (DEBUG_VALIDATORS)
 			Logger.info(`Using validator "${goal.validator}" to validate objective goal "${goal.id}" returned ${result}`);
@@ -213,14 +216,14 @@ class PuzzleService extends Service {
 	}
 
 	// Registers a puzzle objective validator
-	private registerValidator(key : string, validator : (() => boolean)) {
+	private registerValidator(key : string, validator : ((goal : PuzzleObjectiveGoal, objective : PuzzleObjective, puzzle : Puzzle) => boolean)) {
 		this._validators[key] = validator;
 	}
 
 	private _currentPuzzleName : string | null = null;
 	private _currentPuzzle : Puzzle | null = null;
 	private _currentObjective : string | null = null;
-	private _validators : {[key: string]: (() => boolean);} = {};
+	private _validators : {[key: string]: ((goal : PuzzleObjectiveGoal, objective : PuzzleObjective, puzzle : Puzzle) => boolean);} = {};
 }
 
 // React hook that tracks state of the current puzzle

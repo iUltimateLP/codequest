@@ -3,11 +3,13 @@
 	Written by Jonathan Verbeek - 2023
 */
 
+import { Puzzle, PuzzleObjective, PuzzleObjectiveGoal, PuzzleService } from "@/core/PuzzleService";
 import { Service } from "@/core/Service";
 import { ViewportService } from "@/core/ViewportService";
 import CodeQuestScene from "@/scenes/CodeQuestScene";
+import { Position } from "grid-engine";
 
-export default function ArriveAtTargetValidator() : boolean {
+export default function ArriveAtTargetValidator(goal : PuzzleObjectiveGoal, objective : PuzzleObjective, puzzle : Puzzle) : boolean {
     // Get the scene
     const scene : CodeQuestScene | null = Service.get(ViewportService).getScene<CodeQuestScene>();
     if (!scene)
@@ -15,8 +17,10 @@ export default function ArriveAtTargetValidator() : boolean {
 
     // Get the player and marker position
     const playerPos = scene.getPlayerPosition();
-    const markerPos = scene.getMarkerPosition();
-    //console.log(`Player: ${playerPos.x},${playerPos.y} Marker: ${markerPos.x},${markerPos.y}`);
+    const targetPos : Position | null = goal.data ? goal.data["circlePosition"] : null;
 
-    return playerPos.x == markerPos.x && playerPos.y == markerPos.y;
+    if (targetPos)
+        return playerPos.x == targetPos.x && playerPos.y == targetPos.y;
+    else
+        return false;
 }

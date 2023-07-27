@@ -86,12 +86,12 @@ class CodeEvalService extends Service {
     }
 
     // Stops the current execution
-    public stopExecution() {
+    public stopExecution(failState : boolean = false) {
         if (!this._interpreterPaused)
             return;
 
         this.stopAndCleanup();
-        this.ExecutionFinishedEvent.emit({ success: true, error: null }); // TODO: might indicate that code caused this? Maybe bubble the exception up?
+        this.ExecutionFinishedEvent.emit({ success: !failState, error: null }); // TODO: might indicate that code caused this? Maybe bubble the exception up?
     }
 
     // Performs cleanup after a interpreter is supposed to be stopped

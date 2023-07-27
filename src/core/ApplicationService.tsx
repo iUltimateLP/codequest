@@ -78,8 +78,14 @@ class ApplicationService extends Service {
         this._puzzleEvalLoopHandle = null;
         
         // Reset the player only if the puzzle is not finished, so we'll do a last validation
-        if (!Service.get(PuzzleService).validateCurrentObjective()) {
-            Service.get(ViewportService).getScene<CodeQuestScene>()?.resetPlayer();
+        // Also, ignore if the validation was successful if the execution ended in a failstate
+        if (!Service.get(PuzzleService).validateCurrentObjective() || !args.success) {
+            Service.get(ViewportService).getScene<CodeQuestScene>()?.resetPlayer().then(() => {
+                if (!args.success) {
+                    // HACK to force another validation
+                    Service.get(PuzzleService).validateCurrentObjective()
+                }
+            });
         }
 
         // Call event
