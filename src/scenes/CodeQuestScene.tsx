@@ -116,7 +116,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
                     return;
                 
                 const markerPos : Position = goal.data["circlePosition"] ?? null;
-                this.addMarker(`${objective.id}_${goal.id}`, 0xff0000, markerPos);
+                this.addMarker(`${objective.id}_${goal.id}`, 0x64ff04, markerPos);
             });
         }
     }
