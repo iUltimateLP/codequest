@@ -32,7 +32,7 @@
             "description":
             {
                 "en": "Welcome to **CodeQuest**, a playful learning environment to teach the basics of programming!<br/><br/>Don't be scared, it's just like playin' with Legos!<br/><br/>When you're ready to start, click **Next**.",
-                "de": "Willkommen zu **CodeQuest**, einem spielerischen Lernsystem, dass dir die Grundlagen der Programmierung näher bringen soll.<br/><br/>Keine Angst, es ist wie Lego!<br/><br/>Wenn du bereit bist, klicke **Weiter**."
+                "de": "Willkommen zu **CodeQuest**, einem spielerischen Lernsystem, dass dir die Grundlagen der Programmierung näher bringen soll.<br/><br/>Wenn du bereit bist, klicke **Weiter**."
             },
             "nextObjective": "FIRST_STEPS"
         },
@@ -43,9 +43,19 @@
                 "de": "Erste Schritte"
             },
             "description": {
-                "en": "Now, let's start your journey, shall we?<br/><br/>",
-                "de": "Lass uns deine Reise beginnen!<br/><br/>"
-            }
+                "en": "Now, let's start your journey, shall we?<br/><br/>Can you see the green circle? It's right there, **three** steps ahead of your character. In order to reach it, we need to **take three steps forward**.",
+                "de": "Lass uns deine Reise beginnen!<br/><br/>Siehst du den grünen Kreis? Dort, **drei** Schritte vor deiner Spielfigur. Um den Kreis zu erreichen, musst du **drei Schritte vorwärts gehen**."
+            },
+            "goals": [
+                {
+                    "id": "REACH_GREEN_CIRCLE",
+                    "text": {
+                        "en": "Reach the green circle",
+                        "de": "Erreiche den grünen Kreis"
+                    },
+                    "validator": "ArriveAtTarget"
+                }
+            ]
         }
 	]
 }

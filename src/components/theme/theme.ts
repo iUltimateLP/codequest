@@ -39,6 +39,9 @@ const lightTheme = createTheme({
 		background: {
 			default: "#fff",
 			paper: "#fff"
+		},
+		text: {
+			disabled: "rgba(0, 0, 0, 0.6)"
 		}
 	}
 });

@@ -33,6 +33,8 @@ interface LocalizedString {
 const isLocalizedString = (str: any): str is LocalizedString => {
     if (typeof(str) == "string")
         return false;
+    else if (str == undefined || str == null)
+        return false;
     else
         return "en" in str;
 }

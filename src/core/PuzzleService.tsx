@@ -10,12 +10,24 @@ import { SubEvent } from "sub-events";
 import { LocalizedString } from "./LocalizationService";
 import { ViewportService } from "./ViewportService";
 import { CodeEvalService } from "./CodeEvalService";
+import ArriveAtTargetValidator from "@/puzzle/ArriveAtTargetValidator";
+import { UiService } from "./UiService";
+
+// Whether to print out debug info while validating puzzle objectives
+const DEBUG_VALIDATORS : boolean = false;
+
+interface PuzzleObjectiveGoal {
+	id : string;
+	text : LocalizedString;
+	validator : string;
+}
 
 interface PuzzleObjective {
 	id : string;
 	title : LocalizedString;
 	description : LocalizedString;
 	nextObjective : string;
+	goals? : PuzzleObjectiveGoal[];
 }
 
 interface Puzzle {
@@ -40,6 +52,14 @@ interface Puzzle {
 class PuzzleService extends Service {
 	public PuzzleChangedEvent : SubEvent<Puzzle> = new SubEvent();
 	public PuzzleObjectiveChangedEvent : SubEvent<PuzzleObjective> = new SubEvent();
+	public PuzzleObjectiveGoalReachedChangedEvent : SubEvent<string[]> = new SubEvent();
+
+	constructor() {
+		super();
+
+		// Register validators
+		this.registerValidator("ArriveAtTarget", ArriveAtTargetValidator);
+	}
 
 	// Loads a puzzle with the given name and returns a promise that can be awaited
 	public loadPuzzle(name : string) : Promise<Puzzle> {
@@ -110,6 +130,56 @@ class PuzzleService extends Service {
 		return this.getCurrentPuzzle()?.objectiveMap.get(this._currentObjective!);
 	}
 
+	// Validates the current objective
+	public validateCurrentObjective() : boolean {
+		return this.validateObjective(this.getCurrentObjective()!);
+	}
+
+	// Validates all objective goals of the given objective
+	public validateObjective(objective : PuzzleObjective) : boolean {
+		// Make sure the objective is valid
+		if (!objective)
+			return false;
+
+		// If no objectives are given, yay!
+		if (!objective.goals)
+			return true;
+
+		// Validate all goals
+		var result : boolean = true;
+		var results : string[] = [];
+		objective.goals.forEach((objectiveItem, i) => {
+			const itemResult = this.validateObjectiveGoal(objectiveItem);
+			
+			if (itemResult)
+				results.push(objectiveItem.id);
+
+			result = result && itemResult;
+		});
+		
+		// Emit event
+		this.PuzzleObjectiveGoalReachedChangedEvent.emit(results);
+
+		return result;
+	}
+
+	// Runs the given validator on the given objective item
+	public validateObjectiveGoal(goal : PuzzleObjectiveGoal) : boolean {
+		// Make sure the validator exists
+		if (!this._validators[goal.validator]) {
+			Logger.warn(`Trying to validate puzzle ${this._currentPuzzleName} with validator ${goal.validator} which does not exist!`);
+			return false;
+		}
+		
+		// Evaluate result
+		const result = this._validators[goal.validator]();
+
+		if (DEBUG_VALIDATORS)
+			Logger.info(`Using validator "${goal.validator}" to validate objective goal "${goal.id}" returned ${result}`);
+
+		return result;
+	}
+
 	// Loads a puzzle with the given name and returns a promise that can be awaited
 	private loadPuzzleData(name : string) : Promise<Puzzle> {
 		return new Promise<Puzzle>((resolve, reject) => {
@@ -142,9 +212,15 @@ class PuzzleService extends Service {
 		});
 	}
 
+	// Registers a puzzle objective validator
+	private registerValidator(key : string, validator : (() => boolean)) {
+		this._validators[key] = validator;
+	}
+
 	private _currentPuzzleName : string | null = null;
 	private _currentPuzzle : Puzzle | null = null;
 	private _currentObjective : string | null = null;
+	private _validators : {[key: string]: (() => boolean);} = {};
 }
 
 // React hook that tracks state of the current puzzle
@@ -181,7 +257,7 @@ const useObjective = () => {
 		const sub = puzzleService.PuzzleObjectiveChangedEvent.subscribe((newObjective) => {
 			setObjective(newObjective);
 		});
-
+		
 		// Unsubscribe from the events when this effect is disposed
 		return () => {
 			sub.cancel();
@@ -191,5 +267,27 @@ const useObjective = () => {
 	return [objective];
 }
 
-export type { PuzzleObjective, Puzzle };
-export { PuzzleService, usePuzzle, useObjective };
+const useObjectiveReachedStates = () => {
+	// Create state
+	const [objectiveGoals, setObjectiveGoals] = useState<string[]>();
+
+	// Side-effect that's executed once
+	useEffect(() => {		
+		setObjectiveGoals([]);
+
+		// Subscribe to the events on the puzzle service to update this hook's state
+		const puzzleService = Service.get(PuzzleService);
+		const sub = puzzleService.PuzzleObjectiveGoalReachedChangedEvent.subscribe((results : string[]) => {
+			setObjectiveGoals(results);
+		});
+
+		return () => {
+			sub.cancel();
+		}
+	}, []);
+
+	return [objectiveGoals];
+};
+
+export type { PuzzleObjectiveGoal, PuzzleObjective, Puzzle };
+export { PuzzleService, usePuzzle, useObjective, useObjectiveReachedStates };

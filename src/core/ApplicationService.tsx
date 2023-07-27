@@ -9,6 +9,7 @@ import { Logger } from "./Logging";
 import { Service } from "./Service";
 import { ViewportService } from "./ViewportService";
 import CodeQuestScene from "@/scenes/CodeQuestScene";
+import { PuzzleService } from "./PuzzleService";
 
 // This service acts as a "glue" service to be called by the UI layer
 class ApplicationService extends Service {
@@ -54,17 +55,33 @@ class ApplicationService extends Service {
 
         // Run it
         Service.get(CodeEvalService).run();
+
+        // Start the puzzle objective validation loop
+        this._puzzleEvalLoopHandle = setInterval(this.puzzleEvalLoop, 100);
+    }
+
+    private puzzleEvalLoop() {
+        if (Service.get(PuzzleService).validateCurrentObjective()) {
+            // All objectives done!
+        }
     }
 
     // SubEvent called by CodeEvalService when code execution finished
     private onExecutionFinished(args : ExecutionFinishedEventArgs) {
         // Tell the viewport's scene
         Service.get(ViewportService).getScene<CodeQuestScene>()?.resetPlayer();
+
+        // Stop any timeout for the eval loop, if any
+        if (this._puzzleEvalLoopHandle)
+            clearTimeout(this._puzzleEvalLoopHandle);
+
+        this._puzzleEvalLoopHandle = null;
     }
 
     private _initialized : boolean = false;
     private _currentProgram : string = "";
     private _executionFinishedEventHandle : Subscription | null = null;
+    private _puzzleEvalLoopHandle : NodeJS.Timeout | null = null;
 }
 
 // Statically initialize the ApplicationService 

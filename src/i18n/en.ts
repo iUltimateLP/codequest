@@ -8,7 +8,9 @@ import * as Blockly_Lang_En from "blockly/msg/en";
 
 const i18n_en : ILocale = {
     RUN_PROGRAM: "Run Program",
+
     OBJECTIVE_NEXT: "Next",
+    OBJECTIVE_TITLE: "Goals",
     
     TUTORIAL_TOOLBAR_TITLE: "Toolbar",
     TUTORIAL_TOOLBAR_DESC: "This is the _toolbar_. You'll use this to perform common actions, such as **starting** your program!",

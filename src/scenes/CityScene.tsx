@@ -10,6 +10,7 @@ import CodeQuestScene from "./CodeQuestScene";
 class CityScene extends CodeQuestScene {
     constructor() {
         super("CITY");
+        this.DEFAULT_POS = { x: 25, y: 30};
     }
 
     preload() {
@@ -40,7 +41,7 @@ class CityScene extends CodeQuestScene {
         if (!this._map || !this._player)
             return;
 
-        this.setMarker({ x: 32, y: 30 });
+        this._marker?.setGridPosition({ x: 32, y: 30 });
     }
 
     update(time: number, delta: number) : void {

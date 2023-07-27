@@ -10,6 +10,7 @@ import { Logger } from "@/core/Logging";
 import { MathUtils } from "@/core/Math";
 import { UiService } from "@/core/UiService";
 import { Service } from "@/core/Service";
+import { GridSprite } from "./GridSprite";
 
 // Parent Phaser scene for every scene that's used within CodeQuest
 abstract class CodeQuestScene extends Phaser.Scene {
@@ -34,6 +35,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
         this.load.image("player", "game/player_placeholder.png");
         this.load.image("vignette", "game/vignette_overlay.png");
         this.load.image("marker", "game/goal_circle.png");
+        this.load.image("flag", "game/start_flag.png");
     }
     
     create() {
@@ -84,7 +86,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
                     facingDirection: this.DEFAULT_DIR,
                     offsetX: this.TILE_SIZE * this.SCENE_SCALE * 0.5,
                     offsetY: this.TILE_SIZE * this.SCENE_SCALE * 0.5,
-                    speed: 10
+                    speed: 10,
                 }
             ],
             numberOfDirections: 4
@@ -97,11 +99,14 @@ abstract class CodeQuestScene extends Phaser.Scene {
         );
 
         // Create marker
-        this._marker = this.add.image(0, 0, "marker");
-        this._marker.setDisplaySize(this.TILE_SIZE * this.SCENE_SCALE, this.TILE_SIZE * this.SCENE_SCALE);
-        this._marker.setDepth(101);
+        this._marker = new GridSprite(this, { x: 0, y: 0 }, "marker");
         this._marker.setTint(0x64ff04);
-        //this._marker.postFX.addGlow(0x64ff04, 4, 0, false, 0.6, 30);
+        this.add.existing(this._marker);
+
+        // Create flag
+        this._startFlag = new GridSprite(this, this.DEFAULT_POS, "flag");
+        this._startFlag.setTint(0x888888);
+        this.add.existing(this._startFlag);
 
         this.tweens.add({
             targets: this._marker,
@@ -192,7 +197,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
         this.gridEngine.setSpeed("player", originalSpeed * 4);
 
         // Move back to the spawn
-        this.gridEngine.moveTo("player", {x: 30, y: 30}, {
+        this.gridEngine.moveTo("player", this.DEFAULT_POS, {
             ignoreLayers: true
         })
         .subscribe(({}) => {
@@ -207,11 +212,34 @@ abstract class CodeQuestScene extends Phaser.Scene {
     }
 
     public setMarker(pos : Position) {
-        this._marker?.setPosition((pos.x + 0.5) * this.TILE_SIZE * this.SCENE_SCALE, (pos.y + 0.5) * this.TILE_SIZE * this.SCENE_SCALE);
+        this._marker?.setGridPosition(pos);
     }
 
     public getPlayer() : Phaser.GameObjects.Sprite | null {
         return this._player;
+    }
+
+    public getPlayerPosition() : Position {
+        return this.gridEngine.getPosition("player");
+    }
+
+    public getMarkerPosition() : Position {
+        if (!this._marker)
+            return { x: 0, y: 0 };
+        
+        return this.worldToGrid(this._marker!.x, this._marker!.y);
+    }
+
+    public worldToGrid(x : number, y : number) : Position {
+        return { x: Math.floor(x / this.SCENE_SCALE / this.TILE_SIZE), y: Math.floor(y / this.SCENE_SCALE / this.TILE_SIZE) };
+    }
+
+    public gridToWorld(x : number, y : number) : Position {
+        return { x: (x + 0.5) * this.TILE_SIZE * this.SCENE_SCALE, y: (y + 0.5) * this.TILE_SIZE * this.SCENE_SCALE };
+    }
+
+    public getTileSize() : number {
+        return this.TILE_SIZE * this.SCENE_SCALE;
     }
 
     // Player stuff
@@ -228,7 +256,8 @@ abstract class CodeQuestScene extends Phaser.Scene {
     protected gridEngine : GridEngine;
 
     // Other stuff
-    protected _marker : Phaser.GameObjects.Image | null = null;
+    protected _marker : GridSprite | null = null;
+    protected _startFlag : GridSprite | null = null;
 }
 
 export default CodeQuestScene;

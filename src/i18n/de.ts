@@ -8,7 +8,9 @@ import * as Blockly_Lang_De from "blockly/msg/de";
 
 const i18n_de : ILocale = {
     RUN_PROGRAM: "Programm starten",
+
     OBJECTIVE_NEXT: "Weiter",
+    OBJECTIVE_TITLE: "Aufgaben",
 
     TUTORIAL_TOOLBAR_TITLE: "Werkzeugleiste",
     TUTORIAL_TOOLBAR_DESC: "Das ist die _Werkzeugleiste_. Hier gibt es grundlegende Aktionen, wie z.B. das **Starten** deines Programmes!",
