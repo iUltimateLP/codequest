@@ -11,6 +11,7 @@ const i18n_en : ILocale = {
 
     OBJECTIVE_NEXT: "Next",
     OBJECTIVE_TITLE: "Goals",
+    OBJECTIVE_END: "Finish",
     
     TUTORIAL_TOOLBAR_TITLE: "Toolbar",
     TUTORIAL_TOOLBAR_DESC: "This is the _toolbar_. You'll use this to perform common actions, such as **starting** your program!",

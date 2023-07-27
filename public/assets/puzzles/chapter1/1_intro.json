@@ -65,7 +65,20 @@
                         }
                     }
                 }
-            ]
+            ],
+            "nextObjective": "DONE"
+        },
+        {
+            "id": "DONE",
+            "title": {
+                "en": "Congrats!",
+                "de": "Gut gemacht!"
+            },
+            "description": {
+                "en": "You've made it! That wasn't so hard, was it?<br/><br/>Now, click the **Finish** button and we'll get you over to the next puzzle in no-time!",
+                "de": "Du hast es geschafft! War gar nicht so schwierig, oder?<br/><br/>Klicke den **Fertig**-Button und weiter geht's mit dem nächsten Puzzle!"
+            },
+            "end": true
         }
 	]
 }

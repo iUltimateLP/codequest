@@ -30,6 +30,7 @@ interface PuzzleObjective {
 	description : LocalizedString;
 	nextObjective : string;
 	goals? : PuzzleObjectiveGoal[];
+	end?: boolean;
 }
 
 interface Puzzle {

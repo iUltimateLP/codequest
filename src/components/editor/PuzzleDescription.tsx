@@ -135,7 +135,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
                                         || (!objective)
                                     ) || programRunning
                                 }
-                            >{i18n("OBJECTIVE_NEXT")}</Button>
+                            >{objective?.end === true ? i18n("OBJECTIVE_END") : i18n("OBJECTIVE_NEXT")}</Button>
                         </div>
                     </Slide>
                 </>}

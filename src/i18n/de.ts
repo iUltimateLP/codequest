@@ -11,6 +11,7 @@ const i18n_de : ILocale = {
 
     OBJECTIVE_NEXT: "Weiter",
     OBJECTIVE_TITLE: "Aufgaben",
+    OBJECTIVE_END: "Fertig",
 
     TUTORIAL_TOOLBAR_TITLE: "Werkzeugleiste",
     TUTORIAL_TOOLBAR_DESC: "Das ist die _Werkzeugleiste_. Hier gibt es grundlegende Aktionen, wie z.B. das **Starten** deines Programmes!",
