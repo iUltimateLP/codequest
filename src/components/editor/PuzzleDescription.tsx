@@ -14,6 +14,7 @@ import { i18n, useLocale } from "@/core/LocalizationService";
 import { useEffect, useState } from "react";
 import { UiService } from "@/core/UiService";
 import Confetti from "react-dom-confetti";
+import { useProgramRunning } from "@/core/ApplicationService";
 
 interface PuzzleDescriptionProps {
 
@@ -63,10 +64,10 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
     const [puzzle] = usePuzzle();
     const [objective] = useObjective();
     const [objectiveReachedStates] = useObjectiveReachedStates();
-    //const [objectiveReachedStateCache, setObjectiveReachedStateCache] = useState<string[]>([]);
     const [slide, setSlide] = useState<boolean>(true);
     const [slideDir, setSlideDir] = useState<"left" | "right">("left");
     const theme = useTheme();
+    const [programRunning] = useProgramRunning();
     
     // Just to trigger a rerender when locale changes
     const [locale] = useLocale();
@@ -74,17 +75,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
 
     useEffect(() => {}, [objective]);
 
-    useEffect(() => {
-        /*objectiveReachedStates?.forEach((newState : string) => {
-            if (!objectiveReachedStateCache.includes(newState)) {
-                // A new element appeared!
-                console.log("New element: " + newState);
-                setObjectiveReachedStateCache([...objectiveReachedStateCache, newState]);
-
-                Service.get(UiService).playSound("goal_finished", 0.25);
-            }
-        });*/
-    }, [objectiveReachedStates]);
+    useEffect(() => {}, [objectiveReachedStates]);
 
     // Triggers the next objective
     function nextObjective() {
@@ -140,7 +131,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
                                         (objectiveReachedStates && objective && objective.goals && objectiveReachedStates.length == objective.goals.length)
                                         || (objective && !objective.goals)
                                         || (!objective)
-                                    )
+                                    ) || programRunning
                                 }
                             >{i18n("OBJECTIVE_NEXT")}</Button>
                         </div>
