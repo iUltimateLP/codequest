@@ -77,18 +77,24 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
 
     useEffect(() => {}, [objectiveReachedStates]);
 
-    // Triggers the next objective
-    function nextObjective() {
-        if (!objective || !objective.nextObjective)
+    // Triggers the next objective or next puzzle
+    function next() {
+        if (!objective)
             return;
         
-        setSlideDir("right");
-        setSlide(false);
-        setTimeout(() => {
-            setSlideDir("left");
-            setSlide(true);
-            Service.get(PuzzleService).setCurrentObjective(objective.nextObjective);
-        }, 260);
+        if (objective.nextObjective) {
+            // Show next objective
+            setSlideDir("right");
+            setSlide(false);
+            setTimeout(() => {
+                setSlideDir("left");
+                setSlide(true);
+                Service.get(PuzzleService).setCurrentObjective(objective.nextObjective!);
+            }, 260);
+        } else if (objective.nextPuzzle) {
+            // Trigger next puzzle load
+            window.location.href = `/editor/${objective.nextPuzzle}`;
+        }
     }
 
     return (
@@ -98,7 +104,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
                     <Slide direction={slideDir} in={slide} timeout={{appear: 10, enter: 250, exit: 250}} easing={{enter: theme.transitions.easing.sharp, exit: theme.transitions.easing.sharp}}>
                         <div style={{height: "100%", width: "100%"}}>
                             <Typography variant="h5" sx={{ paddingBottom: 1, borderBottom: "1px solid var(--separator-border)", marginBottom: 1 }}>{i18n(objective?.title)}</Typography>
-                            <Box sx={{ overflowY: "auto", height: "calc(100% - 86px - 16px)", marginBottom: "16px", paddingRight: "16px" }}>
+                            <Box sx={{ overflowY: "auto", overflowX: "hidden", height: "calc(100% - 86px - 16px)", marginBottom: "16px", paddingRight: "16px" }}>
                                 <MuiMarkdown options={{
                                     forceBlock: true,
                                     overrides: {
@@ -127,7 +133,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
                             <Button 
                                 variant="contained"
                                 sx={{float: "right"}}
-                                onClick={nextObjective}
+                                onClick={next}
                                 disabled={
                                     !(
                                         (objectiveReachedStates && objective && objective.goals && objectiveReachedStates.length == objective.goals.length)
@@ -135,7 +141,7 @@ export default function PuzzleDescription(props : PuzzleDescriptionProps) {
                                         || (!objective)
                                     ) || programRunning
                                 }
-                            >{objective?.end === true ? i18n("OBJECTIVE_END") : i18n("OBJECTIVE_NEXT")}</Button>
+                            >{objective?.nextPuzzle ? i18n("OBJECTIVE_END") : i18n("OBJECTIVE_NEXT")}</Button>
                         </div>
                     </Slide>
                 </>}

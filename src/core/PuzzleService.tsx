@@ -28,9 +28,9 @@ interface PuzzleObjective {
 	id : string;
 	title : LocalizedString;
 	description : LocalizedString;
-	nextObjective : string;
+	nextObjective? : string;
 	goals? : PuzzleObjectiveGoal[];
-	end?: boolean;
+	nextPuzzle?: string;
 }
 
 interface Puzzle {
@@ -44,6 +44,7 @@ interface Puzzle {
 		createdBy : string;
 		version : number;
 	};
+	allowCodeView?: boolean;
 	triggerTutorial?: string;
 	playerStartPos: Position;
 	bindingSets: string[];
