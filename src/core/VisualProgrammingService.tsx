@@ -150,6 +150,8 @@ class VisualProgrammingService extends Service {
                 }
             }
         })
+
+        Blockly.svgResize(this.getBlocklyWorkspace() as Blockly.WorkspaceSvg);
     }
 
     // Reference to the current Blockly workspace
