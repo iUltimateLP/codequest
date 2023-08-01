@@ -3,11 +3,11 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding } from "@/core/CodeEvalService";
 import Blockly from "blockly";
 
 // @ts-ignore Idk why this is not working...
 import { Order } from "blockly/javascript";
+import { CodeBinding } from "./CodeBinding";
 
 const binding : CodeBinding = {
     // Name of the binding

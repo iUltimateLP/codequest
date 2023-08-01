@@ -33,7 +33,10 @@ abstract class CodeQuestScene extends Phaser.Scene {
     preload() {
         // Default assets
         this.load.setBaseURL("http://localhost:3000/assets/");
-        this.load.image("player", "game/player_placeholder.png");
+        this.load.spritesheet("player", "game/robot_character.png", {
+            frameWidth: 16,
+            frameHeight: 32
+        });
         this.load.image("vignette", "game/vignette_overlay.png");
         this.load.image("marker", "game/goal_circle.png");
         this.load.image("flag", "game/start_flag.png");
@@ -49,7 +52,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
 
         // Create the player
         this._player = this.add.sprite(0, 0, "player");
-        this._player.setDisplaySize(this.TILE_SIZE * this.SCENE_SCALE, this.TILE_SIZE * this.SCENE_SCALE);
+        this._player.setDisplaySize(this.TILE_SIZE * this.SCENE_SCALE, this.TILE_SIZE * 2 * this.SCENE_SCALE);
         this._targetPlayerRotation = SceneUtils.dir2deg(this.DEFAULT_DIR);
 
         // Set up camera to follow player
@@ -86,8 +89,8 @@ abstract class CodeQuestScene extends Phaser.Scene {
                     startPosition: this.DEFAULT_POS,
                     facingDirection: this.DEFAULT_DIR,
                     offsetX: this.TILE_SIZE * this.SCENE_SCALE * 0.5,
-                    offsetY: this.TILE_SIZE * this.SCENE_SCALE * 0.5,
-                    speed: 10,
+                    offsetY: this.TILE_SIZE * this.SCENE_SCALE * 1,
+                    speed: 10
                 }
             ],
             numberOfDirections: 4
@@ -99,10 +102,33 @@ abstract class CodeQuestScene extends Phaser.Scene {
             gridEngineConfig,
         );
 
+        // Generate player animations
+        this.generatePlayerAnim.call(this, "up", 0, 3);
+        this.generatePlayerAnim.call(this, "down", 4, 7);
+        this.generatePlayerAnim.call(this, "right", 12, 15);
+        this.generatePlayerAnim.call(this, "left", 8, 11);
+
+        // Hook MovementStarted
+        this.gridEngine.movementStarted().subscribe((args: { direction: string | Phaser.Animations.Animation | Phaser.Types.Animations.PlayAnimationConfig; }) => {
+            this._player?.anims.play(args.direction);
+        });
+
+        // Hook MovementStopped
+        this.gridEngine.movementStopped().subscribe((args: { direction: string; }) => {
+            this._player?.anims.stop();
+            this._player?.setFrame(this.getStopFrame(args.direction));
+        });
+
+        // Hook DirectionChanged
+        this.gridEngine.directionChanged().subscribe((args: { direction: string; }) => {
+            this._player?.setFrame(this.getStopFrame(args.direction));
+        })
+
+        // Initially set stop frame for default dir
+        this._player?.setFrame(this.getStopFrame(this.DEFAULT_DIR));
+
         // Create flag
-        this._startFlag = new GridSprite(this, this.DEFAULT_POS, "flag");
-        this._startFlag.setTint(0x888888);
-        this.add.existing(this._startFlag);
+        this.addMarker("startFlag", 0xFFFFFF, "flag", this.DEFAULT_POS, false);
 
         // Listen to events
         Service.get(PuzzleService).PuzzleObjectiveChangedEvent.subscribe(this.onPuzzleObjectiveChanged.bind(this));
@@ -116,7 +142,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
                     return;
                 
                 const markerPos : Position = goal.data["circlePosition"] ?? null;
-                this.addMarker(`${objective.id}_${goal.id}`, 0x64ff04, markerPos);
+                this.addMarker(`${objective.id}_${goal.id}`, 0x64ff04, "marker", markerPos, true);
             });
         }
     }
@@ -126,7 +152,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
         this._player?.setOrigin(0.5);
 
         // Interpolate to the target angle
-        this._player?.setAngle(MathUtils.interpToDeg(this._player.angle, this._targetPlayerRotation, delta, 0.01));
+        //this._player?.setAngle(MathUtils.interpToDeg(this._player.angle, this._targetPlayerRotation, delta, 0.01));
     }
 
     // Requests to change the size of the game and gives the scene a chance to update
@@ -136,7 +162,6 @@ abstract class CodeQuestScene extends Phaser.Scene {
         this._vignette?.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
     
         // Update all objects with postFX
-        
     }
 
     // Moves the _player forward
@@ -176,6 +201,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
         // Set the new direction and the player's rotation accordingly
         this._currentPlayerDirection = nextDirection;
         this._targetPlayerRotation = SceneUtils.dir2deg(nextDirection);
+        this.gridEngine.turnTowards("player", nextDirection);
 
         Service.get(UiService).playSound("turn", 0.25);
     }
@@ -194,6 +220,10 @@ abstract class CodeQuestScene extends Phaser.Scene {
             .subscribe((args : Finished) => {
                 // Reset speed
                 this.gridEngine.setSpeed("player", originalSpeed);
+
+                setTimeout(() => {
+                    this.gridEngine.turnTowards("player", this.DEFAULT_DIR);
+                }, 250);
                 resolve(args);
             });
 
@@ -212,9 +242,9 @@ abstract class CodeQuestScene extends Phaser.Scene {
         return this.gridEngine.getPosition("player");
     }
 
-    public addMarker(key : string, color : number, initialPosition : Position) {
+    public addMarker(key : string, color : number, sprite : string, initialPosition : Position, spin : boolean = false) {
         // Create the marker
-        const marker = new GridSprite(this, { x: 0, y: 0 }, "marker");
+        const marker = new GridSprite(this, { x: 0, y: 0 }, sprite);
         marker.setTint(color);
         this.add.existing(marker);
 
@@ -230,15 +260,17 @@ abstract class CodeQuestScene extends Phaser.Scene {
             }
         });
 
-        this.tweens.add({
-            targets: marker,
-            duration: 10000,
-            loop: -1,
-            angle: {
-                getStart: () => 0,
-                getEnd: () => 360
-            }
-        });
+        if (spin) {
+            this.tweens.add({
+                targets: marker,
+                duration: 10000,
+                loop: -1,
+                angle: {
+                    getStart: () => 0,
+                    getEnd: () => 360
+                }
+            });
+        }
 
         // Add into registry
         this._markers[key] = marker;
@@ -268,6 +300,29 @@ abstract class CodeQuestScene extends Phaser.Scene {
 
     public getTileSize() : number {
         return this.TILE_SIZE * this.SCENE_SCALE;
+    }
+
+    private generatePlayerAnim(name : string, startFrame : number, endFrame : number) {
+        this.anims.create({
+            key: name,
+            frames: this.anims.generateFrameNumbers("player", {
+                start: startFrame,
+                end: endFrame
+            }),
+            frameRate: 10,
+            repeat: -1,
+            yoyo: true,
+        });
+    }
+
+    private getStopFrame(direction : string) : number {
+        switch (direction) {
+            case "up": return 0;
+            case "right": return 12;
+            case "down": return 4;
+            case "left": return 9;
+        }
+        return 0;
     }
 
     // Player stuff

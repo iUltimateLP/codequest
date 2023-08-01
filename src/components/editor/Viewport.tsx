@@ -3,7 +3,6 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-//import PhaserGame, { HelloWorldScene } from "@/core/phaser/PhaserGame";
 import { Box } from "@mui/material";
 import * as React from "react";
 

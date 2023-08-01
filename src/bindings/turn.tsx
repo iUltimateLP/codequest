@@ -3,7 +3,7 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding, CodeEvalService } from "@/core/CodeEvalService";
+import { CodeEvalService } from "@/core/CodeEvalService";
 import { LocalizedString } from "@/core/LocalizationService";
 import { Service } from "@/core/Service";
 import { UiService } from "@/core/UiService";
@@ -14,6 +14,7 @@ import Blockly from "blockly";
 // @ts-ignore Idk why this is not working...
 import { Order } from "blockly/javascript";
 import { Direction } from "grid-engine";
+import { CodeBinding } from "./CodeBinding";
 
 const binding : CodeBinding = {
     // Name of the binding

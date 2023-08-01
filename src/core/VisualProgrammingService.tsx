@@ -7,7 +7,7 @@ import { Logger } from "./Logging";
 import { Service } from "./Service";
 import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
-import { CodeBinding } from "./CodeEvalService";
+import { CodeBinding } from "@/bindings/CodeBinding";
 import { CODEQUEST_CATEGORIES } from "@/components/editor/blockly/BlocklyConfig";
 import { i18n } from "./LocalizationService";
 

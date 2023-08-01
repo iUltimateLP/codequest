@@ -197,4 +197,4 @@ class CodeEvalService extends Service {
 }
 
 export { CodeEvalService };    
-export type { CodeBinding, ExecutionFinishedEventArgs };
+export type { ExecutionFinishedEventArgs };

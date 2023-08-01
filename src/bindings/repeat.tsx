@@ -3,12 +3,12 @@
 	Written by Jonathan Verbeek - 2023
 */
 
-import { CodeBinding } from "@/core/CodeEvalService";
 import { LocalizedString } from "@/core/LocalizationService";
 import Blockly from "blockly";
 
 // @ts-ignore Idk why this is not working...
 import { Order } from "blockly/javascript";
+import { CodeBinding } from "./CodeBinding";
 
 // This is a copy of Blockly's control_repeat_ext
 

@@ -148,7 +148,7 @@ class PuzzleService extends Service {
 
 		// If no objectives are given, yay!
 		if (!objective.goals)
-			return true;
+			return false;
 
 		// Validate all goals
 		var result : boolean = true;
