@@ -92,16 +92,14 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 			name: "Movement",
 			colour: "#4287f5",
 			custom: "MOVEMENT",
-			hidden: "true",
-			id: "MOVEMENT"
+			hidden: "true"
 		},
 		{
 			kind: "category",
 			name: "Utilities",
 			colour: "#5CA699",
 			custom: "UTIL",
-			hidden: "true",
-			id: "UTIL"
+			hidden: "true"
 		},
 		{
 			kind: "sep"
@@ -110,13 +108,15 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 			kind: "category",
 			name: "Variables",
 			colour: "#A55B80",
-			custom: "VARIABLE"
+			custom: "VARIABLE",
+			hidden: "true"
 		},
 		{
 			kind: "category",
 			name: "Functions",
 			colour: "#995BA5",
-			custom: "PROCEDURE"
+			custom: "PROCEDURE",
+			hidden: "true"
 		}
 	],
 };

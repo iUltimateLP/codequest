@@ -13,6 +13,7 @@ import { CodeEvalService } from "./CodeEvalService";
 import ArriveAtTargetValidator from "@/puzzle/ArriveAtTargetValidator";
 import { UiService } from "./UiService";
 import { Position } from "grid-engine";
+import { VisualProgrammingService } from "./VisualProgrammingService";
 
 // Whether to print out debug info while validating puzzle objectives
 const DEBUG_VALIDATORS : boolean = false;
@@ -48,6 +49,8 @@ interface Puzzle {
 	triggerTutorial?: string;
 	playerStartPos: Position;
 	bindingSets: string[];
+	allowVariables: boolean;
+	allowFunctions: boolean;
 	scene: string;
 	objectives: PuzzleObjective[];
 	objectiveMap: Map<string, PuzzleObjective>; // This is not required on the JSON definition but generated
@@ -90,6 +93,9 @@ class PuzzleService extends Service {
 				puzzle.bindingSets.forEach(bindingSet => {
 					Service.get(CodeEvalService).registerBindingSet(bindingSet);
 				});
+
+				Service.get(VisualProgrammingService).setCategoryVisibility("VARIABLE", puzzle.allowVariables === true);
+				Service.get(VisualProgrammingService).setCategoryVisibility("PROCEDURE", puzzle.allowFunctions === true);
 
 				this.PuzzleChangedEvent.emit(this._currentPuzzle);
 				this.PuzzleObjectiveChangedEvent.emit(this.getCurrentObjective()!);

@@ -136,7 +136,7 @@ class VisualProgrammingService extends Service {
     }
 
     // Sets the visibility of a given category
-    private setCategoryVisibility(categoryName : string, visibility : boolean) {
+    public setCategoryVisibility(categoryName : string, visibility : boolean) {
         const toolbox : Blockly.Toolbox | null = (this._blocklyWorkspace as Blockly.WorkspaceSvg).getToolbox() as Blockly.Toolbox;
         toolbox.getToolboxItems().forEach((a : Blockly.IToolboxItem) => {
             // @ts-ignore

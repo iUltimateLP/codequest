@@ -18,6 +18,8 @@
         "version": 1
     },
     "bindingSets": ["MOVEMENT"],
+    "allowVariables": false,
+    "allowFunctions": false,
     "scene": "CITY",
     "triggerTutorial": "TUTORIAL_1",
     "playerStartPos": {
