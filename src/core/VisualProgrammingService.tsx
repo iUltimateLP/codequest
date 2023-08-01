@@ -60,11 +60,11 @@ class VisualProgrammingService extends Service {
     
                 // Go through all bindings and push them into the block list
                 this._registeredBindings.forEach((binding, id) => {
-                    if (binding.blocklyToolboxCategory == category) {
+                    if (binding.blocklyToolboxCategory === category) {
                         blockList.push(binding.blocklyToolboxDefinition);
                     }
                 });
-    
+
                 return blockList;
             });
         });
@@ -109,6 +109,9 @@ class VisualProgrammingService extends Service {
 
         // Remember
         this._registeredBindings.set(id, binding);
+
+        // Show this category
+        this.setCategoryVisibility(binding.blocklyToolboxCategory, true);
     }
 
     // Unregisters a binding from Blockly
@@ -130,6 +133,23 @@ class VisualProgrammingService extends Service {
             Logger.warn("Returned NULL Blockly workspace!")!
         
         return this._blocklyWorkspace!;
+    }
+
+    // Sets the visibility of a given category
+    private setCategoryVisibility(categoryName : string, visibility : boolean) {
+        const toolbox : Blockly.Toolbox | null = (this._blocklyWorkspace as Blockly.WorkspaceSvg).getToolbox() as Blockly.Toolbox;
+        toolbox.getToolboxItems().forEach((a : Blockly.IToolboxItem) => {
+            // @ts-ignore
+            if (a.flyoutItems_ === categoryName) {
+                if (visibility) {
+                    // @ts-ignore
+                    a.show();
+                } else {
+                    // @ts-ignore
+                    a.hide();
+                }
+            }
+        })
     }
 
     // Reference to the current Blockly workspace

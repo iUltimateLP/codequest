@@ -89,9 +89,19 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 		},
 		{
 			kind: "category",
-			name: "Util",
+			name: "Movement",
+			colour: "#4287f5",
+			custom: "MOVEMENT",
+			hidden: "true",
+			id: "MOVEMENT"
+		},
+		{
+			kind: "category",
+			name: "Utilities",
 			colour: "#5CA699",
-			custom: "UTIL"
+			custom: "UTIL",
+			hidden: "true",
+			id: "UTIL"
 		},
 		{
 			kind: "sep"
@@ -112,7 +122,7 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 };
 
 // Add OUR OWN categories here
-const CODEQUEST_CATEGORIES : string[] = ["UTIL"];
+const CODEQUEST_CATEGORIES : string[] = ["MOVEMENT", "UTIL"];
 
 // Blockly workspace configuration
 const WORKSPACE_CONFIG : blockly.BlocklyOptions = {

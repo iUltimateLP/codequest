@@ -29,7 +29,7 @@ const binding : CodeBinding = {
     },
 
     // Blockly toolbox category
-    blocklyToolboxCategory: "UTIL",
+    blocklyToolboxCategory: "MOVEMENT",
 
     // Blockly toolbox block definition
     blocklyToolboxDefinition: {
