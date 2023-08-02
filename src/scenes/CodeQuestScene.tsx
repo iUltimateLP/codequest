@@ -235,6 +235,12 @@ abstract class CodeQuestScene extends Phaser.Scene {
         });
     }
 
+    // Returns whether the player could walk a step forward
+    public isFrontFree() : boolean {
+        const facingPosition : Position = this.gridEngine.getFacingPosition("player");
+        return !this.gridEngine.isTileBlocked(facingPosition);
+    }
+
     public getPlayer() : Phaser.GameObjects.Sprite | null {
         return this._player;
     }

@@ -16,38 +16,10 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 			kind: "category",
 			name: "Logic",
 			colour: "#5C81A6",
-			contents: [
-				{
-					kind: "block",
-					type: "controls_if",
-				},
-				{
-					kind: "block",
-					type: "logic_compare",
-				},
-				{
-					kind: "block",
-					type: "logic_operation"
-				},
-				{
-					kind: "block",
-					type: "logic_negate"
-				},
-				{
-					kind: "block",
-					type: "logic_boolean"
-				},
-				{
-					kind: "block",
-					type: "controls_for"
-				},
-				{
-					kind: "block",
-					type: "controls_repeat",
-				}
-			],
+			custom: "LOGIC",
+			hidden: "true"
 		},
-		{
+		/*{
 			kind: "category",
 			name: "Math",
 			colour: "#5CA65C",
@@ -86,7 +58,7 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 					}
 				}
 			],
-		},
+		},*/
 		{
 			kind: "category",
 			name: "Movement",
@@ -136,7 +108,7 @@ const TEST_TOOLBOX : blockly.utils.toolbox.ToolboxDefinition = {
 };
 
 // Add OUR OWN categories here
-const CODEQUEST_CATEGORIES : string[] = ["MOVEMENT", "LOOPS", "UTIL", "CONSTANTS"];
+const CODEQUEST_CATEGORIES : string[] = ["LOGIC", "MOVEMENT", "LOOPS", "UTIL", "CONSTANTS"];
 
 // Blockly workspace configuration
 const WORKSPACE_CONFIG : blockly.BlocklyOptions = {

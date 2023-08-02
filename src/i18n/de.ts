@@ -47,6 +47,11 @@ const BLOCKLY_LANG_DE : any = {
 
     "CQ_PRINT_A": "Gebe",
     "CQ_PRINT_B": "aus",
+
+    "CQ_WHILE_A": "Während",
+    "CQ_WHILE_B": "tue",
+
+    "CQ_IN_FRONT_FREE": "Ist vor mir frei?"
 };
 
 export { BLOCKLY_LANG_DE, i18n_de };

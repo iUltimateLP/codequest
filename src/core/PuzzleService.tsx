@@ -14,6 +14,7 @@ import ArriveAtTargetValidator from "@/puzzle/ArriveAtTargetValidator";
 import { UiService } from "./UiService";
 import { Position } from "grid-engine";
 import { VisualProgrammingService } from "./VisualProgrammingService";
+import { ApplicationService } from "./ApplicationService";
 
 // Whether to print out debug info while validating puzzle objectives
 const DEBUG_VALIDATORS : boolean = false;
@@ -23,6 +24,7 @@ interface PuzzleObjectiveGoal {
 	text : LocalizedString;
 	validator : string;
 	data? : {[key: string]: any;};
+	stopHere? : boolean;
 }
 
 interface PuzzleObjective {
@@ -171,6 +173,11 @@ class PuzzleService extends Service {
 
 				if (!this._securedGoals.includes(objectiveItem.id)) {
 					this._securedGoals.push(objectiveItem.id);
+
+					// Should this immediately stop execution?
+					if (objectiveItem.stopHere === true) {
+						Service.get(CodeEvalService).stopExecution(false);
+					}
 				}
 			}
 

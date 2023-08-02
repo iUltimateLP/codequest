@@ -45,7 +45,12 @@ const BLOCKLY_LANG_EN : any = {
     "CQ_SLEEP_B": "seconds",
 
     "CQ_PRINT_A": "Print",
-    "CQ_PRINT_B": "",
+    "CQ_PRINT_B": "",    
+    
+    "CQ_WHILE_A": "While",
+    "CQ_WHILE_B": "do",
+
+    "CQ_IN_FRONT_FREE": "In front of me free?"
 };
 
 export { BLOCKLY_LANG_EN, i18n_en };

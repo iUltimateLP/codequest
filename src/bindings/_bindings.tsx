@@ -18,7 +18,9 @@ namespace Bindings {
         ["turn", require("@/bindings/turn").default],
         ["repeat", require("@/bindings/repeat").default],
         ["constant_steps1", require("@/bindings/constant_steps1").default],
-        ["constant_steps2", require("@/bindings/constant_steps2").default]
+        ["constant_steps2", require("@/bindings/constant_steps2").default],
+        ["while_until", require("@/bindings/while_until").default],
+        ["infrontfree", require("@/bindings/inFrontFree").default]
     ]);
 
     // A list of default bindings that should always enabled

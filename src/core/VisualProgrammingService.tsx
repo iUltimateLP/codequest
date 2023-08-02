@@ -68,6 +68,14 @@ class VisualProgrammingService extends Service {
                     }
                 });
 
+                // Dirty hack
+                if (category == "LOGIC") {
+                    blockList.push({
+                        kind: "block",
+                        type: "logic_boolean"
+                    });
+                }
+
                 return blockList;
             });
         });
