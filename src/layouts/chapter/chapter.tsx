@@ -48,12 +48,13 @@ const CHAPTER_CONTENT = ["1_intro", "2_roundthecorner", "3_loops", "4_loopsvar",
 
 // Layout component used for the chapter selector
 export default function ChapterLayout() {
-    const box = React.useRef(null);
+    const box = React.useRef<HTMLDivElement>(null);
     const colorMode = React.useContext(ColorModeContext);
 
     React.useEffect(() => {
         const asDiv : HTMLDivElement | null = box.current;
         if (asDiv) {
+            // @ts-ignore
             asDiv.onmousewheel = function(e : WheelEvent) {
                 asDiv.scrollLeft += e.deltaY;
             }

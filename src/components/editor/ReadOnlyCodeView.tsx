@@ -16,7 +16,7 @@ interface ReadOnlyCodeViewProps {
 // Component for displaying a read-only code view through Moncao 
 function ReadOnlyCodeView(props : ReadOnlyCodeViewProps) {
 	return (
-		<MonacoWrapper language="javascript" theme="light" code={props.code} readOnly={true} />
+		<MonacoWrapper id="" language="javascript" theme="light" code={props.code} readOnly={true} />
 	);
 }
 

@@ -24,7 +24,7 @@ function InnerEditor_Code(props : InnerEditorProps) {
 			{/* Middle column */}
 			<Allotment.Pane minSize={250}>
 				<div style={{width: "100%", height: "100%"}}>
-					<MonacoWrapper language="javascript" theme="light" onCodeChange={props.onCodeChanged} />
+					<MonacoWrapper id="" language="javascript" theme="light" onCodeChange={props.onCodeChanged} />
 				</div>
 			</Allotment.Pane>
 		</Allotment>
