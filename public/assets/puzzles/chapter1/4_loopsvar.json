@@ -37,7 +37,7 @@
             },
             "description": {
                 "en": "Hey, that was great! Now, in a _real_ program, the number of repetitions might be dependant on external factors.<br/><br/>You'll find a new category in your block view: **constants**! There are two constants defined: **STEP_COUNT_1** and **STEP_COUNT_2**.<br/><br/>First, walk **STEP_COUNT_1** steps, turn right, and then walk **STEP_COUNT_2** steps. You got this!",
-                "de": "Hey, das war gut! In einem _echten_ Programm würde die Anzahl der Wiederholungen wahrscheinlich von einem externen Faktor abhängen.<br/><br/>Du findest eine neue Kategorie in deiner Blockansicht: **Konstanten**! Hier gibt es zwei Konstanten: **STEP_COUNT_1** und **STEP_COUNT_2**.<br/><br/>TGehe zuerst **STEP_COUNT_1** viele Schritte, drehe dich nach rechts, und gehe dann anschließend **STEP_COUNT_2** viele Schritte. Du schaffst das!"
+                "de": "Hey, das war gut! In einem _echten_ Programm würde die Anzahl der Wiederholungen wahrscheinlich von einem externen Faktor abhängen.<br/><br/>Du findest eine neue Kategorie in deiner Blockansicht: **Konstanten**! Hier gibt es zwei Konstanten: **STEP_COUNT_1** und **STEP_COUNT_2**.<br/><br/>Gehe zuerst **STEP_COUNT_1** viele Schritte, drehe dich nach rechts, und gehe dann anschließend **STEP_COUNT_2** viele Schritte. Du schaffst das!"
             },
             "goals": [
                 {

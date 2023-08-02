@@ -10,6 +10,7 @@ import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import InnerEditorProps from "./InnerEditor";
 import MonacoWrapper from "./monaco/MonacoWrapper";
+import Palette from "./Palette";
 
 // Inner editor widget for the code programming editor (wrapping Monaco) 
 function InnerEditor_Code(props : InnerEditorProps) {
@@ -17,7 +18,7 @@ function InnerEditor_Code(props : InnerEditorProps) {
 		<Allotment defaultSizes={[2,5]}>
 			{/* Left column */}
 			<Allotment.Pane minSize={0}>
-				<div>Palette</div>
+				<Palette />
 			</Allotment.Pane>
 
 			{/* Middle column */}

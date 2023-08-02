@@ -96,7 +96,7 @@ export default function EditorLayout() {
 							{editorMode == EditorMode.Visual && <InnerEditor_Visual sizeX={desiredEditorSize.sizeX} sizeY={desiredEditorSize.sizeY} onCodeChanged={onCodeChanged} />}
 						</Allotment.Pane>
 
-						{editorMode == EditorMode.Visual && puzzle?.allowCodeView === true && <Allotment.Pane>
+						{editorMode == EditorMode.Visual && /*puzzle?.allowCodeView === true &&*/ <Allotment.Pane>
 							<div id="cq-read-only-code" style={{height: "100%", width: "100%"}}>
 								<ReadOnlyCodeView code={code} />
 							</div>

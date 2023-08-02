@@ -6,8 +6,8 @@
     {
         "name": 
         {
-            "en": "Merry go round",
-            "de": "Lustiges Karussel"
+            "en": "Always go left!",
+            "de": "Immer links herum!"
         },
         "shortDescription": 
         {
@@ -21,7 +21,7 @@
     "bindings": ["while_until", "infrontfree"],
     "allowVariables": false,
     "allowFunctions": false,
-    "allowCodeView": true,
+    "allowCodeView": false,
     "scene": "CITY",
     "playerStartPos": {
         "x": 30,
