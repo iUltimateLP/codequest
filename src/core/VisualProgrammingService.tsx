@@ -11,6 +11,9 @@ import { CodeBinding } from "@/bindings/CodeBinding";
 import { CODEQUEST_CATEGORIES } from "@/components/editor/blockly/BlocklyConfig";
 import { i18n } from "./LocalizationService";
 
+// @ts-ignore
+import { Order } from "blockly/javascript";
+
 // Whether to highlight the currently executed block
 const HIGHLIGHT_CURRENT_BLOCK : boolean = false;
 
@@ -88,23 +91,27 @@ class VisualProgrammingService extends Service {
         // Register code generator block
         javascriptGenerator.forBlock[id] = (block : Blockly.Block, generator : Blockly.CodeGenerator) => {
             // Call the code generator from the binding
-            var code = binding.codeGenerator(block, generator);
+            var code : any = binding.codeGenerator(block, generator);
 
-            // If wanted, prepend the comment
-            if (typeof(binding.comment) === "string") {
-                // A simple string can just be appended
-                var formattedComment = binding.comment;
-                code = `// ${formattedComment}\n${code}`;
-            } else if (typeof(binding.comment) === "function") {
-                // It's a function, so translate the LocalizedString and prepend that
-                code = `// ${i18n(binding.comment(block))}\n${code}`;
+            if (binding.isConstant == undefined || binding.isConstant === false) {
+                // If wanted, prepend the comment
+                if (typeof(binding.comment) === "string") {
+                    // A simple string can just be appended
+                    var formattedComment = binding.comment;
+                    code = `// ${formattedComment}\n${code}`;
+                } else if (typeof(binding.comment) === "function") {
+                    // It's a function, so translate the LocalizedString and prepend that
+                    code = `// ${i18n(binding.comment(block, generator))}\n${code}`;
+                }
+
+                // If wanted, append an empty line afterwards
+                if (EMPTY_LINE_BETWEEN_STATEMENTS)
+                    code += '\n';
+
+                return code ;
+            } else {
+                return [code, Order.NONE];
             }
-
-            // If wanted, append an empty line afterwards
-            if (EMPTY_LINE_BETWEEN_STATEMENTS)
-                code += '\n';
-
-            return code;
         };
 
         // Remember
@@ -127,14 +134,6 @@ class VisualProgrammingService extends Service {
         (this.getBlocklyWorkspace() as Blockly.WorkspaceSvg)?.highlightBlock(id);
     }
 
-    // Returns the currently active blockly workspace
-    private getBlocklyWorkspace() : Blockly.Workspace {
-        if (!this._blocklyWorkspace)
-            Logger.warn("Returned NULL Blockly workspace!")!
-        
-        return this._blocklyWorkspace!;
-    }
-
     // Sets the visibility of a given category
     public setCategoryVisibility(categoryName : string, visibility : boolean) {
         const toolbox : Blockly.Toolbox | null = (this._blocklyWorkspace as Blockly.WorkspaceSvg).getToolbox() as Blockly.Toolbox;
@@ -152,6 +151,19 @@ class VisualProgrammingService extends Service {
         })
 
         Blockly.svgResize(this.getBlocklyWorkspace() as Blockly.WorkspaceSvg);
+    }
+
+    // Creates a new variable with the given name
+    public createVariable(name : string) {
+        const variable : Blockly.VariableModel = this.getBlocklyWorkspace().createVariable(name, null, null);
+    }
+
+    // Returns the currently active blockly workspace
+    private getBlocklyWorkspace() : Blockly.Workspace {
+        if (!this._blocklyWorkspace)
+            Logger.warn("Returned NULL Blockly workspace!")!
+        
+        return this._blocklyWorkspace!;
     }
 
     // Reference to the current Blockly workspace

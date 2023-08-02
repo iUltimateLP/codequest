@@ -85,6 +85,7 @@ class ApplicationService extends Service {
                     // HACK to force another validation
                     Service.get(PuzzleService).validateCurrentObjective()
                 }
+                Service.get(PuzzleService).resetObjective();
             });
         }
 

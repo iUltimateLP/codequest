@@ -49,6 +49,7 @@ interface Puzzle {
 	triggerTutorial?: string;
 	playerStartPos: Position;
 	bindingSets: string[];
+	bindings: string[];
 	allowVariables: boolean;
 	allowFunctions: boolean;
 	scene: string;
@@ -93,6 +94,9 @@ class PuzzleService extends Service {
 				puzzle.bindingSets.forEach(bindingSet => {
 					Service.get(CodeEvalService).registerBindingSet(bindingSet);
 				});
+				puzzle.bindings?.forEach(binding => {
+					Service.get(CodeEvalService).registerBinding(binding);
+				})
 
 				Service.get(VisualProgrammingService).setCategoryVisibility("VARIABLE", puzzle.allowVariables === true);
 				Service.get(VisualProgrammingService).setCategoryVisibility("PROCEDURE", puzzle.allowFunctions === true);
@@ -160,10 +164,20 @@ class PuzzleService extends Service {
 		var result : boolean = true;
 		var results : string[] = [];
 		objective.goals.forEach((objectiveItem, i) => {
-			const itemResult = this.validateObjectiveGoal(objectiveItem);
+			var itemResult = this.validateObjectiveGoal(objectiveItem);
 			
-			if (itemResult)
+			if (itemResult) {
 				results.push(objectiveItem.id);
+
+				if (!this._securedGoals.includes(objectiveItem.id)) {
+					this._securedGoals.push(objectiveItem.id);
+				}
+			}
+
+			if (!itemResult && this._securedGoals.includes(objectiveItem.id)) {
+				results.push(objectiveItem.id);
+				itemResult = true;
+			}
 
 			result = result && itemResult;
 		});
@@ -189,6 +203,11 @@ class PuzzleService extends Service {
 			Logger.info(`Using validator "${goal.validator}" to validate objective goal "${goal.id}" returned ${result}`);
 
 		return result;
+	}
+
+	public resetObjective() {
+		this.PuzzleObjectiveGoalReachedChangedEvent.emit([]);
+		this._securedGoals = [];
 	}
 
 	// Loads a puzzle with the given name and returns a promise that can be awaited
@@ -232,6 +251,7 @@ class PuzzleService extends Service {
 	private _currentPuzzle : Puzzle | null = null;
 	private _currentObjective : string | null = null;
 	private _validators : {[key: string]: ((goal : PuzzleObjectiveGoal, objective : PuzzleObjective, puzzle : Puzzle) => boolean);} = {};
+	private _securedGoals : string[] = [];
 }
 
 // React hook that tracks state of the current puzzle

@@ -132,6 +132,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
 
         // Listen to events
         Service.get(PuzzleService).PuzzleObjectiveChangedEvent.subscribe(this.onPuzzleObjectiveChanged.bind(this));
+        this.onPuzzleObjectiveChanged(Service.get(PuzzleService).getCurrentObjective()!);
     }
 
     private onPuzzleObjectiveChanged(objective : PuzzleObjective) {

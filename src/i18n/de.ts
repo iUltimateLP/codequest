@@ -46,7 +46,7 @@ const BLOCKLY_LANG_DE : any = {
     "CQ_SLEEP_B": "Sekunde(n)",
 
     "CQ_PRINT_A": "Gebe",
-    "CQ_PRINT_B": "aus"
+    "CQ_PRINT_B": "aus",
 };
 
 export { BLOCKLY_LANG_DE, i18n_de };

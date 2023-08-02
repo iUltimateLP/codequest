@@ -13,7 +13,7 @@ interface CodeBinding {
     name : string;
 
     // The comment to place above the generated code of this binding. Can be a simple string, or a function that takes context into account
-    comment? : LocalizedString | ((block : Blockly.Block) => LocalizedString);
+    comment? : LocalizedString | ((block : Blockly.Block, generator : Blockly.CodeGenerator) => LocalizedString);
 
     // Blockly toolbox category
     blocklyToolboxCategory: string;
@@ -25,7 +25,7 @@ interface CodeBinding {
     blocklyGenerator : (block : Blockly.Block) => void;
 
     // Callback to tell Blockly how to generate the text code version of the block
-    codeGenerator : (block : Blockly.Block, generator : Blockly.CodeGenerator) => string;
+    codeGenerator : (block : Blockly.Block, generator : Blockly.CodeGenerator) => any;
 
     // Native JavaScript function that's executed if this binding is called
     nativeFn : Function;
@@ -35,6 +35,9 @@ interface CodeBinding {
 
     // Whether this function is asynchronous or not
     async? : boolean;
+
+    // Whether this is not a function but rather a constant
+    isConstant? : boolean;
 }
 
 export type { CodeBinding };

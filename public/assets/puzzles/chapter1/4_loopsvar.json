@@ -1,0 +1,87 @@
+{
+    "id": "4_loopsvar",
+    "chapter": 1,
+    "number": 4,
+    "meta": 
+    {
+        "name": 
+        {
+            "en": "Looping Louie, but data-driven!",
+            "de": "Spaß mit Schleifen, aber diesmal mit Daten!"
+        },
+        "shortDescription": 
+        {
+            "en": "Short puzzle desc",
+            "de": "Kurze Puzzlebeschreibung"
+        },
+        "createdBy": "CodeQuest",
+        "version": 1
+    },
+    "bindingSets": ["MOVEMENT", "LOOPS"],
+    "bindings": ["constant_steps1", "constant_steps2"],
+    "allowVariables": false,
+    "allowFunctions": false,
+    "allowCodeView": false,
+    "scene": "CITY",
+    "playerStartPos": {
+        "x": 46,
+        "y": 25
+    },
+    "objectives": 
+    [
+        {
+            "id": "REACH_CIRCLE",
+            "title": {
+                "en": "Spicing it up!",
+                "de": "Es wird noch cooler!"
+            },
+            "description": {
+                "en": "Hey, that was great! Now, in a _real_ program, the number of repetitions might be dependant on external factors.<br/><br/>You'll find a new category in your block view: **constants**! There are two constants defined: **STEP_COUNT_1** and **STEP_COUNT_2**.<br/><br/>First, walk **STEP_COUNT_1** steps, turn right, and then walk **STEP_COUNT_2** steps. You got this!",
+                "de": "Hey, das war gut! In einem _echten_ Programm würde die Anzahl der Wiederholungen wahrscheinlich von einem externen Faktor abhängen.<br/><br/>Du findest eine neue Kategorie in deiner Blockansicht: **Konstanten**! Hier gibt es zwei Konstanten: **STEP_COUNT_1** und **STEP_COUNT_2**.<br/><br/>TGehe zuerst **STEP_COUNT_1** viele Schritte, drehe dich nach rechts, und gehe dann anschließend **STEP_COUNT_2** viele Schritte. Du schaffst das!"
+            },
+            "goals": [
+                {
+                    "id": "REACH_GREEN_CIRCLE",
+                    "text": {
+                        "en": "Reach the first green circle",
+                        "de": "Erreiche den ersten grünen Kreis"
+                    },
+                    "validator": "ArriveAtTarget",
+                    "data": {
+                        "circlePosition": {
+                            "x": 46,
+                            "y": 13
+                        }
+                    }
+                },
+                {
+                    "id": "REACH_GREEN_CIRCLE_2",
+                    "text": {
+                        "en": "Reach the second green circle",
+                        "de": "Erreiche den zweiten grünen Kreis"
+                    },
+                    "validator": "ArriveAtTarget",
+                    "data": {
+                        "circlePosition": {
+                            "x": 57,
+                            "y": 13
+                        }
+                    }
+                }
+            ],
+            "nextObjective": "DONE"
+        },
+        {
+            "id": "DONE",
+            "title": {
+                "en": "Congrats!",
+                "de": "Gut gemacht!"
+            },
+            "description": {
+                "en": "You've made it! That wasn't so hard, was it?<br/><br/>Now, click the **Finish** button and we'll get you over to the next puzzle in no-time!",
+                "de": "Du hast es geschafft! War gar nicht so schwierig, oder?<br/><br/>Klicke den **Fertig**-Button und weiter geht's mit dem nächsten Puzzle!"
+            },
+            "nextPuzzle": "chapter1/5_"
+        }
+	]
+}

@@ -16,7 +16,9 @@ namespace Bindings {
         ["sleep", require("@/bindings/sleep").default],
         ["walk", require("@/bindings/walk").default],
         ["turn", require("@/bindings/turn").default],
-        ["repeat", require("@/bindings/repeat").default]
+        ["repeat", require("@/bindings/repeat").default],
+        ["constant_steps1", require("@/bindings/constant_steps1").default],
+        ["constant_steps2", require("@/bindings/constant_steps2").default]
     ]);
 
     // A list of default bindings that should always enabled

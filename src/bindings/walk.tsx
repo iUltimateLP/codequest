@@ -44,7 +44,7 @@ const binding : CodeBinding = {
         block.setInputsInline(true);
         block.setPreviousStatement(true, null);
         block.setNextStatement(true, null);
-        block.setColour(230);
+        block.setColour(217);
         block.setTooltip("");
         block.setHelpUrl("");
     },
