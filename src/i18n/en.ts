@@ -26,7 +26,13 @@ const i18n_en : ILocale = {
     TUTORIAL_BLOCKLY_WORKSPACE_DESC: "This is where you'll create your own **first program**. It's just like playin' with Legos!",
 
     TUTORIAL_BLOCKLY_CODE_TITLE: "Source Code View",
-    TUTORIAL_BLOCKLY_CODE_DESC: "Hey, something new! Robots behind the scenes work really hard to show you a **realtime source code** version of your program! **Use it** to understand how your visual program translates to code - you'll need it!"
+    TUTORIAL_BLOCKLY_CODE_DESC: "Robots behind the scenes work really hard to show you a **realtime source code** version of your program! **Use it** to understand how your visual program translates to code - you'll need it!",
+
+    TUTORIAL_CODE_TITLE: "Source Code Editor",
+    TUTORIAL_CODE_DESC: "Code like a real programmer! Here's where you'll code your programs from now on.",
+
+    TUTORIAL_CODE_DOC_TITLE: "Documentation",
+    TUTORIAL_CODE_DOC_DESC: "Have a look at the commands you can use. Don't worry, you know all of these already!"
 };
 
 const BLOCKLY_LANG_EN : any = {

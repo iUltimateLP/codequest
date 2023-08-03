@@ -46,9 +46,10 @@ export default function EditorLayout() {
 	const [code, setCode] = useState("");
 	const [puzzle] = usePuzzle();
 
-	function changeMode(mode : EditorMode) {
-		setEditorMode(mode);
-	}
+	useEffect(() => {
+		if (puzzle)
+			setEditorMode(puzzle.type == 0 ? EditorMode.Visual : EditorMode.Text);
+	}, [puzzle]);
 
 	// Called when the main layout changes (e.g. a resize)
 	function onEditorLayoutChange(type : number, sizes : number[]) {
@@ -68,7 +69,22 @@ export default function EditorLayout() {
 	function onCodeChanged(code : string) {
 		setCode(CodeEvalService.makeFriendlyCode(code));
 		Service.get(ApplicationService).setProgram(code);
+	}	
+	
+	// Injects global CSS
+	function injectGlobalCSS() {
+		if (!document.getElementById(`editor_css`)) {
+			var style = document.createElement("link");
+			style.setAttribute("id", `editor_css`);
+			style.setAttribute("rel", "stylesheet");
+			style.setAttribute("href", `/assets/css/global.css`);
+			document.head.appendChild(style);
+		}
 	}
+
+	useEffect(() => {
+		injectGlobalCSS();
+	}, []);
 
 	return (
 		<Box sx={{height: "100vh", p: 0}}>
@@ -83,7 +99,7 @@ export default function EditorLayout() {
 
 				{/* Top bar pane with fixed height */}
 				<Allotment.Pane minSize={TOP_BAR_HEIGHT} maxSize={TOP_BAR_HEIGHT}>
-					<TopBar onModeChange={changeMode}/>
+					<TopBar />
 				</Allotment.Pane>
 
 				{/* Main UI element layout */}

@@ -47,13 +47,24 @@ const TUTORIALS : any = {
             target: ".cq-blockly-workspace",
             placement: "auto",
             content: <TutorialItem nameKey="TUTORIAL_BLOCKLY_WORKSPACE_TITLE" descriptionKey="TUTORIAL_BLOCKLY_WORKSPACE_DESC" />
-        }
-    ],
-    "TUTORIAL_2": [
+        },
         {
             target: "#cq-read-only-code",
             placement: "auto",
             content: <TutorialItem nameKey="TUTORIAL_BLOCKLY_CODE_TITLE" descriptionKey="TUTORIAL_BLOCKLY_CODE_DESC" />
+        },
+    ],
+    "TUTORIAL_2": [
+        {
+            target: "#cq-code",
+            placement: "auto",
+            content: <TutorialItem nameKey="TUTORIAL_CODE_TITLE" descriptionKey="TUTORIAL_CODE_DESC" />,
+            disableBeacon: true
+        },
+        {
+            target: "#cq-code-documentation",
+            placement: "auto",
+            content: <TutorialItem nameKey="TUTORIAL_CODE_DOC_TITLE" descriptionKey="TUTORIAL_CODE_DOC_DESC" />
         }
     ]
 };

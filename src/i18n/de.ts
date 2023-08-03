@@ -26,8 +26,13 @@ const i18n_de : ILocale = {
     TUTORIAL_BLOCKLY_WORKSPACE_DESC: "Hier programmierst du deine **ersten Programme**. Es ist wie Lego, wirklich!",
 
     TUTORIAL_BLOCKLY_CODE_TITLE: "Quellcodeansicht",
-    TUTORIAL_BLOCKLY_CODE_DESC: "Newstime! Die kleinen fleißigen Roboter hinter den Kulissen arbeiten hart um dir eine **Echtzeit-Quellcode-Version** deines Programmes zu zeigen! **Schau sie dir genau an**, um zu verstehen, wie sich dein Programm in Textform übersetzt - du wirst es brauchen!"
+    TUTORIAL_BLOCKLY_CODE_DESC: "Die kleinen fleißigen Roboter hinter den Kulissen arbeiten hart um dir eine **Echtzeit-Quellcode-Version** deines Programmes zu zeigen! **Schau sie dir genau an**, um zu verstehen, wie sich dein Programm in Textform übersetzt - du wirst es brauchen!",
 
+    TUTORIAL_CODE_TITLE: "Quellcode-Editor",
+    TUTORIAL_CODE_DESC: "Programmieren wie im echten Leben! Ab jetzt programmierst du deine Programme in Text form, direkt hier in diesem Editor!",
+
+    TUTORIAL_CODE_DOC_TITLE: "Dokumentation",
+    TUTORIAL_CODE_DOC_DESC: "Hier kannst du die Befehle sehen, die du benutzen kannst. Keine Sorge, du kennst die meisten schon!"
 };
 
 const BLOCKLY_LANG_DE : any = {

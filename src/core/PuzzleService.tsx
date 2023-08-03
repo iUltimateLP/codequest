@@ -48,6 +48,7 @@ interface Puzzle {
 		version : number;
 	};
 	allowCodeView?: boolean;
+	type: number;
 	triggerTutorial?: string;
 	playerStartPos: Position;
 	bindingSets: string[];

@@ -20,6 +20,7 @@
     "bindingSets": ["MOVEMENT"],
     "allowVariables": false,
     "allowFunctions": false,
+    "type": 0,
     "scene": "CITY",
     "triggerTutorial": "TUTORIAL_1",
     "playerStartPos": {

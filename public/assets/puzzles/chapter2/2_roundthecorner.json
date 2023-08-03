@@ -20,7 +20,7 @@
     "bindingSets": ["MOVEMENT"],
     "allowVariables": false,
     "allowFunctions": false,
-    "type": 0,
+    "type": 1,
     "scene": "CITY",
     "playerStartPos": {
         "x": 13,
