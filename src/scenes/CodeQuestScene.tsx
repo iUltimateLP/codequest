@@ -32,7 +32,7 @@ abstract class CodeQuestScene extends Phaser.Scene {
 
     preload() {
         // Default assets
-        this.load.setBaseURL("http://localhost:3000/assets/");
+        this.load.setBaseURL("/assets/");
         this.load.spritesheet("player", "game/robot_character.png", {
             frameWidth: 16,
             frameHeight: 32
