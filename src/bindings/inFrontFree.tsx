@@ -47,7 +47,6 @@ const binding : CodeBinding = {
     // Native JavaScript function to execute
     nativeFn: function() {
         const result = Service.get(ViewportService).getScene<CodeQuestScene>()?.isFrontFree();
-        console.log(result);
         return result;
     },
 

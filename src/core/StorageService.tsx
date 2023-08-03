@@ -10,22 +10,38 @@ import { Service } from "./Service";
 class StorageService extends Service {
     // Reads a value with a given key from local storage
     public getString(key : string) : string | null {
+        if (typeof localStorage === 'undefined') {
+            return null;
+        }
+
         return localStorage.getItem(key);
     }
 
     // Reads a value with a given key from local storage
     public getObject<T extends Object>(key : string) : T | null {
+        if (typeof localStorage === 'undefined') {
+            return null;
+        }
+
         var obj = JSON.parse(key) as T;
         return obj;
     }
 
     // Sets a value with a given key in local storage
     public setString(key : string, value : string) {
+        if (typeof localStorage === 'undefined') {
+            return null;
+        }
+
         localStorage.setItem(key, value);
     } 
 
     // Sets a value with a given key in local storage
     public setObject<T extends Object>(key : string, value : T) {
+        if (typeof localStorage === 'undefined') {
+            return null;
+        }
+
         localStorage.setItem(key, JSON.stringify(value));
     }
 }
