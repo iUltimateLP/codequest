@@ -10,6 +10,7 @@ import EditorLayout from '@/layouts/editor/editor';
 import { Service } from '@/core/Service';
 import { PuzzleService } from '@/core/PuzzleService';
 import { redirect } from 'next/navigation';
+import { GetStaticPaths } from 'next';
 
 interface PuzzleEditorRoute {
     params: {
@@ -18,7 +19,7 @@ interface PuzzleEditorRoute {
 }
 
 // Editor Page
-export default function PuzzleEditorPage({params} : PuzzleEditorRoute) {
+const PuzzleEditorPage = function({params} : PuzzleEditorRoute) {
     // Check if the URL was formed correctly
     if (!params.puzzle || params.puzzle.length <= 1) {
         redirect("/not-found");
@@ -37,3 +38,5 @@ export default function PuzzleEditorPage({params} : PuzzleEditorRoute) {
         <EditorLayout />
     );
 }
+
+export default PuzzleEditorPage;

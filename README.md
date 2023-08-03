@@ -9,10 +9,7 @@
 
 This repository contains the source code for **CodeQuest**, a digital learning platform I've developed in my _bachelor's thesis_ at the [Hochschule Bremen](https://hs-bremen.de). The original (german) title of the thesis is `Entwicklung eines spielerischen Lernsystems zur Heranführung an die Grundlagen des Programierens`.
 
-## Hosted version
-There is a hosted version of **CodeQuest** available [here]().
-
-## Development
+## Run
 The following steps are necessary to spin up a development environment for CodeQuest.
 
 0. Make sure that you have [node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed.
@@ -25,7 +22,7 @@ The following steps are necessary to spin up a development environment for CodeQ
     $ cd codequest/
     $ npm install
     ```
-3. Run the development server:
+3. Run the server:
     ```bash
     $ npm run dev
     ```
